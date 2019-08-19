@@ -18,7 +18,7 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
 use Laminas\Escaper\Escaper;
-use Laminas\Stratigility\Middleware\ErrorMiddleware;
+use Laminas\Stratigility\Middleware\ErrorHandlerMiddleware;
 use Laminas\Stratigility\Middleware\ErrorResponseGenerator;
 
 use function error_reporting;
@@ -74,7 +74,7 @@ class ErrorMiddlewareTest extends TestCase
     public function createMiddleware($isDevelopmentMode = false)
     {
         $generator = new ErrorResponseGenerator($isDevelopmentMode);
-        return new ErrorMiddleware($this->responseFactory, $generator);
+        return new ErrorHandlerMiddleware($this->responseFactory, $generator);
     }
 
     public function testReturnsResponseFromHandlerWhenNoProblemsOccur()
@@ -239,7 +239,7 @@ class ErrorMiddlewareTest extends TestCase
         $this->response->getBody()->will([$this->body, 'reveal']);
         $this->body->write('The client messed up')->shouldBeCalled();
 
-        $middleware = new ErrorMiddleware($this->responseFactory, $generator);
+        $middleware = new ErrorHandlerMiddleware($this->responseFactory, $generator);
         $result = $middleware->process($this->request->reveal(), $this->handler->reveal());
 
         $this->assertSame($this->response->reveal(), $result);

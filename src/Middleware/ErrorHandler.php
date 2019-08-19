@@ -13,7 +13,7 @@ namespace Laminas\Stratigility\Middleware;
 /**
  * @deprecated This class is being dropped in v4.0 in favor of the ErrorMiddleware.
  */
-class ErrorHandler extends ErrorMiddleware
+class ErrorHandler extends ErrorHandlerMiddleware
 {
 
 }
