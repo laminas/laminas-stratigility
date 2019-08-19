@@ -7,7 +7,7 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Stratigility\Middleware;
+namespace LaminasTest\Stratigility\Middleware;
 
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -17,9 +17,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
-use Zend\Escaper\Escaper;
-use Zend\Stratigility\Middleware\ErrorMiddleware;
-use Zend\Stratigility\Middleware\ErrorResponseGenerator;
+use Laminas\Escaper\Escaper;
+use Laminas\Stratigility\Middleware\ErrorMiddleware;
+use Laminas\Stratigility\Middleware\ErrorResponseGenerator;
 
 use function error_reporting;
 use function trigger_error;

@@ -1,13 +1,14 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2016-2019 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Stratigility\Middleware;
+namespace Laminas\Stratigility\Middleware;
 
 use ErrorException;
 use Psr\Http\Message\ResponseInterface;
@@ -15,7 +16,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
-use Zend\Stratigility\Exception\MissingResponseException;
 
 use function error_reporting;
 use function in_array;
@@ -48,7 +48,7 @@ use function set_error_handler;
  * itself, and can be used as the basis for returning an error response.
  *
  * An error response generator must be provided as a constructor argument;
- * if not provided, an instance of Zend\Stratigility\Middleware\ErrorResponseGenerator
+ * if not provided, an instance of Laminas\Stratigility\Middleware\ErrorResponseGenerator
  * will be used.
  *
  * Listeners use the following signature:
@@ -68,7 +68,7 @@ use function set_error_handler;
  * Listeners are attached using the attachListener() method, and triggered
  * in the order attached.
  */
-class ErrorMiddleware implements MiddlewareInterface
+/* final */ class ErrorMiddleware implements MiddlewareInterface
 {
     /**
      * @var callable[]
