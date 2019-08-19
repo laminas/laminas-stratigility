@@ -10,13 +10,10 @@ declare(strict_types=1);
 
 namespace Laminas\Stratigility\Middleware;
 
-use Fig\Http\Message\StatusCodeInterface as StatusCode;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-
-use function sprintf;
 use Zend\Stratigility\Handler\NotFoundHandler as NotFoundRequestHandler;
 
 /**
