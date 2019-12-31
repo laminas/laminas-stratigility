@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Stratigility;
+namespace Laminas\Stratigility;
 
 use Closure;
 use Interop\Http\Middleware\DelegateInterface;
 use Interop\Http\Middleware\ServerMiddlewareInterface;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Laminas\Stratigility\Exception\InvalidMiddlewareException;
 use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
 use ReflectionFunction;
 use ReflectionMethod;
 use SplQueue;
-use Zend\Stratigility\Exception\InvalidMiddlewareException;
 
 /**
  * Pipe middleware like unix pipes.
@@ -25,7 +24,7 @@ use Zend\Stratigility\Exception\InvalidMiddlewareException;
  * This class implements a pipeline of middleware, which can be attached using
  * the `pipe()` method, and is itself middleware.
  *
- * The request and response objects are decorated using the Zend\Stratigility\Http
+ * The request and response objects are decorated using the Laminas\Stratigility\Http
  * variants in this package, ensuring that the request may store arbitrary
  * properties, and the response exposes the convenience `write()`, `end()`, and
  * `isComplete()` methods.
@@ -95,7 +94,7 @@ class MiddlewarePipe implements MiddlewareInterface, ServerMiddlewareInterface
             trigger_error(sprintf(
                 'The third argument to %s() ($out) will be required starting with '
                 . 'Stratigility version 2; please see '
-                . 'https://docs.zendframework.com/zend-stratigility/migration/to-v2/ for '
+                . 'https://docs.laminas.dev/laminas-stratigility/migration/to-v2/ for '
                 . 'more details on how to update your application to remove this message.',
                 __CLASS__
             ), E_USER_DEPRECATED);

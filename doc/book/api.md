@@ -4,11 +4,11 @@ The following make up the primary API of Stratigility.
 
 ## Middleware
 
-`Zend\Stratigility\MiddlewarePipe` is the primary application interface, and
+`Laminas\Stratigility\MiddlewarePipe` is the primary application interface, and
 has been discussed previously. Its API is:
 
 ```php
-namespace Zend\Stratigility;
+namespace Laminas\Stratigility;
 
 use Interop\Http\Middleware\DelegateInterface;
 use Interop\Http\Middleware\MiddlewareInterface as InteropMiddlewareInterface;
@@ -50,7 +50,7 @@ expect the `__invoke()` signature (via the `__invoke()` signature), or stacks
 expecting http-interop middleware signatures (via the `process()` method).
 
 When executing the `MiddlewarePipe` via its `__invoke()` method, if `$out` is
-not provided, an instance of `Zend\Stratigility\FinalHandler` will be created
+not provided, an instance of `Laminas\Stratigility\FinalHandler` will be created
 and used in the event that the pipe stack is exhausted (`MiddlewarePipe` passes
 the `$response` instance it receives to `FinalHandler` as well, so that the
 latter can determine if the response it receives is new).
@@ -60,7 +60,7 @@ latter can determine if the response it receives is new).
 > Starting in version 1.3.0, we now raise a deprecation notice if no argument is
 > passed for the `$out` argument to `__invoke()`; starting in version 2.0.0,
 > the argument will be required.  Always pass a `Next` instance, a
-> `Zend\Stratigility\NoopFinalHandler` instance, or a custom callback; we no
+> `Laminas\Stratigility\NoopFinalHandler` instance, or a custom callback; we no
 > longer recommend the `FinalHandler` implementation.
 
 When using `__invoke()`, the callable `$out` argument should use the signature:
@@ -75,7 +75,7 @@ function (
 ) : ResponseInterface
 ```
 
-Within Stratigility, `Zend\Stratigility\Next` provides such an implementation.
+Within Stratigility, `Laminas\Stratigility\Next` provides such an implementation.
 
 Starting in version 1.3.0, `MiddlewarePipe` also implements the http-interop
 `ServerMiddlewareInterface`, and thus provides a `process()` method. This
@@ -84,7 +84,7 @@ method requires a `ServerRequestInterface` instance and an
 can be a `Next` instance, as it also implements that interface.
 
 Internally, for both `__invoke()` and `process()`, `MiddlewarePipe` creates an
-instance of `Zend\Stratigility\Next`, feeding it its queue, executes it, and
+instance of `Laminas\Stratigility\Next`, feeding it its queue, executes it, and
 returns its response.
 
 ### Response prototype
@@ -104,7 +104,7 @@ $pipeline->setResponsePrototype(new Response());
 
 ## Next
 
-`Zend\Stratigility\Next` is primarily an implementation detail of middleware,
+`Laminas\Stratigility\Next` is primarily an implementation detail of middleware,
 and exists to allow delegating to middleware registered later in the stack. It
 is implemented both as a functor and as an `Interop\Http\Middleware\DelegateInterface`.
 
@@ -150,7 +150,7 @@ return the response provided to you.
 >
 > - For innermost middleware that will be returning a response without
 >   delegation, we recommend instantiating and returning a concrete
->   response instance. [Diactoros provides a number of convenient custom responses](https://docs.zendframework.com/zend-diactoros/custom-responses/).
+>   response instance. [Diactoros provides a number of convenient custom responses](https://docs.laminas.dev/laminas-diactoros/custom-responses/).
 > - For middleware delegating to another layer, operate on the *returned*
 >   response instead:
 >
@@ -208,7 +208,7 @@ will ensure that the response is specific for your context.
 
 ```php
 use Interop\Http\Middleware\DelegateInterface;
-use Zend\Diactoros\Response;
+use Laminas\Diactoros\Response;
 
 $prototype = new Response();
 
@@ -278,10 +278,10 @@ function ($request, $response, $next)
 
 ## FinalHandler
 
-- Deprecated starting with 1.3.0. Use `Zend\Stratigility\NoopFinalHandler` or a
+- Deprecated starting with 1.3.0. Use `Laminas\Stratigility\NoopFinalHandler` or a
   custom handler guaranteed to return a response instead.
 
-`Zend\Stratigility\FinalHandler` is a default implementation of middleware to execute when the stack
+`Laminas\Stratigility\FinalHandler` is a default implementation of middleware to execute when the stack
 exhausts itself. It expects three arguments when invoked: a request instance, a response instance,
 and an error condition (or `null` for no error). It returns a response.
 
@@ -309,11 +309,11 @@ Internally, `FinalHandler` does the following on invocation:
 
 ## HTTP Messages
 
-### Zend\Stratigility\Http\Request
+### Laminas\Stratigility\Http\Request
 
 - Deprecated in 1.3.0; to be removed in 2.0.0.
 
-`Zend\Stratigility\Http\Request` acts as a decorator for a `Psr\Http\Message\ServerRequestInterface`
+`Laminas\Stratigility\Http\Request` acts as a decorator for a `Psr\Http\Message\ServerRequestInterface`
 instance. The primary reason is to allow composing middleware such that you always have access to
 the original request instance.
 
@@ -334,7 +334,7 @@ receive is a URI with a past consisting of only `/foo`. This practice ensures th
 nested safely and resolve regardless of the nesting level.
 
 If you want access to the full URI — for instance, to construct a fully qualified URI to your
-current middleware — `Zend\Stratigility\Http\Request` contains a method, `getOriginalRequest()`,
+current middleware — `Laminas\Stratigility\Http\Request` contains a method, `getOriginalRequest()`,
 which will always return the original request provided to the application:
 
 ```php
@@ -347,12 +347,12 @@ function ($request, $response, $next)
 }
 ```
 
-### Zend\Stratigility\Http\Response
+### Laminas\Stratigility\Http\Response
 
 - Deprecated in 1.3.0; to be removed in 2.0.0.
 
-`Zend\Stratigility\Http\Response` acts as a decorator for a `Psr\Http\Message\ResponseInterface`
-instance, and also implements `Zend\Stratigility\Http\ResponseInterface`, which provides the
+`Laminas\Stratigility\Http\Response` acts as a decorator for a `Psr\Http\Message\ResponseInterface`
+instance, and also implements `Laminas\Stratigility\Http\ResponseInterface`, which provides the
 following convenience methods:
 
 - `write()`, which proxies to the `write()` method of the composed response stream.
@@ -390,14 +390,14 @@ wrapped in one of these decorators.
 
 Two versions exist:
 
-- `Zend\Stratigility\Middleware\CallableMiddlewareWrapper` will wrap a callable
+- `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper` will wrap a callable
   using the legacy interface; as such, it also requires a response instance:
 
   ```php
   $middleware = new CallableMiddlewareWrapper($middleware, $response);
   ```
 
-- `Zend\Stratigility\Middleware\CallableMiddlewareWrapper` will wrap a callable
+- `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper` will wrap a callable
   that defines exactly two arguments, with the second type-hinting on
   `Interop\Http\Middleware\DelegateInterface`:
 
@@ -416,9 +416,9 @@ using the legacy middleware signature.
 
 ## Delegates
 
-In addition to `Zend\Stratigility\Next`, Stratigility provides another
+In addition to `Laminas\Stratigility\Next`, Stratigility provides another
 `Interop\Http\Middleware\DelegateInterface` implementation,
-`Zend\Stratigility\Delegate\CallableDelegateDecorator`.
+`Laminas\Stratigility\Delegate\CallableDelegateDecorator`.
 
 This class can be used to wrap a callable `$next` instance for use in passing
 to a `ServerMiddlewareInterface::process()` method as a delegate; the primary
@@ -431,7 +431,7 @@ use Interop\Http\Middleware\DelegateInterface;
 use Interop\Http\Middleware\ServerMiddlewareInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Stratigility\Delegate\CallableDelegateDecorator;
+use Laminas\Stratigility\Delegate\CallableDelegateDecorator;
 
 class TimestampMiddleware implements ServerMiddlewareInterface
 {
