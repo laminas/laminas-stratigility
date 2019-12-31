@@ -134,7 +134,7 @@ method), use `CallableInteropMiddlewareWrapper`:
 
 ```php
 use Interop\Http\ServerMiddleware\DelegateInterface;
-use Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
+use Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
 
 $pipeline->pipe(new CallableInteropMiddlewareWrapper(
     function ($request, $delegate) use ($router) {
@@ -171,7 +171,7 @@ case, means that it expects a `RequestHandlerInterface`, and will call its
 
 ```php
 use Interop\Http\ServerMiddleware\DelegateInterface;
-use Zend\Stratigility\Middleware\CallableMiddlewareDecorator;
+use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 
 $pipeline->pipe(new CallableMiddlewareDecorator(
     function ($request, $handler) use ($router) {
@@ -265,7 +265,7 @@ As such, we provide options for you to decorate such middleware.
 - Deprecated since 2.2.0
 
 Our first double-pass middleware decorator is
-`Zend\Stratigility\Middleware\CallableMiddlewareWrapper`, which implements
+`Laminas\Stratigility\Middleware\CallableMiddlewareWrapper`, which implements
 either the http-middleware 0.4.1 or 0.5.0 `MiddlewareInterface`, depending on
 what is installed:
 
@@ -296,7 +296,7 @@ compatible with version 3.
 
 - Since 2.2.0
 
-`Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator` implements the
+`Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator` implements the
 http-middleware 0.5.0 `MiddlewareInterface`, and will be updated in version 3 to
 implement the PSR-15 `MiddlewareInterface`:
 

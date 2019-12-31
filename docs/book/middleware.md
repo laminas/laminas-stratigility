@@ -7,12 +7,12 @@ take the incoming request, perform actions based on it, and either complete the
 response or pass delegation on to the next middleware in the queue.
 
 ```php
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Server;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Middleware\CallableMiddlewareDecorator;
-use Zend\Stratigility\Middleware\PathMiddlewareDecorator;
-use Zend\Stratigility\NoopFinalHandler;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Server;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
+use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
+use Laminas\Stratigility\NoopFinalHandler;
 
 require __DIR__ . '/../vendor/autoload.php';
 

@@ -1,7 +1,7 @@
 # Composing middleware
 
 The easiest way to compose middleware is to write closures or middleware classes
-and attach them to a `Zend\Stratigility\MiddlewarePipe` instance. You can nest
+and attach them to a `Laminas\Stratigility\MiddlewarePipe` instance. You can nest
 `MiddlewarePipe` instances to create groups of related middleware, and attach
 them using a base path so they only execute if that path is matched.
 
@@ -18,7 +18,7 @@ $app->pipe('/api', $api);     // API middleware attached to the path "/api"
 > - Since 2.2.0
 >
 > Starting in 2.2.0, the two argument form of `pipe()` is deprecated in favor of
-> piping a `Zend\Stratigility\Middleware\PathMiddlewareDecorator` instance
+> piping a `Laminas\Stratigility\Middleware\PathMiddlewareDecorator` instance
 > instead. The above example would then become:
 >
 > ```php
@@ -41,11 +41,11 @@ $app->pipe('/api', $api);     // API middleware attached to the path "/api"
 
 While the above will give you a basic application, it has no error handling
 whatsoever. We recommend adding an initial middleware layer using the
-`Zend\Stratigility\Middleware\ErrorHandler` class:
+`Laminas\Stratigility\Middleware\ErrorHandler` class:
 
 ```php
-use Zend\Diactoros\Response;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Laminas\Diactoros\Response;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 $app->pipe(new ErrorHandler(new Response());
 // Add more middleware...
@@ -56,7 +56,7 @@ You can learn how to customize the error handler to your needs in the
 
 ## Extending the MiddlewarePipe
 
-Another approach is to extend the `Zend\Stratigility\MiddlewarePipe` class
+Another approach is to extend the `Laminas\Stratigility\MiddlewarePipe` class
 itself, particularly if you want to allow attaching other middleware to your
 own middleware. In such a case, you will generally override the `process()`
 method to perform any additional logic you have, and then call on the parent in
@@ -83,7 +83,7 @@ make sure to also call `parent::__construct()` to ensure the middleware queue
 is initialized; we recommend doing this as the first action of the method.
 
 ```php
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class CustomMiddleware extends MiddlewarePipe
 {

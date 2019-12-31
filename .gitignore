@@ -1,6 +1,8 @@
-vendor/
-phpunit.xml
-docs/html/
-zf-mkdoc-theme/
-clover.xml
-coveralls-upload.json
+/clover.xml
+/composer.lock
+/coveralls-upload.json
+/docs/html/
+/laminas-mkdoc-theme.tgz
+/laminas-mkdoc-theme/
+/phpunit.xml
+/vendor/
