@@ -22,10 +22,10 @@ details.
 
 ### Fixed
 
-- [#52](https://github.com/zendframework/zend-stratigility/pull/52) fixes the
+- [zendframework/zend-stratigility#52](https://github.com/zendframework/zend-stratigility/pull/52) fixes the
   behavior of the `FinalHandler` with regards to exception handling, ensuring
   that the reason phrase reported corresponds to the HTTP status code used.
-- [#54](https://github.com/zendframework/zend-stratigility/pull/54) modifies the
+- [zendframework/zend-stratigility#54](https://github.com/zendframework/zend-stratigility/pull/54) modifies the
   behavior of the `FinalHandler` when creating an error or 404 response to call
   `write()` instead of `end()` on the response object. This fixes a lingering
   issue with emitting the `Content-Length` header from the `SapiEmitter`, as
@@ -36,29 +36,29 @@ details.
 
 This release contains two potential backwards compatibility breaks:
 
-- In versions prior to 1.2.0, after `Zend\Stratigility\Http\Response::end()` was
+- In versions prior to 1.2.0, after `Laminas\Stratigility\Http\Response::end()` was
   called, `with*()` operations were performed as no-ops, which led to
   hard-to-detect errors. Starting with 1.2.0, they now raise a
   `RuntimeException`.
 
-- In versions prior to 1.2.0, `Zend\Stratigility\FinalHandler` always provided
+- In versions prior to 1.2.0, `Laminas\Stratigility\FinalHandler` always provided
   exception details in the response payload for errors. Starting with 1.2.0, it
   only does so if not in a production environment (which is the default
   environment).
 
 ### Added
 
-- [#36](https://github.com/zendframework/zend-stratigility/pull/36) adds a new
+- [zendframework/zend-stratigility#36](https://github.com/zendframework/zend-stratigility/pull/36) adds a new
   `InvalidMiddlewareException`, with the static factory `fromValue()` that
   provides an exception message detailing the invalid type. `MiddlewarePipe` now
   throws this exception from the `pipe()` method when a non-callable value is
   provided.
-- [#46](https://github.com/zendframework/zend-stratigility/pull/46) adds
+- [zendframework/zend-stratigility#46](https://github.com/zendframework/zend-stratigility/pull/46) adds
   `FinalHandler::setOriginalResponse()`, allowing you to alter the response used
   for comparisons when the `FinalHandler` is invoked.
-- [#37](https://github.com/zendframework/zend-stratigility/pull/37) and
-  [#49](https://github.com/zendframework/zend-stratigility/pull/49) add
-  support in `Zend\Stratigility\Dispatch` to catch PHP 7 `Throwable`s.
+- [zendframework/zend-stratigility#37](https://github.com/zendframework/zend-stratigility/pull/37) and
+  [zendframework/zend-stratigility#49](https://github.com/zendframework/zend-stratigility/pull/49) add
+  support in `Laminas\Stratigility\Dispatch` to catch PHP 7 `Throwable`s.
 
 ### Deprecated
 
@@ -70,10 +70,10 @@ This release contains two potential backwards compatibility breaks:
 
 ### Fixed
 
-- [#30](https://github.com/zendframework/zend-stratigility/pull/30) updates the
+- [zendframework/zend-stratigility#30](https://github.com/zendframework/zend-stratigility/pull/30) updates the
   `Response` implementation to raise exceptions from `with*()` methods if they
   are called after `end()`.
-- [#46](https://github.com/zendframework/zend-stratigility/pull/46) fixes the
+- [zendframework/zend-stratigility#46](https://github.com/zendframework/zend-stratigility/pull/46) fixes the
   behavior of `FinalHandler::handleError()` to only display exception details
   when not in production environments, and changes the default environment to
   production.
@@ -94,7 +94,7 @@ This release contains two potential backwards compatibility breaks:
 
 ### Fixed
 
-- [#39](https://github.com/zendframework/zend-stratigility/pull/39) updates the
+- [zendframework/zend-stratigility#39](https://github.com/zendframework/zend-stratigility/pull/39) updates the
   FinalHandler to ensure that emitted exception messages include previous
   exceptions.
 
@@ -114,8 +114,8 @@ This release contains two potential backwards compatibility breaks:
 
 ### Fixed
 
-- [#32](https://github.com/zendframework/zend-stratigility/pull/32) updates the
-  request and response typehints in `Zend\Stratigility\Dispatch` to use the
+- [zendframework/zend-stratigility#32](https://github.com/zendframework/zend-stratigility/pull/32) updates the
+  request and response typehints in `Laminas\Stratigility\Dispatch` to use the
   corresponding PSR-7 interfaces, instead of the Stratigility-specific
   decorators. This fixes issues when calling `$next()` with non-Stratigility
   instances of either.
@@ -136,7 +136,7 @@ This release contains two potential backwards compatibility breaks:
 
 ### Fixed
 
-- [#25](https://github.com/zendframework/zend-stratigility/pull/25) modifies the
+- [zendframework/zend-stratigility#25](https://github.com/zendframework/zend-stratigility/pull/25) modifies the
   constructor of `Next` to clone the incoming `SplQueue` instance, ensuring the
   original can be re-used for subsequent invocations (e.g., within an async
   listener environment such as React).
@@ -145,7 +145,7 @@ This release contains two potential backwards compatibility breaks:
 
 ### Added
 
-- [#13](https://github.com/zendframework/zend-stratigility/pull/13) adds
+- [zendframework/zend-stratigility#13](https://github.com/zendframework/zend-stratigility/pull/13) adds
   `Utils::getStatusCode($error, ResponseInterface $response)`; this static
   method will attempt to use an exception code as an HTTP status code, if it
   falls in a valid HTTP error status range. If the error is not an exception, it
@@ -161,7 +161,7 @@ This release contains two potential backwards compatibility breaks:
 
 ### Fixed
 
-- [#12](https://github.com/zendframework/zend-stratigility/pull/12) updates
+- [zendframework/zend-stratigility#12](https://github.com/zendframework/zend-stratigility/pull/12) updates
   `FinalHandler` such that it will return the response provided at invocation
   if it differs from the response at initialization (i.e., a new response
   instance, or if the body size has changed). This allows you to safely call
@@ -171,7 +171,7 @@ This release contains two potential backwards compatibility breaks:
 
 ### Added
 
-- [#14](https://github.com/zendframework/zend-stratigility/pull/14) adds
+- [zendframework/zend-stratigility#14](https://github.com/zendframework/zend-stratigility/pull/14) adds
   [bookdown](http://bookdown.io) documentation.
 
 ### Deprecated
@@ -190,7 +190,7 @@ This release contains two potential backwards compatibility breaks:
 
 ### Added
 
-- [#8](https://github.com/zendframework/zend-stratigility/pull/8) adds a
+- [zendframework/zend-stratigility#8](https://github.com/zendframework/zend-stratigility/pull/8) adds a
   `phpcs.xml` PHPCS configuration file, allowing execution of each of `phpcs`
   and `phpcbf` without arguments.
 
@@ -204,7 +204,7 @@ This release contains two potential backwards compatibility breaks:
 
 ### Fixed
 
-- [#7](https://github.com/zendframework/zend-stratigility/pull/7) ensures that
+- [zendframework/zend-stratigility#7](https://github.com/zendframework/zend-stratigility/pull/7) ensures that
   arity checks on PHP callables in array format (`[$instance, $method]`,
   `['ClassName', 'method']`) work, as well as on static methods using the string
   syntax (`'ClassName::method'`). This allows them to be used without issue as
@@ -212,7 +212,7 @@ This release contains two potential backwards compatibility breaks:
 
 ## 1.0.0 - 2015-05-14
 
-First stable release, and first relase as `zend-stratigility`.
+First stable release, and first relase as `laminas-stratigility`.
 
 ### Added
 

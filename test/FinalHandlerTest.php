@@ -1,24 +1,23 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Stratigility;
+namespace LaminasTest\Stratigility;
 
 use Exception;
+use Laminas\Diactoros\Response as PsrResponse;
+use Laminas\Diactoros\ServerRequest as PsrRequest;
+use Laminas\Diactoros\Uri;
+use Laminas\Escaper\Escaper;
+use Laminas\Stratigility\FinalHandler;
+use Laminas\Stratigility\Http\Request;
+use Laminas\Stratigility\Http\Response;
 use PHPUnit_Framework_TestCase as TestCase;
 use Psr\Http\Message\StreamInterface;
-use Zend\Diactoros\ServerRequest as PsrRequest;
-use Zend\Diactoros\Response as PsrResponse;
-use Zend\Diactoros\Uri;
-use Zend\Escaper\Escaper;
-use Zend\Stratigility\FinalHandler;
-use Zend\Stratigility\Http\Request;
-use Zend\Stratigility\Http\Response;
 
 class FinalHandlerTest extends TestCase
 {
@@ -246,7 +245,7 @@ class FinalHandlerTest extends TestCase
     {
         $error = new Exception('Exception message', 501);
 
-        $response = $this->prophesize('Zend\Stratigility\Http\Response');
+        $response = $this->prophesize('Laminas\Stratigility\Http\Response');
         $response->getStatusCode()->willReturn(200);
         $response->withStatus(501, '')->will(function () use ($response) {
             return $response->reveal();
@@ -258,7 +257,7 @@ class FinalHandlerTest extends TestCase
 
         $final = new FinalHandler([], new Response(new PsrResponse()));
         $this->assertSame($response->reveal(), $final(
-            $this->prophesize('Zend\Stratigility\Http\Request')->reveal(),
+            $this->prophesize('Laminas\Stratigility\Http\Request')->reveal(),
             $response->reveal(),
             $error
         ));
@@ -276,12 +275,12 @@ class FinalHandlerTest extends TestCase
 
         $final = new FinalHandler([], new Response(new PsrResponse()));
         $test = $final(
-            $this->prophesize('Zend\Stratigility\Http\Request')->reveal(),
+            $this->prophesize('Laminas\Stratigility\Http\Request')->reveal(),
             $response,
             $error
         );
 
-        $this->assertInstanceOf('Zend\Stratigility\Http\Response', $test);
+        $this->assertInstanceOf('Laminas\Stratigility\Http\Response', $test);
         $this->assertSame(501, $test->getStatusCode());
         $this->assertSame('Not Implemented', $test->getReasonPhrase());
 
@@ -298,7 +297,7 @@ class FinalHandlerTest extends TestCase
         $body     = $this->prophesize('Psr\Http\Message\StreamInterface');
         $body->getSize()->willReturn(0)->shouldBeCalledTimes(2);
 
-        $response = $this->prophesize('Zend\Stratigility\Http\Response');
+        $response = $this->prophesize('Laminas\Stratigility\Http\Response');
         $response->getBody()->will(function () use ($body) {
             return $body->reveal();
         });
@@ -312,7 +311,7 @@ class FinalHandlerTest extends TestCase
             })
             ->shouldBeCalled();
 
-        $request = $this->prophesize('Zend\Diactoros\ServerRequest');
+        $request = $this->prophesize('Laminas\Diactoros\ServerRequest');
         $request->getUri()->willReturn('/foo');
         $request->getMethod()->willReturn('GET');
 
@@ -330,7 +329,7 @@ class FinalHandlerTest extends TestCase
     {
         $response = new PsrResponse();
 
-        $request = $this->prophesize('Zend\Diactoros\ServerRequest');
+        $request = $this->prophesize('Laminas\Diactoros\ServerRequest');
         $request->getUri()->willReturn('/foo');
         $request->getMethod()->willReturn('GET');
 
@@ -339,7 +338,7 @@ class FinalHandlerTest extends TestCase
             $request->reveal(),
             $response
         );
-        $this->assertInstanceOf('Zend\Stratigility\Http\Response', $test);
+        $this->assertInstanceOf('Laminas\Stratigility\Http\Response', $test);
         $this->assertSame(404, $test->getStatusCode());
 
         $body = $test->getBody();
