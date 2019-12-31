@@ -1,21 +1,22 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2016-2018 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Stratigility\Middleware;
+namespace Laminas\Stratigility\Middleware;
 
 use ErrorException;
 use Exception;
+use Laminas\Stratigility\Delegate\CallableDelegateDecorator;
+use Laminas\Stratigility\Exception\MissingResponseException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 use Webimpress\HttpMiddlewareCompatibility\HandlerInterface as DelegateInterface;
 use Webimpress\HttpMiddlewareCompatibility\MiddlewareInterface as ServerMiddlewareInterface;
-use Zend\Stratigility\Delegate\CallableDelegateDecorator;
-use Zend\Stratigility\Exception\MissingResponseException;
 
 use const Webimpress\HttpMiddlewareCompatibility\HANDLER_METHOD;
 
@@ -45,7 +46,7 @@ use const Webimpress\HttpMiddlewareCompatibility\HANDLER_METHOD;
  * itself, and can be used as the basis for returning an error response.
  *
  * An error response generator must be provided as a constructor argument;
- * if not provided, an instance of Zend\Stratigility\Middleware\ErrorResponseGenerator
+ * if not provided, an instance of Laminas\Stratigility\Middleware\ErrorResponseGenerator
  * will be used.
  *
  * Listeners use the following signature:
