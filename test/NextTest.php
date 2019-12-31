@@ -1,14 +1,19 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Stratigility;
+namespace LaminasTest\Stratigility;
 
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest as Request;
+use Laminas\Diactoros\Uri;
+use Laminas\Stratigility\Next;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
@@ -18,10 +23,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use SplQueue;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest as Request;
-use Zend\Diactoros\Uri;
-use Zend\Stratigility\Next;
 
 class NextTest extends TestCase
 {

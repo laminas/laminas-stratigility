@@ -1,13 +1,14 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2016-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Stratigility\Exception;
+namespace Laminas\Stratigility\Exception;
 
 use OutOfBoundsException;
 
@@ -17,7 +18,7 @@ use function is_object;
 use function sprintf;
 
 /**
- * Exception thrown when the internal stack of Zend\Stratigility\Next is
+ * Exception thrown when the internal stack of Laminas\Stratigility\Next is
  * exhausted, but no response returned.
  */
 class MissingResponseException extends OutOfBoundsException implements ExceptionInterface
