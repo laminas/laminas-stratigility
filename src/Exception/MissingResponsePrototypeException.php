@@ -1,16 +1,17 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2017 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\Stratigility\Exception;
+namespace Laminas\Stratigility\Exception;
 
+use Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator;
 use UnexpectedValueException;
-use Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator;
 
 use function sprintf;
 
@@ -24,7 +25,7 @@ class MissingResponsePrototypeException extends UnexpectedValueException impleme
     {
         return new self(sprintf(
             'Unable to create a %s instance; no response prototype provided,'
-            . ' and zendframework/zend-diactoros is not installed',
+            . ' and laminas/laminas-diactoros is not installed',
             DoublePassMiddlewareDecorator::class
         ));
     }

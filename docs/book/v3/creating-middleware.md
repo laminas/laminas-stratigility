@@ -43,7 +43,7 @@ Sometimes it's easier to eschew the `MiddlewareInterface`, particularly when
 creating a one-off middleware for debugging purposes. In those cases, you can
 create a PHP callable that follows the same signature of
 `MiddlewareInterface::process()`, and wrap it in a
-`Zend\Stratigility\Middleware\CallableMiddlewareDecorator` instance:
+`Laminas\Stratigility\Middleware\CallableMiddlewareDecorator` instance:
 
 ```php
 $pipeline->pipe(new CallableMiddlewareDecorator(function ($req, $handler) {
@@ -88,7 +88,7 @@ implementation passes not a single argument, but two. (The `$response` argument
 was often used as a response prototype for middleware that needed to return a
 response.)
 
-`Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator` allows decorating
+`Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator` allows decorating
 such middleware within a PSR-15 `MiddlewareInterface` implementation, allowing
 it to be used in your Stratigility application.
 
@@ -102,7 +102,7 @@ constructor:
 $pipeline->pipe(new DoublePassMiddlewareDecorator($middleware));
 ```
 
-If you are not using zend-diactoros for your PSR-7 implementation, the decorator
+If you are not using laminas-diactoros for your PSR-7 implementation, the decorator
 also accepts a second argument, a PSR-7 `ResponseInterface` prototype instance
 to pass to the double-pass middleware:
 

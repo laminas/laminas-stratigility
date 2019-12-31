@@ -6,7 +6,7 @@ extra:
     - v3
     - v2
     - v1
-pages:
+nav:
     - Home: index.md
     - v3:
       - Intro: v3/intro.md
@@ -45,6 +45,6 @@ pages:
         - "_executing-middleware": executing-middleware.md
         - "_api": api.md
         - "_migration": migration.md
-site_name: zend-stratigility
-site_description: zend-stratigility
-repo_url: 'https://github.com/zendframework/zend-stratigility'
+site_name: laminas-stratigility
+site_description: laminas-stratigility
+repo_url: 'https://github.com/laminas/laminas-stratigility'
