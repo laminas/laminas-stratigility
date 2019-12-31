@@ -7,8 +7,8 @@ request, perform actions based on it, and either complete the response or pass d
 next middleware in the queue.
 
 ```php
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Diactoros\Server;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Diactoros\Server;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -70,5 +70,5 @@ Within Stratigility, middleware can be:
   [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md)
   ServerRequest and Response (in that order), and, optionally, a callable (for invoking the next
   middleware in the queue, if any).
-- An object implementing `Zend\Stratigility\MiddlewareInterface`. `Zend\Stratigility\MiddlewarePipe`
+- An object implementing `Laminas\Stratigility\MiddlewareInterface`. `Laminas\Stratigility\MiddlewarePipe`
   implements this interface.

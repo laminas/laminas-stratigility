@@ -1,7 +1,7 @@
 # Executing and composing middleware
 
 The easiest way to execute middleware is to write closures and attach them to a
-`Zend\Stratigility\MiddlewarePipe` instance. You can nest `MiddlewarePipe` instances to create
+`Laminas\Stratigility\MiddlewarePipe` instance. You can nest `MiddlewarePipe` instances to create
 groups of related middleware, and attach them using a base path so they only execute if that path is
 matched.
 
@@ -14,13 +14,13 @@ $app->pipe('/api', $api);     // API middleware attached to the path "/api"
 ```
 
 
-Another approach is to extend the `Zend\Stratigility\MiddlewarePipe` class itself, particularly if
+Another approach is to extend the `Laminas\Stratigility\MiddlewarePipe` class itself, particularly if
 you want to allow attaching other middleware to your own middleware. In such a case, you will
 generally override the `__invoke()` method to perform any additional logic you have, and then call
 on the parent in order to iterate through your stack of middleware:
 
 ```php
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipe;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -44,7 +44,7 @@ middleware, perhaps using configuration provided. In this case, make sure to als
 first action of the method.
 
 ```php
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class CustomMiddleware extends MiddlewarePipe
 {

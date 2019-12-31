@@ -1,5 +1,5 @@
 {
-  "title": "zend-stratigility: PSR-7-based middleware",
+  "title": "laminas-stratigility: PSR-7-based middleware",
   "content": [
     "book/overview.md",
     "book/install.md",

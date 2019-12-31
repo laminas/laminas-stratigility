@@ -32,8 +32,8 @@ Middleware written in this way can be any of the following:
 - Static class methods
 - PHP array callbacks (e.g., `[ $dispatcher, 'dispatch' ]`, where `$dispatcher` is a class instance)
 - Invokable PHP objects (i.e., instances of classes implementing `__invoke()`)
-- Objects implementing `Zend\Stratigility\MiddlewareInterface` (including
-  `Zend\Stratigility\MiddlewarePipe`)
+- Objects implementing `Laminas\Stratigility\MiddlewareInterface` (including
+  `Laminas\Stratigility\MiddlewarePipe`)
 
 In all cases, if you wish to implement typehinting, the signature is:
 
@@ -49,7 +49,7 @@ function (
 The implementation Stratigility offers also allows you to write specialized error handler
 middleware. The signature is the same as for normal middleware, except that it expects an additional
 argument prepended to the signature, `$error`.  (Alternately, you can implement
-`Zend\Stratigility\ErrorMiddlewareInterface`.) The signature is:
+`Laminas\Stratigility\ErrorMiddlewareInterface`.) The signature is:
 
 ```php
 function (
