@@ -1,7 +1,7 @@
 # Executing and composing middleware
 
 The easiest way to execute middleware is to write closures and attach them to a
-`Zend\Stratigility\MiddlewarePipe` instance. You can nest `MiddlewarePipe`
+`Laminas\Stratigility\MiddlewarePipe` instance. You can nest `MiddlewarePipe`
 instances to create groups of related middleware, and attach them using a base
 path so they only execute if that path is matched.
 
@@ -26,11 +26,11 @@ $app->pipe(new PathMiddlewareDecorator('/api', $api)); // API middleware attache
 
 While the above will give you a basic application, it has no error handling
 whatsoever. We recommend adding an initial middleware layer using the
-`Zend\Stratigility\Middleware\ErrorHandler` class:
+`Laminas\Stratigility\Middleware\ErrorHandler` class:
 
 ```php
-use Zend\Diactoros\Response;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Laminas\Diactoros\Response;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 $app->pipe(new ErrorHandler(new Response());
 // Add more middleware...
@@ -41,7 +41,7 @@ You can learn how to customize the error handler to your needs in the
 
 ## Decorating the MiddlewarePipe
 
-Another approach is to compose a `Zend\Stratigility\MiddlewarePipe` instance
+Another approach is to compose a `Laminas\Stratigility\MiddlewarePipe` instance
 within your own `Psr\Http\Server\MiddlewareInterface` implementation, and
 optionally implementing the `RequestHandlerInterface` and/or `pipe()` method.
 
@@ -79,7 +79,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class CustomMiddleware implements MiddlewareInterface
 {

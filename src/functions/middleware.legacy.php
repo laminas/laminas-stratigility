@@ -7,11 +7,14 @@
  */
 declare(strict_types=1);
 
-namespace LaminasTest\Stratigility\TestAsset;
+namespace Zend\Stratigility;
 
-class NormalHandler
+use function Laminas\Stratigility\middleware as laminas_middleware;
+
+/**
+ * @deprecated Use Laminas\Stratigility\middleware instead
+ */
+function middleware(callable $middleware) : Middleware\CallableMiddlewareDecorator
 {
-    public function handle($req, $res, $next)
-    {
-    }
+    laminas_middleware(...func_get_args());
 }
