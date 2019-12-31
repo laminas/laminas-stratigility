@@ -1,15 +1,16 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Stratigility\Exception;
+namespace LaminasTest\Stratigility\Exception;
 
+use Laminas\Stratigility\Exception\InvalidMiddlewareException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use Zend\Stratigility\Exception\InvalidMiddlewareException;
 
 class InvalidMiddlewareExceptionTest extends TestCase
 {
