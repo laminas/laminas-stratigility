@@ -1,17 +1,16 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Stratigility\Http;
+namespace Laminas\Stratigility\Http;
 
-use RuntimeException;
 use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 use Psr\Http\Message\StreamInterface;
+use RuntimeException;
 
 /**
  * Response decorator
@@ -21,7 +20,7 @@ use Psr\Http\Message\StreamInterface;
  *
  * @deprecated since 1.3.0; to be removed with 2.0.0. Track the original
  *     response via a request attribute or via a service instead; you
- *     can use Zend\Stratigility\Middleware\OriginalMessages to do so. We
+ *     can use Laminas\Stratigility\Middleware\OriginalMessages to do so. We
  *     recommend that you use only the methods defined in PSR-7.
  */
 class Response implements
@@ -58,10 +57,10 @@ class Response implements
             . 'and pull the original response via the request "originalResponse" '
             . 'attribute. %s will no longer be available starting in Stratigility 2.0.0. '
             . 'Please see '
-            . 'https://docs.zendframework.com/zend-stratigility/migration/to-v2/#original-request-response-and-uri '
+            . 'https://docs.laminas.dev/laminas-stratigility/migration/to-v2/#original-request-response-and-uri '
             . 'for full details.',
             __CLASS__,
-            \Zend\Stratigility\Middleware\OriginalMessages::class,
+            \Laminas\Stratigility\Middleware\OriginalMessages::class,
             __METHOD__
         ), E_USER_DEPRECATED);
         return $this->psrResponse;
@@ -82,7 +81,7 @@ class Response implements
             '%s is now deprecated; use $response->getBody()->write(). '
             . '%s will no longer be available starting in Stratigility 2.0.0. '
             . 'Please see '
-            . 'https://docs.zendframework.com/zend-stratigility/migration/to-v2/#deprecated-functionality '
+            . 'https://docs.laminas.dev/laminas-stratigility/migration/to-v2/#deprecated-functionality '
             . 'for full details.',
             __CLASS__,
             __METHOD__
@@ -114,7 +113,7 @@ class Response implements
             '%s is now deprecated; use $response->getBody()->write(). '
             . '%s will no longer be available starting in Stratigility 2.0.0. '
             . 'Please see '
-            . 'https://docs.zendframework.com/zend-stratigility/migration/to-v2/#deprecated-functionality '
+            . 'https://docs.laminas.dev/laminas-stratigility/migration/to-v2/#deprecated-functionality '
             . 'for full details.',
             __CLASS__,
             __METHOD__
@@ -146,7 +145,7 @@ class Response implements
             '%s is now deprecated; use $response->getBody()->write(). '
             . '%s will no longer be available starting in Stratigility 2.0.0. '
             . 'Please see '
-            . 'https://docs.zendframework.com/zend-stratigility/migration/to-v2/#deprecated-functionality '
+            . 'https://docs.laminas.dev/laminas-stratigility/migration/to-v2/#deprecated-functionality '
             . 'for full details.',
             __CLASS__,
             __METHOD__

@@ -16,7 +16,7 @@ You can typically handle these conditions via middleware itself.
 If no middleware is able to handle the incoming request, this is typically
 representative of an HTTP 404 status. Stratigility provides a barebones
 middleware that you may register in an innermost layer that will return a 404
-condition, `Zend\Stratigility\Middleware\NotFoundHandler`. The class requires a
+condition, `Laminas\Stratigility\Middleware\NotFoundHandler`. The class requires a
 response prototype instance that it will use to provide the 404 status and a
 message indicating the request method and URI used:
 
@@ -70,7 +70,7 @@ class NotFoundMiddleware implements ServerMiddlewareInterface
 
 > ### Opting in to error middleware
 >
-> If you have upgraded from Expressive 1.0.0, you will have been using the
+> If you have upgraded from Mezzio 1.0.0, you will have been using the
 > `FinalHandler` implementation, and relying on the fact that, internally,
 > dispatching wraps all middleware in `try/catch` blocks.
 > 
@@ -87,7 +87,7 @@ class NotFoundMiddleware implements ServerMiddlewareInterface
 > (Starting in 2.0.0, this will no longer be necessary, but until then, this is
 > how you opt-in to the system described below.)
 
-`Zend\Stratigility\Middleware\ErrorHandler` is a middleware implementation to
+`Laminas\Stratigility\Middleware\ErrorHandler` is a middleware implementation to
 register as the *outermost layer* of your application (or close to the outermost
 layer). It does the following:
 
@@ -112,7 +112,7 @@ function (
 ) : ResponseInterface
 ```
 
-We provide a default implementation, `Zend\Stratigility\Middleware\ErrorResponseGenerator`,
+We provide a default implementation, `Laminas\Stratigility\Middleware\ErrorResponseGenerator`,
 which generates an error response with a `5XX` series status code and a message
 derived from the reason phrase, if any is present. You may pass a boolean flag
 to its constructor indicating the application is in development mode; if so, the
@@ -160,8 +160,8 @@ use ErrorException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
-use Zend\Stratigility\Exception\MissingResponseException;
-use Zend\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Exception\MissingResponseException;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
 class TemplatedErrorResponseGenerator
 {
@@ -199,7 +199,7 @@ $app->pipe(new ErrorHandler(
 
 ### ErrorHandler Listeners
 
-`Zend\Stratigility\Middleware\ErrorHandler` provides the ability to attach
+`Laminas\Stratigility\Middleware\ErrorHandler` provides the ability to attach
 *listeners*; these are triggered when an error or exception is caught, and
 provided with the exception/throwable raised, the original request, and the
 final response. These instances are considered immutable, so listeners are for
@@ -245,7 +245,7 @@ To handle errors, you can write middleware that accepts **exactly** four argumen
 function ($error, $request, $response, $next) { }
 ```
 
-Alternately, you can implement `Zend\Stratigility\ErrorMiddlewareInterface`.
+Alternately, you can implement `Laminas\Stratigility\ErrorMiddlewareInterface`.
 
 When using `MiddlewarePipe`, as the queue is executed, if `$next()` is called with an argument, or
 if an exception is thrown, middleware will iterate through the queue until the first such error
