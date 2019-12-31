@@ -1,6 +1,6 @@
 docs_dir: docs/book
 site_dir: docs/html
-pages:
+nav:
     - index.md
     - Intro: v3/intro.md
     - Reference:
@@ -38,7 +38,6 @@ pages:
         - "_executing-middleware": executing-middleware.md
         - "_api": api.md
         - "_migration": migration.md
-site_name: zend-stratigility
-site_description: zend-stratigility
-repo_url: 'https://github.com/zendframework/zend-stratigility'
-copyright: 'Copyright (c) 2015-2018 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
+site_name: laminas-stratigility
+site_description: laminas-stratigility
+repo_url: 'https://github.com/laminas/laminas-stratigility'

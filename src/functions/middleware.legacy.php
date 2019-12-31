@@ -8,22 +8,14 @@
 
 declare(strict_types=1);
 
-namespace Laminas\Stratigility;
+namespace Zend\Stratigility;
+
+use function Laminas\Stratigility\middleware as laminas_middleware;
 
 /**
- * Convenience wrapper around instantiation of a CallableMiddlewareDecorator instance.
- *
- * Usage:
- *
- * <code>
- * use function Laminas\Stratigility\middleware;
- *
- * $pipeline->pipe(middleware(function ($req, $handler) {
- *     // do some work
- * }));
- * </code>
+ * @deprecated Use Laminas\Stratigility\middleware instead
  */
 function middleware(callable $middleware) : Middleware\CallableMiddlewareDecorator
 {
-    return new Middleware\CallableMiddlewareDecorator($middleware);
+    laminas_middleware(...func_get_args());
 }
