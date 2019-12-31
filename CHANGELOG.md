@@ -8,7 +8,7 @@ details.
 
 ## 1.0.0 - TBD
 
-First stable release, and first relase as `zend-stratigility`.
+First stable release, and first relase as `laminas-stratigility`.
 
 ### Added
 

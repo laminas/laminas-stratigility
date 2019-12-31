@@ -1,23 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Stratigility;
+namespace LaminasTest\Stratigility;
 
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest as Request;
+use Laminas\Diactoros\Uri;
+use Laminas\Stratigility\Http\Request as RequestDecorator;
+use Laminas\Stratigility\Http\Response as ResponseDecorator;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\Utils;
 use PHPUnit_Framework_TestCase as TestCase;
 use ReflectionProperty;
-use Zend\Diactoros\ServerRequest as Request;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Uri;
-use Zend\Stratigility\Http\Request as RequestDecorator;
-use Zend\Stratigility\Http\Response as ResponseDecorator;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Utils;
 
 class MiddlewarePipeTest extends TestCase
 {
@@ -134,7 +133,7 @@ class MiddlewarePipeTest extends TestCase
         $r->setAccessible(true);
         $queue = $r->getValue($this->middleware);
         $route = $queue[$queue->count() - 1];
-        $this->assertInstanceOf('Zend\Stratigility\Route', $route);
+        $this->assertInstanceOf('Laminas\Stratigility\Route', $route);
         $handler = $route->handler;
         $this->assertInstanceOf('Closure', $handler);
         $this->assertEquals(4, Utils::getArity($handler));
@@ -262,7 +261,7 @@ class MiddlewarePipeTest extends TestCase
         $request = new Request([], [], 'http://local.example.com/test', 'GET', 'php://memory');
         $result  = $this->middleware->__invoke($request, $this->response);
         $this->assertTrue($triggered);
-        $this->assertInstanceOf('Zend\Stratigility\Http\Response', $result);
+        $this->assertInstanceOf('Laminas\Stratigility\Http\Response', $result);
         $this->assertSame($this->response, $result->getOriginalResponse());
     }
 

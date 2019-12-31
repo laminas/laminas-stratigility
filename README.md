@@ -1,7 +1,7 @@
-zend-stratigility
+laminas-stratigility
 =================
 
-[![Build Status](https://secure.travis-ci.org/zendframework/zend-stratigility.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-stratigility)
+[![Build Status](https://travis-ci.org/laminas/laminas-stratigility.svg?branch=master)](https://travis-ci.org/laminas/laminas-stratigility)
 
 > From "Strata," Latin for "layer", and "agility.
 
@@ -15,13 +15,13 @@ Installation and Requirements
 Install this library using composer:
 
 ```console
-$ composer require zendframework/zend-diactoros zendframework/zend-stratigility
+$ composer require laminas/laminas-diactoros laminas/laminas-stratigility
 ```
 
 Stratigility has the following dependencies (which are managed by Composer):
 
-- `psr/http-message`, which provides the interfaces specified in [PSR-7](http://www.php-fig.org/psr/psr-7), and type-hinted against in this package. In order to use Stratigility, you will need an implementation of PSR-7; one such package is [zendframework/zend-diactoros](https://github.com/zendframework/zend-diactoros) (and hence the reference to it in the install line above).
-- `zendframework/zend-escaper`, used by the `FinalHandler` for escaping error messages prior to passing them to the response.
+- `psr/http-message`, which provides the interfaces specified in [PSR-7](http://www.php-fig.org/psr/psr-7), and type-hinted against in this package. In order to use Stratigility, you will need an implementation of PSR-7; one such package is [laminas/laminas-diactoros](https://github.com/laminas/laminas-diactoros) (and hence the reference to it in the install line above).
+- `laminas/laminas-escaper`, used by the `FinalHandler` for escaping error messages prior to passing them to the response.
 
 You can provide your own request and response implementations if desired as long as they implement the PSR HTTP message interfaces.
 
@@ -35,8 +35,8 @@ Creating an application consists of 3 steps:
 - Instruct the server to listen for a request
 
 ```php
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Diactoros\Server;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Diactoros\Server;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -61,8 +61,8 @@ What is middleware?
 Middleware is code that exists between the request and response, and which can take the incoming request, perform actions based on it, and either complete the response or pass delegation on to the next middleware in the queue.
 
 ```php
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Diactoros\Server;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Diactoros\Server;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -109,7 +109,7 @@ The handlers in each middleware attached this way will see a URI with that path 
 Within Stratigility, middleware can be:
 
 - Any PHP callable that accepts, minimally, a [PSR-7](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-7-http-message.md) request and a response (in that order), and, optionally, a callable (for invoking the next middleware in the queue, if any).
-- An object implementing `Zend\Stratigility\MiddlewareInterface`. `Zend\Stratigility\MiddlewarePipe` implements this interface.
+- An object implementing `Laminas\Stratigility\MiddlewareInterface`. `Laminas\Stratigility\MiddlewarePipe` implements this interface.
 
 Error Handlers
 --------------
@@ -120,7 +120,7 @@ To handle errors, you can write middleware that accepts **exactly** four argumen
 function ($error, $request, $response, $next) { }
 ```
 
-Alternately, you can implement `Zend\Stratigility\ErrorMiddlewareInterface`.
+Alternately, you can implement `Laminas\Stratigility\ErrorMiddlewareInterface`.
 
 When using `MiddlewarePipe`, as the queue is executed, if `$next()` is called with an argument, or if an exception is thrown, middleware will iterate through the queue until the first such error handler is found. That error handler can either complete the request, or itself call `$next()`. **Error handlers that call `$next()` SHOULD call it with the error it received itself, or with another error.**
 
@@ -155,7 +155,7 @@ Middleware written in this way can be any of the following:
 - Static class methods
 - PHP array callbacks (e.g., `[ $dispatcher, 'dispatch' ]`, where `$dispatcher` is a class instance)
 - Invokable PHP objects (i.e., instances of classes implementing `__invoke()`)
-- Objects implementing `Zend\Stratigility\MiddlewareInterface` (including `Zend\Stratigility\MiddlewarePipe`)
+- Objects implementing `Laminas\Stratigility\MiddlewareInterface` (including `Laminas\Stratigility\MiddlewarePipe`)
 
 In all cases, if you wish to implement typehinting, the signature is:
 
@@ -168,7 +168,7 @@ function (
 }
 ```
 
-The implementation Stratigility offers also allows you to write specialized error handler middleware. The signature is the same as for normal middleware, except that it expects an additional argument prepended to the signature, `$error`.  (Alternately, you can implement `Zend\Stratigility\ErrorMiddlewareInterface`.) The signature is:
+The implementation Stratigility offers also allows you to write specialized error handler middleware. The signature is the same as for normal middleware, except that it expects an additional argument prepended to the signature, `$error`.  (Alternately, you can implement `Laminas\Stratigility\ErrorMiddlewareInterface`.) The signature is:
 
 ```php
 function (
@@ -183,7 +183,7 @@ function (
 Executing and composing middleware
 ----------------------------------
 
-The easiest way to execute middleware is to write closures and attach them to a `Zend\Stratigility\MiddlewarePipe` instance. You can nest `MiddlewarePipe` instances to create groups of related middleware, and attach them using a base path so they only execute if that path is matched.
+The easiest way to execute middleware is to write closures and attach them to a `Laminas\Stratigility\MiddlewarePipe` instance. You can nest `MiddlewarePipe` instances to create groups of related middleware, and attach them using a base path so they only execute if that path is matched.
 
 ```php
 $api = new MiddlewarePipe();  // API middleware collection
@@ -194,10 +194,10 @@ $app->pipe('/api', $api);     // API middleware attached to the path "/api"
 ```
 
 
-Another approach is to extend the `Zend\Stratigility\MiddlewarePipe` class itself -- particularly if you want to allow attaching other middleware to your own middleware. In such a case, you will generally override the `__invoke()` method to perform any additional logic you have, and then call on the parent in order to iterate through your stack of middleware:
+Another approach is to extend the `Laminas\Stratigility\MiddlewarePipe` class itself -- particularly if you want to allow attaching other middleware to your own middleware. In such a case, you will generally override the `__invoke()` method to perform any additional logic you have, and then call on the parent in order to iterate through your stack of middleware:
 
 ```php
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipe;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -218,7 +218,7 @@ class CustomMiddleware extends MiddlewarePipe
 Another approach using this method would be to override the constructor to add in specific middleware, perhaps using configuration provided. In this case, make sure to also call `parent::__construct()` to ensure the middleware queue is initialized; I recommend doing this as the first action of the method.
 
 ```php
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\MiddlewarePipe;
 
 class CustomMiddleware extends MiddlewarePipe
 {
@@ -244,7 +244,7 @@ The following make up the primary API of Stratigility.
 
 ### Middleware
 
-`Zend\Stratigility\MiddlewarePipe` is the primary application interface, and has been discussed previously. Its API is:
+`Laminas\Stratigility\MiddlewarePipe` is the primary application interface, and has been discussed previously. Its API is:
 
 ```php
 class MiddlewarePipe implements MiddlewareInterface
@@ -263,7 +263,7 @@ class MiddlewarePipe implements MiddlewareInterface
 Middleware is executed in the order in which it is piped to the `MiddlewarePipe` instance.
 
 `__invoke()` is itself middleware. If `$out` is not provided, an instance of
-`Zend\Stratigility\FinalHandler` will be created, and used in the event that the pipe
+`Laminas\Stratigility\FinalHandler` will be created, and used in the event that the pipe
 stack is exhausted. The callable should use the same signature as `Next()`:
 
 ```php
@@ -275,11 +275,11 @@ function (
 }
 ```
 
-Internally, `MiddlewarePipe` creates an instance of `Zend\Stratigility\Next`, feeding it its queue, executes it, and returns a response.
+Internally, `MiddlewarePipe` creates an instance of `Laminas\Stratigility\Next`, feeding it its queue, executes it, and returns a response.
 
 ### Next
 
-`Zend\Stratigility\Next` is primarily an implementation detail of middleware, and exists to allow delegating to middleware registered later in the stack.
+`Laminas\Stratigility\Next` is primarily an implementation detail of middleware, and exists to allow delegating to middleware registered later in the stack.
 
 Because `Psr\Http\Message`'s interfaces are immutable, if you make changes to your Request and/or Response instances, you will have new instances, and will need to make these known to the next middleware in the chain. `Next` expects these arguments for every invocation. Additionally, if an error condition has occurred, you may pass an optional third argument, `$err`, representing the error condition.
 
@@ -392,7 +392,7 @@ function ($request, $response, $next)
 
 ### FinalHandler
 
-`Zend\Stratigility\FinalHandler` is a default implementation of middleware to execute when the stack exhausts itself. It expects three arguments when invoked: a request instance, a response instance, and an error condition (or `null` for no error). It returns a response.
+`Laminas\Stratigility\FinalHandler` is a default implementation of middleware to execute when the stack exhausts itself. It expects three arguments when invoked: a request instance, a response instance, and an error condition (or `null` for no error). It returns a response.
 
 `FinalHandler` allows an optional argument during instantiation, `$options`, an array of options with which to configure itself. These options currently include:
 
@@ -401,9 +401,9 @@ function ($request, $response, $next)
 
 ### HTTP Messages
 
-#### Zend\Stratigility\Http\Request
+#### Laminas\Stratigility\Http\Request
 
-`Zend\Stratigility\Http\Request` acts as a decorator for a `Psr\Http\Message\ServerRequestInterface` instance. The primary reason is to allow composing middleware such that you always have access to the original request instance.
+`Laminas\Stratigility\Http\Request` acts as a decorator for a `Psr\Http\Message\ServerRequestInterface` instance. The primary reason is to allow composing middleware such that you always have access to the original request instance.
 
 As an example, consider the following:
 
@@ -419,7 +419,7 @@ $server = Server::createServer($app2 /* ... */);
 
 In the above, if the URI of the original incoming request is `/root/foo`, what `$fooCallback` will receive is a URI with a past consisting of only `/foo`. This practice ensures that middleware can be nested safely and resolve regardless of the nesting level.
 
-If you want access to the full URI — for instance, to construct a fully qualified URI to your current middleware — `Zend\Stratigility\Http\Request` contains a method, `getOriginalRequest()`, which will always return the original request provided to the application:
+If you want access to the full URI — for instance, to construct a fully qualified URI to your current middleware — `Laminas\Stratigility\Http\Request` contains a method, `getOriginalRequest()`, which will always return the original request provided to the application:
 
 ```php
 function ($request, $response, $next)
@@ -431,9 +431,9 @@ function ($request, $response, $next)
 }
 ```
 
-#### Zend\Stratigility\Http\Response
+#### Laminas\Stratigility\Http\Response
 
-`Zend\Stratigility\Http\Response` acts as a decorator for a `Psr\Http\Message\ResponseInterface` instance, and also implements `Zend\Stratigility\Http\ResponseInterface`, which provides the following convenience methods:
+`Laminas\Stratigility\Http\Response` acts as a decorator for a `Psr\Http\Message\ResponseInterface` instance, and also implements `Laminas\Stratigility\Http\ResponseInterface`, which provides the following convenience methods:
 
 - `write()`, which proxies to the `write()` method of the composed response stream.
 - `end()`, which marks the response as complete; it can take an optional argument, which, when provided, will be passed to the `write()` method. Once `end()` has been called, the response is immutable.
