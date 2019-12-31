@@ -4,7 +4,7 @@ The following make up the primary API of Stratigility.
 
 ## Middleware
 
-`Zend\Stratigility\MiddlewarePipe` is the primary application interface, and has been discussed
+`Laminas\Stratigility\MiddlewarePipe` is the primary application interface, and has been discussed
 previously. Its API is:
 
 ```php
@@ -27,7 +27,7 @@ executed for that path and any subpaths.
 Middleware is executed in the order in which it is piped to the `MiddlewarePipe` instance.
 
 `__invoke()` is itself middleware. If `$out` is not provided, an instance of
-`Zend\Stratigility\FinalHandler` will be created, and used in the event that the pipe
+`Laminas\Stratigility\FinalHandler` will be created, and used in the event that the pipe
 stack is exhausted. The callable should use the same signature as `Next()`:
 
 ```php
@@ -39,12 +39,12 @@ function (
 }
 ```
 
-Internally, `MiddlewarePipe` creates an instance of `Zend\Stratigility\Next`, feeding it its queue,
+Internally, `MiddlewarePipe` creates an instance of `Laminas\Stratigility\Next`, feeding it its queue,
 executes it, and returns a response.
 
 ## Next
 
-`Zend\Stratigility\Next` is primarily an implementation detail of middleware, and exists to allow
+`Laminas\Stratigility\Next` is primarily an implementation detail of middleware, and exists to allow
 delegating to middleware registered later in the stack. It is implemented as a functor.
 
 Because `Psr\Http\Message`'s interfaces are immutable, if you make changes to your Request and/or
@@ -168,7 +168,7 @@ function ($request, $response, $next)
 
 ## FinalHandler
 
-`Zend\Stratigility\FinalHandler` is a default implementation of middleware to execute when the stack
+`Laminas\Stratigility\FinalHandler` is a default implementation of middleware to execute when the stack
 exhausts itself. It expects three arguments when invoked: a request instance, a response instance,
 and an error condition (or `null` for no error). It returns a response.
 
@@ -182,9 +182,9 @@ with which to configure itself. These options currently include:
 
 ## HTTP Messages
 
-### Zend\Stratigility\Http\Request
+### Laminas\Stratigility\Http\Request
 
-`Zend\Stratigility\Http\Request` acts as a decorator for a `Psr\Http\Message\ServerRequestInterface`
+`Laminas\Stratigility\Http\Request` acts as a decorator for a `Psr\Http\Message\ServerRequestInterface`
 instance. The primary reason is to allow composing middleware such that you always have access to
 the original request instance.
 
@@ -205,7 +205,7 @@ receive is a URI with a past consisting of only `/foo`. This practice ensures th
 nested safely and resolve regardless of the nesting level.
 
 If you want access to the full URI — for instance, to construct a fully qualified URI to your
-current middleware — `Zend\Stratigility\Http\Request` contains a method, `getOriginalRequest()`,
+current middleware — `Laminas\Stratigility\Http\Request` contains a method, `getOriginalRequest()`,
 which will always return the original request provided to the application:
 
 ```php
@@ -218,10 +218,10 @@ function ($request, $response, $next)
 }
 ```
 
-### Zend\Stratigility\Http\Response
+### Laminas\Stratigility\Http\Response
 
-`Zend\Stratigility\Http\Response` acts as a decorator for a `Psr\Http\Message\ResponseInterface`
-instance, and also implements `Zend\Stratigility\Http\ResponseInterface`, which provides the
+`Laminas\Stratigility\Http\Response` acts as a decorator for a `Psr\Http\Message\ResponseInterface`
+instance, and also implements `Laminas\Stratigility\Http\ResponseInterface`, which provides the
 following convenience methods:
 
 - `write()`, which proxies to the `write()` method of the composed response stream.

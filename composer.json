@@ -1,45 +1,56 @@
 {
-  "name": "zendframework/zend-stratigility",
-  "description": "Middleware for PHP",
-  "type": "library",
-  "license": "BSD-3-Clause",
-  "keywords": [
-    "http",
-    "psr-7",
-    "middleware"
-  ],
-  "homepage": "https://github.com/zendframework/zend-stratigility",
-  "support": {
-    "issues": "https://github.com/zendframework/zend-stratigility/issues",
-    "source": "https://github.com/zendframework/zend-stratigility"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0-dev",
-      "dev-develop": "1.1-dev"
+    "name": "laminas/laminas-stratigility",
+    "description": "Middleware for PHP",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "laminas",
+        "http",
+        "psr-7",
+        "middleware"
+    ],
+    "homepage": "https://laminas.dev",
+    "support": {
+        "docs": "https://docs.laminas.dev/laminas-stratigility/",
+        "issues": "https://github.com/laminas/laminas-stratigility/issues",
+        "source": "https://github.com/laminas/laminas-stratigility",
+        "rss": "https://github.com/laminas/laminas-stratigility/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev",
+            "dev-develop": "1.1-dev"
+        }
+    },
+    "require": {
+        "php": ">=5.4.8",
+        "laminas/laminas-escaper": "~2.3",
+        "laminas/laminas-zendframework-bridge": "^1.0",
+        "psr/http-message": "~1.0.0"
+    },
+    "require-dev": {
+        "laminas/laminas-diactoros": "~1.0",
+        "phpunit/phpunit": "3.7.*",
+        "squizlabs/php_codesniffer": "^2.3.1"
+    },
+    "suggest": {
+        "psr/http-message-implementation": "Please install a psr/http-message-implementation to consume Stratigility; e.g., laminas/laminas-diactoros"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\Stratigility\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\Stratigility\\": "test/"
+        }
+    },
+    "replace": {
+        "zendframework/zend-stratigility": "self.version"
     }
-  },
-  "require": {
-    "php": ">=5.4.8",
-    "psr/http-message": "~1.0.0",
-    "zendframework/zend-escaper": "~2.3"
-  },
-  "require-dev": {
-    "zendframework/zend-diactoros": "~1.0",
-    "phpunit/PHPUnit": "3.7.*",
-    "squizlabs/php_codesniffer": "^2.3.1"
-  },
-  "suggest": {
-    "psr/http-message-implementation": "Please install a psr/http-message-implementation to consume Stratigility; e.g., zendframework/zend-diactoros"
-  },
-  "autoload": {
-    "psr-4": {
-      "Zend\\Stratigility\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "ZendTest\\Stratigility\\": "test/"
-    }
-  }
 }
