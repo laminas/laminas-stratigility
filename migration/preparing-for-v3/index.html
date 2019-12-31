@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="laminas-stratigility">  
+    <link rel="canonical" href="https://docs.laminas.dev/migration/preparing-for-v3/">
+    <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>Preparing for version 3 - laminas-stratigility - Laminas Docs</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body id="page-top" class="components">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../..">laminas-stratigility</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-6 offset-md-2">
+                <h1 class="header__title">
+                    Components
+
+                    
+                        <small class="header__subtitle">laminas-stratigility</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-sm-right">
+                
+                    
+<div class="version-selector">
+    <div class="btn-group">
+        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            
+                v3
+            
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            
+                
+                    <li class="dropdown-menu__item">
+                        <a href="../../v3/intro/">
+                            
+                                v3 (latest)
+                            
+                        </a>
+                    </li>
+                
+            
+                
+                    <li class="dropdown-menu__item">
+                        <a href="../../v2/install/">
+                            
+                                v2
+                            
+                        </a>
+                    </li>
+                
+            
+                
+                    <li class="dropdown-menu__item">
+                        <a href="../../v1/install/">
+                            
+                                v1
+                            
+                        </a>
+                    </li>
+                
+            
+        </ul>
+    </div>
+</div>
+
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/laminas/laminas-stratigility/" class="header__link header__link--github" title="Go to repository of laminas-stratigility">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#middlewarepipe-and-path-segregation" class="toc__link">MiddlewarePipe and path segregation</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#extending-middlewarepipe" class="toc__link">Extending MiddlewarePipe</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#deprecated-classes" class="toc__link">Deprecated classes</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+            </div>
+            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="">Overview</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="../..">laminas-stratigility</a></li>
+
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Preparing for version 3</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+    <div class="alert alert-danger" role="alert">
+        <h4>Caution</h4>
+        <p>
+            The documentation you are viewing is for an older version of this component.<br>
+            <a href="../..">Switch to the latest (v3) version.</a>
+        </p>
+    </div>
+
+
+
+
+    
+    
+        <h2 class="chapter__headline"></h2>
+    
+
+    <h1 id="preparing-for-version-3">Preparing for version 3</h1>
+<ul>
+<li>Since 2.2.0</li>
+</ul>
+<p>Version 3 simplifies <code>MiddlewarePipe</code> and <code>Next</code> dramatically by restricting
+them to <a href="https://github.com/php-fig/fig-standards/tree/4b417c91b89fbedaf3283620ce432b6f51c80cc0/proposed/http-handlers">PSR-15</a>
+interface implementations and typehints. However, this also means a number of
+backwards compatibility breaks are coming.</p>
+<p>To help prepare you for the new version, we have provided a number of features
+you can adopt today in order to make your code forwards-compatible.
+Additionally, we have marked classes and methods as deprecated where necessary,
+and trigger <code>E_USER_DEPRECATED</code> errors when using functionality which will no
+longer be available.</p>
+<p>Below, we list the various changes, and propose ways in which you can update
+your code to be forwards-compatible.</p>
+<h2 id="middlewarepipe-and-path-segregation">MiddlewarePipe and path segregation</h2>
+<p>Starting in version 3, <code>MiddlewarePipe</code> and <code>Next</code> have significantly
+different behavior.</p>
+<p>First, the signature of <code>MiddlewarePipe::pipe()</code> will change to:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>public function pipe(</span>
+<span class=x>    MiddlewareInterface $middleware</span>
+<span class=x>) : void</span>
+</pre></div></p>
+<p>This means the following:</p>
+<ul>
+<li>You can no longer use <code>pipe()</code> to perform path segregation.</li>
+<li>You can no longer pipe callable middleware of any type.</li>
+</ul>
+<p>To support path segregation, we have introduced
+<code>Laminas\Stratigility\Middleware\PathMiddlewareDecorator</code>. This class accepts two
+arguments to its constructor: a string <code>$pathPrefix</code> (previously, the <code>$path</code>
+argument to <code>MiddlewarePipe::pipe()</code>), and a middleware implementation. This
+class has been backported to version 2.2.0, with usage as follows:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// Previously:</span>
+<span class=x>$pipeline-&gt;pipe(&#39;/api&#39;, $apiMiddleware);</span>
+
+<span class=x>// Version 2.2.0+:</span>
+<span class=x>use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;</span>
+<span class=x>$pipeline-&gt;pipe(new PathMiddlewareDecorator(&#39;/api&#39;, $apiMiddleware));</span>
+
+<span class=x>// OR:</span>
+<span class=x>use Laminas\Stratigility\path;</span>
+<span class=x>$pipeline-&gt;pipe(path(&#39;/api&#39;, $apiMiddleware));</span>
+</pre></div></p>
+<p>Path segregation using this middleware works exactly as it has in previous
+versions. (Internally, if you provide both a <code>$path</code> and <code>$middleware</code> argument,
+<code>MiddlewarePipe::pipe()</code> creates a <code>PathMiddlewareDecorator</code> instance from the
+two arguments).</p>
+<p><strong>Decorate middleware you need to segregate by path using
+<code>PathMiddlewareDecorator</code> or the <code>path()</code> utility function.</strong></p>
+<p>To support callable middleware, we have introduced two classes:</p>
+<ul>
+<li>
+<p><code>Laminas\Stratigility\Middleware\CallableMiddlewareDecorator</code> can be used to
+  decorate callable middleware following the PSR-15 signature. It replaces the
+  class <code>CallableInteropMiddlewareWrapper</code>.</p>
+</li>
+<li>
+<p><code>Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator</code> can be used to
+  decorate callable middleware following the double-pass signature. It replaces
+  the class <code>CallableMiddlewareWrapper</code>.</p>
+</li>
+</ul>
+<p>Use these classes to decorate your callable middleware when piping them:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// Previously (interop middleware):</span>
+<span class=x>$pipeline-&gt;pipe(function ($request, $delegate) {</span>
+<span class=x>    /* ... */</span>
+<span class=x>});</span>
+
+<span class=x>// Version 2.2.0+:</span>
+<span class=x>use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;</span>
+<span class=x>use Laminas\Stratigility\middleware;</span>
+<span class=x>$pipeline-&gt;pipe(new CallableMiddlewareDecorator(function ($request, $delegate) {</span>
+<span class=x>    /* ... */</span>
+<span class=x>}));</span>
+<span class=x>// or:</span>
+<span class=x>$pipeline-&gt;pipe(middleware(function ($request, $delegate) {</span>
+<span class=x>    /* ... */</span>
+<span class=x>}));</span>
+
+<span class=x>// Previously (double-pass middleware):</span>
+<span class=x>$pipeline-&gt;pipe(function ($request, $response, $next) {</span>
+<span class=x>    /* ... */</span>
+<span class=x>});</span>
+
+<span class=x>// Version 2.2.0+:</span>
+<span class=x>use Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator;</span>
+<span class=x>use Laminas\Stratigility\doublePassMiddleware;</span>
+<span class=x>$pipeline-&gt;pipe(new DoublePassMiddlewareDecorator(function ($request, $response, $next) {</span>
+<span class=x>    /* ... */</span>
+<span class=x>}));</span>
+<span class=x>// or:</span>
+<span class=x>$pipeline-&gt;pipe(doublePassMiddleware(function ($request, $response, $next) {</span>
+<span class=x>    /* ... */</span>
+<span class=x>}));</span>
+</pre></div></p>
+<p>If you pipe callables directly, you will now trigger an <code>E_USER_DEPRECATION</code>
+error. Internally, <code>MiddlewarePipe::pipe()</code> will decorate them using the classes
+noted above.</p>
+<p><strong>Decorate callable middleware before piping using either
+<code>CallableMiddlewareDecorator</code> or <code>DoublePassMiddlewareDecorator</code> or the relevant
+utility functions as noted in the examples above.</strong></p>
+<h2 id="extending-middlewarepipe">Extending MiddlewarePipe</h2>
+<p>Starting in version 3, <code>Laminas\Stratigility\MiddlewarePipe</code> is marked as <code>final</code>.
+This means you will no longer be able to directly extend it.</p>
+<p>We recommend the following:</p>
+<ul>
+<li>
+<p>If you are extending the class for the sole purpose of piping specific
+  middleware, create a PSR-15 <code>MiddlewareInterface</code> implementation, and compose
+  a <code>MiddlewarePipe</code> internally; have your <code>process()</code> method proxy to it.
+  (You could also optionally implement <code>RequestHandlerInterface</code>, which
+  <code>MiddlewarePipe</code> does in version 3.)</p>
+</li>
+<li>
+<p>If you are extending the class in order to provide additional features or
+  override methods, create your own PSR-15 <code>MiddlewareInterface</code> implementation
+  to do so, and copy and paste methods from <code>MiddlewarePipe</code> as needed,
+  providing the changes you need within your version.</p>
+</li>
+</ul>
+<h2 id="deprecated-classes">Deprecated classes</h2>
+<p>The following classes are now marked as deprecated. Where alternatives are
+available, we note them. If no alternative is available, we note why.</p>
+<h3><code>Laminas\Stratigility\MiddlewareInterface</code></h3>
+<p>This interface has been marked as deprecated since 2.0.0, and unused internally
+since that release. It is removed with version 3.0.0.</p>
+<h3><code>Laminas\Stratigility\Route</code></h3>
+<p>This is an internal message shared between a <code>MiddlewarePipe</code> and a <code>Next</code>
+instance for purposes of path segregation. In general, it should never be
+consumed directly; however, it was never marked as internal or final previously.</p>
+<p>If you are extending this class or manipulating instances manually, be aware
+that this class is removed in version 3 as it is no longer used internally.</p>
+<h3><code>Laminas\Stratigility\Exception\InvalidMiddlewareException</code></h3>
+<p>This was thrown by <code>MiddlewarePipe::pipe()</code>. In version 3, since the sole
+argument to that method is type-hinted against the PSR-15 <code>MiddlewareInterface</code>,
+it is no longer used.</p>
+<h3><code>Laminas\Stratigility\Exception\InvalidRequestTypeException</code></h3>
+<p>This has not been used internally since before version 2.</p>
+<h3><code>Laminas\Stratigility\Delegate\CallableDelegateDecorator</code></h3>
+<p>This was an internal class used by several classes when they were being used
+within double-pass systems in order to cast a <code>callable $next</code> argument into a
+<code>Interop\Http\ServerMiddleware\DelegateInterface</code> instance. Since version 3 will
+no longer support operation directly within a double-pass architecture, this
+class will be removed.</p>
+<p>Methods that produce an instance include:
+- <code>MiddlewarePipe::__invoke()</code>
+- <code>NotFoundHandler::__invoke()</code>
+- <code>ErrorHandler::__invoke()</code></p>
+<h3><code>Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper</code></h3>
+<p>This class has been deprecated in favor of a new class,
+<code>Laminas\Stratigility\Middleware\CallableMiddlewareDecorator</code>.</p>
+<h3><code>Laminas\Stratigility\Middleware\CallableMiddlewareWrapper</code></h3>
+<p>This class has been deprecated in favor of a new class,
+<code>Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator</code>.</p>
+<h3><code>Laminas\Stratigility\Middleware\CallableMiddlewareWrapperFactory</code></h3>
+<p>The primary purpose of this class was for composition within a <code>MiddlewarePipe</code>
+for purposes of decorating callable double-pass middleware. Since
+<code>MiddlewarePipe::pipe()</code> will no longer accept callables, it will also no longer
+need to compose this factory.</p>
+<h3><code>Laminas\Stratigility\Middleware\NoopFinalFactory</code></h3>
+<p>This class has no internal usage, and is removed in version 3.</p>
+
+
+
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/laminas/laminas-stratigility/edit/master/docs/book/migration/preparing-for-v3.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../..">laminas-stratigility</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+
+                    
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 offset-md-2">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
+                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-4 offset-md-2">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/getlaminas" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">License</h4>
+                <p>
+                    Code licensed under <a
+                        href="https://github.com/laminas/laminas-stratigility//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                </p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>
+                    <!--Built with love by the Laminas team with the help of our
+                    <a href="https://github.com/laminas/laminas-stratigility//graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '../..',
+            project  = "components",
+            siteName = 'laminas-stratigility';
+    </script>
+    <script src="/js/scripts.js"></script>
+        <script src="../../search/main.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in laminas-stratigility" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>

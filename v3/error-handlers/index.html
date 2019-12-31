@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="laminas-stratigility">  
+    <link rel="canonical" href="https://docs.laminas.dev/v3/error-handlers/">
+    <link rel="shortcut icon" href="/img/trademark-laminas-foundation-rgb.svg">
+
+    <title>Error Handlers - laminas-stratigility - Laminas Docs</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body id="page-top" class="components">
+
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        
+        <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+        </a>
+        <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
+            Documentation
+        </a>
+
+        
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
+                </li>
+            </ul>
+
+            
+            
+                <div class="d-block d-sm-none">
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../..">laminas-stratigility</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Intro</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Reference</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../install/" class="subnavigation__link">Installation and Requirements</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../usage/" class="subnavigation__link">Usage</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../middleware/" class="subnavigation__link">Middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Error Handlers</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../creating-middleware/" class="subnavigation__link">Creating Middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../executing-middleware/" class="subnavigation__link">Composing middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../api/" class="subnavigation__link">API Reference</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/" class="subnavigation__link">Migration</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                
+            
+        </ul>
+    </div>
+
+                </div>
+            
+
+            
+            <div class="d-block d-sm-none">
+                <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    
+    <header class="header">
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="col-6 offset-md-2">
+                <h1 class="header__title">
+                    Components
+
+                    
+                        <small class="header__subtitle">laminas-stratigility</small>
+                    
+                </h1>
+            </div>
+
+            
+            <div class="col-4 text-sm-right">
+                
+                    
+<div class="version-selector">
+    <div class="btn-group">
+        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            
+                v3
+            
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            
+                
+                    <li class="dropdown-menu__item dropdown-menu__item--selected">
+                        <a href="../intro/">
+                            
+                                v3 (latest)
+                            
+                        </a>
+                    </li>
+                
+            
+                
+                    <li class="dropdown-menu__item">
+                        <a href="../../v2/install/">
+                            
+                                v2
+                            
+                        </a>
+                    </li>
+                
+            
+                
+                    <li class="dropdown-menu__item">
+                        <a href="../../v1/install/">
+                            
+                                v1
+                            
+                        </a>
+                    </li>
+                
+            
+        </ul>
+    </div>
+</div>
+
+
+                    <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                    <a href="https://github.com/laminas/laminas-stratigility/" class="header__link header__link--github" title="Go to repository of laminas-stratigility">
+                        <i class="fa fa-github"></i> GitHub
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-sm-12">
+                
+    
+
+    
+    
+        <div class="toc">
+            <h6 class="toc__headline">On this page</h6>
+            <ul class="toc__list">
+                
+                    <li class="toc__entry">
+                        <a href="#handling-404-conditions" class="toc__link">Handling 404 conditions</a>
+                    </li>
+                
+                    <li class="toc__entry">
+                        <a href="#handling-php-errors-and-exceptions" class="toc__link">Handling PHP errors and exceptions</a>
+                    </li>
+                
+            </ul>
+        </div>
+    
+
+            </div>
+            <div class="col-md-7 col-sm-12 content" role="main" data-spy="scroll" data-target=".toc">
+                
+                    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        
+            <li class="breadcrumb-item"><a href="">Overview</a></li>
+
+            
+                <li class="breadcrumb-item"><a href="../..">laminas-stratigility</a></li>
+
+                
+                    
+                        
+                        
+                    
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Reference</li>
+                        
+                    
+                
+
+                <li class="breadcrumb-item active" aria-current="page">Error Handlers</li>
+            
+        
+    </ol>
+</nav>
+
+
+
+
+
+
+    
+    
+        <h2 class="chapter__headline">Reference</h2>
+    
+
+    <h1 id="error-handlers">Error Handlers</h1>
+<p>In your application, you may need to handle error conditions:</p>
+<ul>
+<li>Errors raised by PHP itself (e.g., inability to open a file or database
+  connection).</li>
+<li>Exceptions/throwables raised by PHP and/or code you write or consume.</li>
+<li>Inability of any middleware to handle a request.</li>
+</ul>
+<p>You can typically handle these conditions via middleware itself.</p>
+<h2 id="handling-404-conditions">Handling 404 conditions</h2>
+<p>If no middleware is able to handle the incoming request, this is typically
+representative of an HTTP 404 status. Stratigility provides a barebones
+middleware that you may register in an innermost layer that will return a 404
+condition, <code>Laminas\Stratigility\Middleware\NotFoundHandler</code>. The class requires a
+response prototype instance that it will use to provide the 404 status and a
+message indicating the request method and URI used:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// setup layers</span>
+<span class=x>$app-&gt;pipe(/* ... */);</span>
+<span class=x>$app-&gt;pipe(/* ... */);</span>
+<span class=x>$app-&gt;pipe(new NotFoundHandler(new Response());</span>
+
+<span class=x>// execute application</span>
+</pre></div></p>
+<p>Note that it is the last middleware piped into the application! Since it returns
+a response, no deeper nested layers will execute once it has been invoked.</p>
+<p>If you would like a templated response, you will need to write your own
+middleware; such middleware might look like the following:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Http\Message\ResponseInterface;</span>
+<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
+<span class=x>use Psr\Http\Server\MiddlewareInterface;</span>
+<span class=x>use Psr\Http\Server\RequestHandlerInterface;</span>
+
+<span class=x>class NotFoundMiddleware implements MiddlewareInterface</span>
+<span class=x>{</span>
+<span class=x>    private $renderer;</span>
+
+<span class=x>    public function __construct(</span>
+<span class=x>        TemplateRendererInterface $renderer,</span>
+<span class=x>        ResponseInterface $response</span>
+<span class=x>    ) {</span>
+<span class=x>        $this-&gt;renderer = $renderer;</span>
+<span class=x>        $this-&gt;response = $response;</span>
+<span class=x>    }</span>
+
+<span class=x>    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)</span>
+<span class=x>    {</span>
+<span class=x>        $response = $this-&gt;response-&gt;withStatus(404);</span>
+<span class=x>        $response-&gt;getBody()-&gt;write(</span>
+<span class=x>            $this-&gt;renderer-&gt;render(&#39;error::404&#39;)</span>
+<span class=x>        );</span>
+<span class=x>        return $response;</span>
+<span class=x>    }</span>
+<span class=x>}</span>
+</pre></div></p>
+<h2 id="handling-php-errors-and-exceptions">Handling PHP errors and exceptions</h2>
+<p><code>Laminas\Stratigility\Middleware\ErrorHandler</code> is a middleware implementation to
+register as the <em>outermost layer</em> of your application (or close to the outermost
+layer). It does the following:</p>
+<ul>
+<li>Creates a PHP error handler that catches any errors in the <code>error_handling()</code>
+  mask and throws them as <code>ErrorException</code> instances.</li>
+<li>Wraps the invocation of the delegate in a try/catch block:</li>
+<li>if no exception is caught, and the result is a response, it returns it.</li>
+<li>if no exception is caught, it raises an exception, which will be caught.</li>
+<li>any caught exception is transformed into an error response.</li>
+</ul>
+<p>To generate the error response, we provide the ability to inject a callable with
+the following signature into the <code>ErrorHandler</code> during instantiation:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>Psr\Http\Message\ResponseInterface;</span>
+<span class=x>Psr\Http\Message\ServerRequestInterface;</span>
+
+<span class=x>function (</span>
+<span class=x>    Throwable|Exception $e,</span>
+<span class=x>    ServerRequestInterface $request,</span>
+<span class=x>    ResponseInterface $response</span>
+<span class=x>) : ResponseInterface</span>
+</pre></div></p>
+<p>We provide a default implementation, <code>Laminas\Stratigility\Middleware\ErrorResponseGenerator</code>,
+which generates an error response with a <code>5XX</code> series status code and a message
+derived from the reason phrase, if any is present. You may pass a boolean flag
+to its constructor indicating the application is in development mode; if so, the
+response will have the stack trace included in the body.</p>
+<p>In order to work, the <code>ErrorHandler</code> needs a prototype response instance, and,
+optionally, an error response generator (if none is provided,
+<code>ErrorResponseGenerator</code> is used, in production mode):</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// setup error handling</span>
+<span class=x>$app-&gt;pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDevelopmentMode));</span>
+
+<span class=x>// setup layers</span>
+<span class=x>$app-&gt;pipe(/* ... */);</span>
+<span class=x>$app-&gt;pipe(/* ... */);</span>
+</pre></div></p>
+<p>As a full example, you can combine the two middleware into the same application
+as separate layers:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>// setup error handling</span>
+<span class=x>$app-&gt;pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDevelopmentMode));</span>
+
+<span class=x>// setup layers</span>
+<span class=x>$app-&gt;pipe(/* ... */);</span>
+<span class=x>$app-&gt;pipe(/* ... */);</span>
+
+<span class=x>// setup 404 handling</span>
+<span class=x>$app-&gt;pipe(new NotFoundHandler(new Response());</span>
+
+<span class=x>// execute application</span>
+</pre></div></p>
+<p>The <code>ErrorResponseGenerator</code> provides no templating facilities, and only
+responds as <code>text/html</code>. If you want to provide a templated response, or a
+different serialization and/or markup format, you will need to write your own
+error response generator.</p>
+<p>As an example:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>use ErrorException;</span>
+<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
+<span class=x>use Psr\Http\Message\ResponseInterface;</span>
+<span class=x>use Throwable;</span>
+<span class=x>use Laminas\Stratigility\Exception\MissingResponseException;</span>
+<span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
+
+<span class=x>class TemplatedErrorResponseGenerator</span>
+<span class=x>{</span>
+<span class=x>    private $isDevelopmentMode;</span>
+<span class=x>    private $renderer;</span>
+
+<span class=x>    public function __construct(</span>
+<span class=x>        TemplateRendererInterface $renderer,</span>
+<span class=x>        $isDevelopmentMode = false</span>
+<span class=x>    ) {</span>
+<span class=x>        $this-&gt;renderer = $renderer;</span>
+<span class=x>        $this-&gt;isDevelopmentMode = $isDevelopmentMode;</span>
+<span class=x>    }</span>
+
+<span class=x>    public function __invoke(Throwable $e, ServerRequestInterface $request, ResponseInterface $response)</span>
+<span class=x>    {</span>
+<span class=x>        $response = $response-&gt;withStatus(500);</span>
+<span class=x>        $response-&gt;getBody()-&gt;write($this-&gt;renderer-&gt;render(&#39;error::error&#39;, [</span>
+<span class=x>            &#39;exception&#39;        =&gt; $e,</span>
+<span class=x>            &#39;development_mode&#39; =&gt; $this-&gt;isDevelopmentMode,</span>
+<span class=x>        ]));</span>
+<span class=x>        return $response;</span>
+<span class=x>    }</span>
+<span class=x>}</span>
+</pre></div></p>
+<p>You would then pass this to the <code>ErrorHandler</code>:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(new ErrorHandler(</span>
+<span class=x>    new Response(),</span>
+<span class=x>    new TemplatedErrorResponseGenerator($renderer, $isDevelopmentMode)</span>
+<span class=x>));</span>
+</pre></div></p>
+<h3>ErrorHandler Listeners</h3>
+<p><code>Laminas\Stratigility\Middleware\ErrorHandler</code> provides the ability to attach
+<em>listeners</em>; these are triggered when an error or exception is caught, and
+provided with the exception/throwable raised, the original request, and the
+final response. These instances are considered immutable, so listeners are for
+purposes of logging/monitoring only.</p>
+<p>Listeners must implement the following signature:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>Psr\Http\Message\ResponseInterface;</span>
+<span class=x>Psr\Http\Message\ServerRequestInterface;</span>
+
+<span class=x>function (</span>
+<span class=x>    Throwable|Exception $e,</span>
+<span class=x>    ServerRequestInterface $request,</span>
+<span class=x>    ResponseInterface $response</span>
+<span class=x>) : void</span>
+</pre></div></p>
+<p>Attach listeners using <code>ErrorHandler::attachListener()</code>:</p>
+<p> <div class=codehilite><pre><span></span><span class=x>$errorHandler-&gt;attachListener(function ($throwable, $request, $response) use ($logger) {</span>
+<span class=x>    $message = sprintf(</span>
+<span class=x>        &#39;[%s] %s %s: %s&#39;,</span>
+<span class=x>        date(&#39;Y-m-d H:i:s&#39;),</span>
+<span class=x>        $request-&gt;getMethod(),</span>
+<span class=x>        (string) $request-&gt;getUri(),</span>
+<span class=x>        $throwable-&gt;getMessage()</span>
+<span class=x>    );</span>
+<span class=x>    $logger-&gt;error($message);</span>
+<span class=x>});</span>
+</pre></div></p>
+
+
+
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../middleware/">
+                    <i class="fa fa-chevron-left"></i> Previous
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../creating-middleware/">
+                    Next <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
+
+
+
+
+    <div class="help-wanted">
+        <p>
+            Found a mistake or want to contribute to the documentation?
+            <a href="https://github.com/laminas/laminas-stratigility/edit/master/docs/book/v3/error-handlers.md" target="_blank" class="help-wanted__link">
+                Edit this page on GitHub!
+            </a>
+        </p>
+    </div>
+
+                
+            </div>
+            <div class="col-md-3 col-sm-12 sidebar">
+                
+                    <div class="component-selector">
+    
+    <h5 class="component-selector__subtitle">Find documentation…</h5>
+    <select class="form-control component-selector__control">
+        <option value="/">Overview</option>
+        <optgroup label="Components"></optgroup>
+    </select>
+</div>
+                    
+    <div class="subnavigation hidden-print">
+        <h4 class="subnavigation__title">
+            <a href="../..">laminas-stratigility</a>
+        </h4>
+
+        <h5 class="subnavigation__subtitle">Table of Contents</h5>
+
+        <ul class="subnavigation__list">
+            
+
+                
+                
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Intro</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Reference</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../install/" class="subnavigation__link">Installation and Requirements</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../usage/" class="subnavigation__link">Usage</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../middleware/" class="subnavigation__link">Middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Error Handlers</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../creating-middleware/" class="subnavigation__link">Creating Middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../executing-middleware/" class="subnavigation__link">Composing middleware</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../api/" class="subnavigation__link">API Reference</a>
+    </li>
+
+            
+                
+    <li class="subnavigation__list-item ">
+        <a href="../migration/" class="subnavigation__link">Migration</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                
+            
+
+                
+                
+
+                    
+                    
+                
+            
+        </ul>
+    </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    
+    <footer class="footer">
+    <div class="container">
+
+        
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a class="footer__button" href="#page-top"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 offset-md-2">
+                <h5>Laminas</h5>
+                <ul>
+                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
+                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+
+            
+            <div class="col-md-4 offset-md-2">
+                <h4 class="footer__headline">Support</h4>
+                <ul class="support__list">
+                    <li class="support__list-item">
+                        <a href="https://discourse.laminas.dev" class="support__link" title="Forum"><i class="fa fa-comments"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://laminas.dev/chat" class="support__link" title="Chat"><i class="fa fa-slack"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://github.com/laminas" class="support__link" title="Github"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://twitter.com/getlaminas" class="support__link" title="Twitter"><i class="fa fa-twitter"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/blog/feed-rss.xml" class="support__link" title="Blog feed"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="support__list-item">
+                        <a href="https://getlaminas.org/security/feed" class="support__link" title="Security feed"><i class="fa fa-rss-square"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">License</h4>
+                <p>
+                    Code licensed under <a
+                        href="https://github.com/laminas/laminas-stratigility//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                </p>
+            </div>
+
+            
+            <div class="col-md-3">
+                <h4 class="footer__headline">Copyright</h4>
+                <p>
+                    <!--Built with love by the Laminas team with the help of our
+                    <a href="https://github.com/laminas/laminas-stratigility//graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        let base_url = '../..',
+            project  = "components",
+            siteName = 'laminas-stratigility';
+    </script>
+    <script src="/js/scripts.js"></script>
+        <script src="../../search/main.js"></script>
+
+    
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Search</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search in laminas-stratigility" id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+</html>
