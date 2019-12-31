@@ -6,12 +6,16 @@
  * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace Laminas\Stratigility\Exception;
+namespace Zend\Stratigility;
+
+use Psr\Http\Message\ResponseInterface;
+
+use function Laminas\Stratigility\middleware as laminas_middleware;
 
 /**
- * @deprecated since 2.2.0; to be removed in 3.0.0. The need for this class
- *     disappears with strict types in PHP 7.
+ * @deprecated Use Laminas\Stratigility\middleware instead
  */
-class InvalidArgumentException extends \InvalidArgumentException
+function middleware(callable $middleware)
 {
+    laminas_middleware(...func_get_args());
 }
