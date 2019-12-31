@@ -1,11 +1,12 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Stratigility;
+namespace Laminas\Stratigility;
 
 use Psr\Http\Message\ResponseInterface;
 
@@ -21,7 +22,7 @@ use Psr\Http\Message\ResponseInterface;
  * </code>
  *
  * Optionally, pass a response prototype as well, if using a PSR-7
- * implementation other than zend-diactoros:
+ * implementation other than laminas-diactoros:
  *
  * <code>
  * $pipeline->pipe(doublePassMiddleware(function ($req, $res, $next) {

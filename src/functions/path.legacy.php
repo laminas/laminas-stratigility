@@ -6,12 +6,16 @@
  * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace Laminas\Stratigility\Exception;
+namespace Zend\Stratigility;
+
+use Webimpress\HttpMiddlewareCompatibility\MiddlewareInterface;
+
+use function Laminas\Stratigility\path as laminas_path;
 
 /**
- * @deprecated since 2.2.0; to be removed in 3.0.0. The need for this class
- *     disappears with strict types in PHP 7.
+ * @deprecated Use Laminas\Stratigility\path instead
  */
-class InvalidArgumentException extends \InvalidArgumentException
+function path($path, MiddlewareInterface $middleware)
 {
+    laminas_path(...func_get_args());
 }

@@ -1,12 +1,25 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015-2018 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Stratigility;
+namespace LaminasTest\Stratigility;
 
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest as Request;
+use Laminas\Diactoros\Uri;
+use Laminas\Stratigility\Exception\InvalidMiddlewareException;
+use Laminas\Stratigility\Exception\MissingResponsePrototypeException;
+use Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
+use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
+use Laminas\Stratigility\Middleware\CallableMiddlewareWrapper;
+use Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator;
+use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\NoopFinalHandler;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\RequestInterface;
@@ -15,18 +28,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use ReflectionProperty;
 use Webimpress\HttpMiddlewareCompatibility\HandlerInterface as DelegateInterface;
 use Webimpress\HttpMiddlewareCompatibility\MiddlewareInterface as ServerMiddlewareInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest as Request;
-use Zend\Diactoros\Uri;
-use Zend\Stratigility\Exception\InvalidMiddlewareException;
-use Zend\Stratigility\Exception\MissingResponsePrototypeException;
-use Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
-use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
-use Zend\Stratigility\Middleware\CallableMiddlewareDecorator;
-use Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator;
-use Zend\Stratigility\Middleware\PathMiddlewareDecorator;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\NoopFinalHandler;
 
 use const Webimpress\HttpMiddlewareCompatibility\HANDLER_METHOD;
 
