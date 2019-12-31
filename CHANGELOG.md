@@ -22,7 +22,7 @@ details.
 
 ### Fixed
 
-- [#39](https://github.com/zendframework/zend-stratigility/pull/39) updates the
+- [zendframework/zend-stratigility#39](https://github.com/zendframework/zend-stratigility/pull/39) updates the
   FinalHandler to ensure that emitted exception messages include previous
   exceptions.
 
@@ -42,8 +42,8 @@ details.
 
 ### Fixed
 
-- [#32](https://github.com/zendframework/zend-stratigility/pull/32) updates the
-  request and response typehints in `Zend\Stratigility\Dispatch` to use the
+- [zendframework/zend-stratigility#32](https://github.com/zendframework/zend-stratigility/pull/32) updates the
+  request and response typehints in `Laminas\Stratigility\Dispatch` to use the
   corresponding PSR-7 interfaces, instead of the Stratigility-specific
   decorators. This fixes issues when calling `$next()` with non-Stratigility
   instances of either.
@@ -64,7 +64,7 @@ details.
 
 ### Fixed
 
-- [#25](https://github.com/zendframework/zend-stratigility/pull/25) modifies the
+- [zendframework/zend-stratigility#25](https://github.com/zendframework/zend-stratigility/pull/25) modifies the
   constructor of `Next` to clone the incoming `SplQueue` instance, ensuring the
   original can be re-used for subsequent invocations (e.g., within an async
   listener environment such as React).
@@ -73,7 +73,7 @@ details.
 
 ### Added
 
-- [#13](https://github.com/zendframework/zend-stratigility/pull/13) adds
+- [zendframework/zend-stratigility#13](https://github.com/zendframework/zend-stratigility/pull/13) adds
   `Utils::getStatusCode($error, ResponseInterface $response)`; this static
   method will attempt to use an exception code as an HTTP status code, if it
   falls in a valid HTTP error status range. If the error is not an exception, it
@@ -89,7 +89,7 @@ details.
 
 ### Fixed
 
-- [#12](https://github.com/zendframework/zend-stratigility/pull/12) updates
+- [zendframework/zend-stratigility#12](https://github.com/zendframework/zend-stratigility/pull/12) updates
   `FinalHandler` such that it will return the response provided at invocation
   if it differs from the response at initialization (i.e., a new response
   instance, or if the body size has changed). This allows you to safely call
@@ -99,7 +99,7 @@ details.
 
 ### Added
 
-- [#14](https://github.com/zendframework/zend-stratigility/pull/14) adds
+- [zendframework/zend-stratigility#14](https://github.com/zendframework/zend-stratigility/pull/14) adds
   [bookdown](http://bookdown.io) documentation.
 
 ### Deprecated
@@ -118,7 +118,7 @@ details.
 
 ### Added
 
-- [#8](https://github.com/zendframework/zend-stratigility/pull/8) adds a
+- [zendframework/zend-stratigility#8](https://github.com/zendframework/zend-stratigility/pull/8) adds a
   `phpcs.xml` PHPCS configuration file, allowing execution of each of `phpcs`
   and `phpcbf` without arguments.
 
@@ -132,7 +132,7 @@ details.
 
 ### Fixed
 
-- [#7](https://github.com/zendframework/zend-stratigility/pull/7) ensures that
+- [zendframework/zend-stratigility#7](https://github.com/zendframework/zend-stratigility/pull/7) ensures that
   arity checks on PHP callables in array format (`[$instance, $method]`,
   `['ClassName', 'method']`) work, as well as on static methods using the string
   syntax (`'ClassName::method'`). This allows them to be used without issue as
@@ -140,7 +140,7 @@ details.
 
 ## 1.0.0 - 2015-05-14
 
-First stable release, and first relase as `zend-stratigility`.
+First stable release, and first relase as `laminas-stratigility`.
 
 ### Added
 

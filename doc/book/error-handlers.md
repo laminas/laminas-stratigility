@@ -6,7 +6,7 @@ To handle errors, you can write middleware that accepts **exactly** four argumen
 function ($error, $request, $response, $next) { }
 ```
 
-Alternately, you can implement `Zend\Stratigility\ErrorMiddlewareInterface`.
+Alternately, you can implement `Laminas\Stratigility\ErrorMiddlewareInterface`.
 
 When using `MiddlewarePipe`, as the queue is executed, if `$next()` is called with an argument, or
 if an exception is thrown, middleware will iterate through the queue until the first such error

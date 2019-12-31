@@ -1,29 +1,28 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Stratigility;
+namespace LaminasTest\Stratigility;
 
+use Laminas\Stratigility\Dispatch;
+use Laminas\Stratigility\Route;
 use PHPUnit_Framework_TestCase as TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
-use Zend\Stratigility\Dispatch;
-use Zend\Stratigility\Route;
 
 class DispatchTest extends TestCase
 {
     public function setUp()
     {
-        $this->request  = $this->getMockBuilder('Zend\Stratigility\Http\Request')
+        $this->request  = $this->getMockBuilder('Laminas\Stratigility\Http\Request')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->response = $this->getMockBuilder('Zend\Stratigility\Http\Response')
+        $this->response = $this->getMockBuilder('Laminas\Stratigility\Http\Response')
             ->disableOriginalConstructor()
             ->getMock();
     }
