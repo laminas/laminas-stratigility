@@ -1,16 +1,22 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Stratigility;
+namespace LaminasTest\Stratigility;
 
 use Interop\Http\Middleware\DelegateInterface;
 use Interop\Http\Middleware\ServerMiddlewareInterface;
+use Laminas\Stratigility\Dispatch;
+use Laminas\Stratigility\ErrorMiddlewareInterface;
+use Laminas\Stratigility\Exception;
+use Laminas\Stratigility\Http;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\Next;
+use Laminas\Stratigility\Route;
 use PHPUnit_Framework_Assert as Assert;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
@@ -20,13 +26,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use RuntimeException;
 use stdClass;
 use TypeError;
-use Zend\Stratigility\Dispatch;
-use Zend\Stratigility\ErrorMiddlewareInterface;
-use Zend\Stratigility\Exception;
-use Zend\Stratigility\Http;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Next;
-use Zend\Stratigility\Route;
 
 class DispatchTest extends TestCase
 {
@@ -230,7 +229,7 @@ class DispatchTest extends TestCase
                 $this->response->reveal(),
                 self::callback(function (TypeError $throwable) {
                     self::assertStringStartsWith(
-                        'Argument 1 passed to ZendTest\Stratigility\DispatchTest::ZendTest\Stratigility\{closure}()'
+                        'Argument 1 passed to LaminasTest\Stratigility\DispatchTest::LaminasTest\Stratigility\{closure}()'
                         . ' must be an instance of stdClass, string given',
                         $throwable->getMessage()
                     );

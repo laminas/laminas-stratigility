@@ -11,13 +11,13 @@ changes will still require changes to your code following the 2.0 release.
 ## Original request, response, and URI
 
 In the original 1.X releases, Stratigility would decorate the request and
-response instances with `Zend\Stratigility\Http\Request` and
-`Zend\Stratigility\Http\Response`, respectively. This was done to facilitate
+response instances with `Laminas\Stratigility\Http\Request` and
+`Laminas\Stratigility\Http\Response`, respectively. This was done to facilitate
 access to the incoming request in cases of nested layers, where the URI path
 may have been truncated (`Next` truncates matched paths when executing a layer
 if a path was provided when piping the middleware).
 
-Internally, prior to 1.3, only `Zend\Stratigility\FinalHandler` was still using
+Internally, prior to 1.3, only `Laminas\Stratigility\FinalHandler` was still using
 this functionality:
 
 - It would query the original request to get the original URI when creating a
@@ -30,7 +30,7 @@ against their usage.
 If you still need access to the original request, response, or URI instance, we
 recommend the following:
 
-- Pipe `Zend\Stratigility\Middleware\OriginalMessages` as the outermost layer of
+- Pipe `Laminas\Stratigility\Middleware\OriginalMessages` as the outermost layer of
   your application. This will inject the following request attributes into
   layers beneath it:
     - `originalRequest`, mapping to the request provided to it at invocation.
@@ -54,7 +54,7 @@ Finally, if you are creating an `onerror` handler for the `FinalHandler`, update
 your typehints to refer to the PSR-7 request and response interfaces instead of
 the Stratigility decorators, if you aren't already.
 
-The `Zend\Stratigility\Http` classes, interfaces, and namespace will be removed
+The `Laminas\Stratigility\Http` classes, interfaces, and namespace will be removed
 in version 2.0.0.
 
 ## Error handling
@@ -93,7 +93,7 @@ well as augmented existing functionality:
 
 - [NotFoundHandler middleware](../error-handlers.md#handling-404-conditions)
 - [ErrorHandler middleware](../error-handlers.md#handling-php-errors-and-exceptions)
-- `Zend\Stratigility\NoopFinalHandler` (see next section)
+- `Laminas\Stratigility\NoopFinalHandler` (see next section)
 
 Updating your application to use these features will ensure you are forwards
 compatible with version 2 releases.
@@ -111,21 +111,21 @@ of "final" handler that can do so. (In fact, starting in version 2, the `$out`
 argument will be renamed to `$delegate`, and will be a required argument for
 invoking the `MiddlewarePipe`.)
 
-Starting in version 1.3, we now offer a `Zend\Stratigility\NoopFinalHandler`
+Starting in version 1.3, we now offer a `Laminas\Stratigility\NoopFinalHandler`
 implementation, which simply returns the response passed to it. You can compose
 it in your application in one of two ways:
 
 - By passing it explicitly when invoking the middleware pipeline.
-- By passing it to `Zend\Diactoros\Server::listen()`.
+- By passing it to `Laminas\Diactoros\Server::listen()`.
 
-If you are not using `Zend\Diactoros\Server` to execute your application, but
+If you are not using `Laminas\Diactoros\Server` to execute your application, but
 instead invoking your pipeline manually, use the following:
 
 ```php
 $response = $app($request, $response, new NoopFinalHandler());
 ```
 
-If you are using `Zend\Diactoros\Server`, you will need to pass the final
+If you are using `Laminas\Diactoros\Server`, you will need to pass the final
 handler you wish to use as an argument to the `listen()` method; that method
 will then pass that value as the third argument to `MiddlewarePipe` as shown
 above:
@@ -144,12 +144,12 @@ To summarize:
 
 - Call the `raiseThrowables()` method of your `MiddlewarePipe` instance to
   opt-in to the new error handling strategy.
-- Use the new `Zend\Stratigility\Middleware\NotFoundHandler` as the innermost
+- Use the new `Laminas\Stratigility\Middleware\NotFoundHandler` as the innermost
   layer of your application pipeline in order to provide 404 responses.
-- Use the new `Zend\Stratigility\Middleware\ErrorHandler` middleware as the
+- Use the new `Laminas\Stratigility\Middleware\ErrorHandler` middleware as the
   outermost (or close to outermost) layer of your application pipeline in order
   to handle exceptions.
-- Use the `Zend\Stratigility\NoopFinalHandler` as the `$out` argument when
+- Use the `Laminas\Stratigility\NoopFinalHandler` as the `$out` argument when
   dispatching your application pipeline.
 
 ## http-interop compatibility
@@ -194,12 +194,12 @@ this is a PSR-7 `ResponseInterface` instance. If not set, the first time the
 pipeline is invoked via its `__invoke()` method, it will set the prototype from
 the provided `$response` argument. When present, any callable, non-error
 middleware piped to the pipeline will be wrapped in a
-`Zend\Stratigility\Middleware\CallableMiddlewareWrapper` instance, which
+`Laminas\Stratigility\Middleware\CallableMiddlewareWrapper` instance, which
 converts it into an http-interop middleware type; when processed, the response
 prototype will be passed to the callable for the response argument.
 
 Starting in version 2.0.0, `MiddlewarePipe` *will no longer implement
-`Zend\Stratigility\MiddlewareInterface`, and only implement the http-interop
+`Laminas\Stratigility\MiddlewareInterface`, and only implement the http-interop
 `ServerMiddlewareInterface`*. This has several repercussions.
 
 ### Callable middleware in version 1.3.0
@@ -219,7 +219,7 @@ inconsistent and/or unexpected results.
 As an example, consider the following:
 
 ```php
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 $pipeline->pipe(function ($request, $response, $next) {
     return $next($request, $response->withHeader('X-Foo', 'Bar'));
@@ -238,7 +238,7 @@ As such, we recommend rewriting such middleware to modify the *returned*
 response instead:
 
 ```php
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 $pipeline->pipe(function ($request, $response, $next) {
     $response = $next($request, $response);
@@ -260,7 +260,7 @@ decorate callable middleware). Either of these will ensure your middleware will
 work with http-interop delegators.
 
 ```php
-use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
+use Laminas\Stratigility\Middleware\CallableMiddlewareWrapper;
 
 // Manually decorating callable middleware for use with http-interop:
 $pipeline->pipe(new CallableMiddlewareWrapper($middleware, $response));
@@ -300,7 +300,7 @@ function ($request, DelegateInterface $delegate) {
 At this point, you have essentially implemented `Interop\Http\Middleware\ServerMiddlewareInterface`
 (with the notable exception of not type-hinting the `$request` argument).
 When you pipe such callable middleware to `MiddlewarePipeline`, it will be
-wrapped in a `Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper`,
+wrapped in a `Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper`,
 which simply proxies to the middleware when processed.
 
 Finally, if you are so inclined, you can rewrite your middleware to
@@ -313,7 +313,7 @@ As an example, consider the following middleware class:
 ```php
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 class PingMiddleware
 {
@@ -333,7 +333,7 @@ This could be rewritten as follows:
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Middleware\DelegateInterface;
 use Psr\Http\Middleware\ServerMiddlewareInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 class PingMiddleware implements ServerMiddlewareInterface
 {
@@ -347,7 +347,7 @@ class PingMiddleware implements ServerMiddlewareInterface
 If we were dealing with callable middleware instead:
 
 ```php
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 $pipeline->pipe(function ($request, $response, $next) {
     return new JsonResponse(['ack' => time()]);
@@ -360,7 +360,7 @@ we could wrap this in an anonymous class instead:
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Middleware\DelegateInterface;
 use Psr\Http\Middleware\ServerMiddlewareInterface;
-use Zend\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 
 $pipeline->pipe(new class implements ServerMiddlewareInterface {
     public function (ServerRequestInterface $request, DelegateInterface $delegate)
@@ -375,7 +375,7 @@ $pipeline->pipe(new class implements ServerMiddlewareInterface {
 
 If you want your middleware to work with either http-interop or with the
 pre-1.3.0 middleware signature, you can do that as well. To accomplish this, we
-provide `Zend\Stratigility\Delegate\CallableDelegateDecorator`, which will wrap
+provide `Laminas\Stratigility\Delegate\CallableDelegateDecorator`, which will wrap
 a `callable $next` such that it may be used as a `DelegateInterface` implementation:
 
 ```php
@@ -383,8 +383,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Middleware\DelegateInterface;
 use Psr\Http\Middleware\ServerMiddlewareInterface;
-use Zend\Diactoros\Response\JsonResponse;
-use Zend\Stratigility\Delegate\CallableDelegateDecorator;
+use Laminas\Diactoros\Response\JsonResponse;
+use Laminas\Stratigility\Delegate\CallableDelegateDecorator;
 
 class PingMiddleware implements ServerMiddlewareInterface
 {
@@ -428,7 +428,7 @@ properly across middleware stacks.
 Callable middleware may still be used; however, in order to pipe it to the
 pipeline, you must do one of the following:
 
-- Inject a `Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory`
+- Inject a `Laminas\Stratigility\Middleware\CallableMiddlewareWrapperFactory`
   instance via the pipeline's `setCallableMiddlewareDecorator()` method,
   prior to piping callable middleware to the instance. This factory class
   requires a `ResponseInterface` in its constructor, and will use that
@@ -473,8 +473,8 @@ Invocation of the outermost middleware can now be done in two ways:
 As examples:
 
 ```php
-use Zend\Stratigility\NoopFinalHandler;
-use Zend\Stratigility\Delegate\CallableDelegateDecorator;
+use Laminas\Stratigility\NoopFinalHandler;
+use Laminas\Stratigility\Delegate\CallableDelegateDecorator;
 
 // Using __invoke():
 $response = $pipeline($request, $response, new NoopFinalHandler());
@@ -487,29 +487,29 @@ $response = $pipeline->process($request, new CallableDelegateDecorator(
 ```
 
 Once you have done so, you can process the returned request via an
-[emitter](https://docs.zendframework.com/zend-diactoros/emitting-responses/).
+[emitter](https://docs.laminas.dev/laminas-diactoros/emitting-responses/).
 
 ## Deprecated functionality
 
 The following classes, methods, and arguments are deprecated starting in version
 1.3.0, and will be removed in version 2.0.0.
 
-- `Zend\Stratigility\FinalHandler` (class)
-- `Zend\Stratigility\Dispatch` (class); this class is marked internal already,
+- `Laminas\Stratigility\FinalHandler` (class)
+- `Laminas\Stratigility\Dispatch` (class); this class is marked internal already,
   but anybody extending `Next` and/or this class should be aware of its removal.
-- `Zend\Stratigility\ErrorMiddlewareInterface` (interface); error middleware
+- `Laminas\Stratigility\ErrorMiddlewareInterface` (interface); error middleware
   should now be implemented per the [error handling section above](#error-handling).
-- The `$response` argument to `Zend\Stratigility\Next`'s `__invoke()` method.
+- The `$response` argument to `Laminas\Stratigility\Next`'s `__invoke()` method.
   The argument, and all following it, are ignored starting in 2.0.0; it is used
   in 1.3.0 to ensure backwards compatibility with existing middleware. The
   `CallableMiddlewareWrapper` also ensures that a response argument is populated
   and present when invoking callable middleware.
-- The `$err` argument to `Zend\Stratigility\Next`'s `__invoke()` method.
+- The `$err` argument to `Laminas\Stratigility\Next`'s `__invoke()` method.
   Starting in 1.3.0, if a non-null value is encountered, this method will now
   emit an `E_USER_DEPRECATED` notice, referencing this documentation.
-- `Zend\Stratigility\Http\Request` (class)
-- `Zend\Stratigility\Http\ResponseInterface` (interface)
-- `Zend\Stratigility\Http\Response` (class)
+- `Laminas\Stratigility\Http\Request` (class)
+- `Laminas\Stratigility\Http\ResponseInterface` (interface)
+- `Laminas\Stratigility\Http\Response` (class)
 - The `$response` argument to middleware is deprecated; please see the
   [section on callable middleware](callable-middleware-in-version-1.3.0)
   for details, and adapt your middleware to no longer use the argument.

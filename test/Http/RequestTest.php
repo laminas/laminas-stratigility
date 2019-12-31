@@ -1,18 +1,17 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Stratigility\Http;
+namespace LaminasTest\Stratigility\Http;
 
+use Laminas\Diactoros\ServerRequest as PsrRequest;
+use Laminas\Diactoros\Uri;
+use Laminas\Stratigility\Http\Request;
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\Diactoros\ServerRequest as PsrRequest;
-use Zend\Diactoros\Uri;
-use Zend\Stratigility\Http\Request;
 
 class RequestTest extends TestCase
 {

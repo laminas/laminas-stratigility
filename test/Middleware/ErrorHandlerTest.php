@@ -1,23 +1,24 @@
 <?php
+
 /**
- * @link      http://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Stratigility\Middleware;
+namespace LaminasTest\Stratigility\Middleware;
 
 use Interop\Http\Middleware\DelegateInterface;
+use Laminas\Escaper\Escaper;
+use Laminas\Stratigility\Exception\MissingDelegateException;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\ErrorResponseGenerator;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use RuntimeException;
-use Zend\Escaper\Escaper;
-use Zend\Stratigility\Exception\MissingDelegateException;
-use Zend\Stratigility\Middleware\ErrorHandler;
-use Zend\Stratigility\Middleware\ErrorResponseGenerator;
 
 class ErrorHandlerTest extends TestCase
 {
