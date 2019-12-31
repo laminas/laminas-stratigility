@@ -8,11 +8,11 @@ response or pass delegation on to the next middleware in the queue.
 
 ```php
 use Interop\Http\ServerMiddleware\DelegateInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Server;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Middleware\NotFoundHandler;
-use Zend\Stratigility\NoopFinalHandler;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Server;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\Middleware\NotFoundHandler;
+use Laminas\Stratigility\NoopFinalHandler;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -165,8 +165,8 @@ Within Stratigility, middleware can be:
   ServerRequest and Response (in that order), and, optionally, a callable (for
   invoking the next middleware in the queue, if any).
 - Any [http-interop 0.4.1 - middleware](https://github.com/http-interop/http-middleware/tree/0.4.1).
-  `Zend\Stratigility\MiddlewarePipe` implements
+  `Laminas\Stratigility\MiddlewarePipe` implements
   `Interop\Http\ServerMiddleware\MiddlewareInterface`. (Stratigility 2.0 series.)
 - Any [http-interop 0.5.0 - middleware](https://github.com/http-interop/http-middleware/tree/0.5.0).
-  `Zend\Stratigility\MiddlewarePipe` implements
+  `Laminas\Stratigility\MiddlewarePipe` implements
   `Interop\Http\Server\MiddlewareInterface`. (Since Stratigility 2.1)

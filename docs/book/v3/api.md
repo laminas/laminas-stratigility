@@ -11,11 +11,11 @@ The following make up the primary API of Stratigility.
 
 ## Middleware
 
-`Zend\Stratigility\MiddlewarePipe` is the primary application interface, and
+`Laminas\Stratigility\MiddlewarePipe` is the primary application interface, and
 has been discussed previously. Its API is:
 
 ```php
-namespace Zend\Stratigility;
+namespace Laminas\Stratigility;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -47,7 +47,7 @@ Middleware should either return a response, or the result of
 `RequestHandlerInterface::handle()` (which should eventually evaluate to a
 response instance).
 
-Internally, `MiddlewarePipe` creates an instance of `Zend\Stratigility\Next` to
+Internally, `MiddlewarePipe` creates an instance of `Laminas\Stratigility\Next` to
 use as a `RequestHandlerInterface` implementation to pass to each middleware;
 `Next` receives the queue of middleware from the `MiddlewarePipe` instance and
 processes each one, calling them with the current request and itself, advancing
@@ -56,7 +56,7 @@ returned.
 
 ## Next
 
-`Zend\Stratigility\Next` is primarily an implementation detail, and exists to
+`Laminas\Stratigility\Next` is primarily an implementation detail, and exists to
 allow delegating to middleware aggregated in the `MiddlewarePipe`. It is
 implemented as an PSR-15 `RequestHandlerInterface`.
 
@@ -162,7 +162,7 @@ Stratigility provides several concrete middleware implementations.
 
 If you wish to segregate middleware by path prefix and/or conditionally
 execute middleware based on a path prefix, decorate your middleware using
-`Zend\Stratigility\Middleware\PathMiddlewareDecorator`.
+`Laminas\Stratigility\Middleware\PathMiddlewareDecorator`.
 
 Middleware decorated by `PathMiddlewareDecorator` will only execute if the
 request URI matches the path prefix provided during instantiation.
@@ -181,7 +181,7 @@ without changes to its own internal routing.
 
 ### CallableMiddlewareDecorator
 
-`Zend\Stratigility\Middleware\CallableMiddlewareDecorator` provides the ability
+`Laminas\Stratigility\Middleware\CallableMiddlewareDecorator` provides the ability
 to decorate PHP callables that have the same signature as or a compatible
 signature to PSR-15's `MiddlewareInterface`. This allows for one-off middleware
 creation when creating your pipeline:
@@ -197,7 +197,7 @@ $pipeline->pipe(new CallableMiddlewareDecorator(function ($req, $handler) {
 
 ### DoublePassMiddlewareDecorator
 
-`Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator` provides the
+`Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator` provides the
 ability to decorate "double-pass", callable middleware (so-called because you
 pass the request _and_ response to the delegate) within a class implementing the
 PSR-15 `MiddlewareInterface`. This allows you to adapt existing middleware with
@@ -217,7 +217,7 @@ ignores the response argument.
 
 The constructor takes an optional second argument, a response prototype. This
 will be used to pass to the middleware when it is executed. If no instance is
-provided, a zend-diactoros response instance is auto-wired. If you want to use
+provided, a laminas-diactoros response instance is auto-wired. If you want to use
 an alternate PSR-7 `ResponseInterface` implementation, pass it when creating the
 decorator instance:
 
@@ -230,7 +230,7 @@ $pipeline->pipe(new DoublePassMiddlewareDecorator(
 
 ### RequestHandlerMiddleware
 
-`Zend\Stratigility\Middleware\RequestHandlerMiddleware` allows you to decorate a
+`Laminas\Stratigility\Middleware\RequestHandlerMiddleware` allows you to decorate a
 PSR-15 `RequestHandlerInterface` for use as either a request handler or
 middleware. When either its `handle()` or `process()` method are called, it will
 proxy to the composed request handler's `handle()` method and return the
@@ -262,10 +262,10 @@ Stratigility provides the following utility functions.
 ### host
 
 ```php
-function Zend\Stratigility\host(
+function Laminas\Stratigility\host(
   string $host,
   Psr\Http\Server\MiddlewareInterface $middleware
-) : Zend\Stratigility\Middleware\HostMiddlewareDecorator
+) : Laminas\Stratigility\Middleware\HostMiddlewareDecorator
 ```
 
 `host()` provides a convenient way to perform host name segregation when piping your
@@ -278,10 +278,10 @@ $pipeline->pipe(host('example.com', $middleware));
 ### path
 
 ```php
-function Zend\Stratigility\path(
+function Laminas\Stratigility\path(
     string $pathPrefix,
     Psr\Http\Server\MiddlewareInterface $middleware
-) : Zend\Stratigility\Middleware\PathMiddlewareDecorator
+) : Laminas\Stratigility\Middleware\PathMiddlewareDecorator
 ```
 
 `path()` provides a convenient way to perform path segregation when piping your
@@ -294,9 +294,9 @@ $pipeline->pipe(path('/foo', $middleware));
 ### middleware
 
 ```php
-function Zend\Stratigility\middleware(
+function Laminas\Stratigility\middleware(
     callable $middleware
-) : Zend\Stratigility\Middleware\CallableMiddlewareDecorator
+) : Laminas\Stratigility\Middleware\CallableMiddlewareDecorator
 ```
 
 `middleware()` provides a convenient way to decorate callable middleware that
@@ -311,10 +311,10 @@ $pipeline->pipe(middleware(function ($request, $handler) {
 ### doublePassMiddleware
 
 ```php
-function Zend\Stratigility\doublePassMiddleware(
+function Laminas\Stratigility\doublePassMiddleware(
     callable $middleware,
     Psr\Http\Message\ResponseInterface $responsePrototype = null
-) : Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator
+) : Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator
 ```
 
 `doublePassMiddleware()` provides a convenient way to decorate middleware that
@@ -326,7 +326,7 @@ $pipeline->pipe(doublePassMiddleware(function ($request, $response, $next) {
 });
 ```
 
-If you are not using zend-diactoros as a PSR-7 implementation, you will need to
+If you are not using laminas-diactoros as a PSR-7 implementation, you will need to
 pass a response prototype as well:
 
 ```php
