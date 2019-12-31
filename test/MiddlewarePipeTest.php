@@ -1,16 +1,26 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace ZendTest\Stratigility;
+namespace LaminasTest\Stratigility;
 
 use Interop\Http\Middleware\DelegateInterface;
 use Interop\Http\Middleware\ServerMiddlewareInterface;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest as Request;
+use Laminas\Diactoros\Uri;
+use Laminas\Stratigility\ErrorMiddlewareInterface;
+use Laminas\Stratigility\Http\Request as RequestDecorator;
+use Laminas\Stratigility\Http\Response as ResponseDecorator;
+use Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
+use Laminas\Stratigility\Middleware\CallableMiddlewareWrapper;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\NoopFinalHandler;
+use Laminas\Stratigility\Utils;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\RequestInterface;
@@ -18,17 +28,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionProperty;
 use RuntimeException;
-use Zend\Diactoros\ServerRequest as Request;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Uri;
-use Zend\Stratigility\ErrorMiddlewareInterface;
-use Zend\Stratigility\Http\Request as RequestDecorator;
-use Zend\Stratigility\Http\Response as ResponseDecorator;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
-use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
-use Zend\Stratigility\NoopFinalHandler;
-use Zend\Stratigility\Utils;
 
 class MiddlewarePipeTest extends TestCase
 {
@@ -85,7 +84,7 @@ class MiddlewarePipeTest extends TestCase
     public function suppressDeprecationNotice()
     {
         $this->deprecationsSuppressed = set_error_handler(function ($errno, $errstr) {
-            if (false === strstr($errstr, 'docs.zendframework.com')) {
+            if (false === strstr($errstr, 'docs.laminas.dev')) {
                 return false;
             }
             return true;
@@ -328,7 +327,7 @@ class MiddlewarePipeTest extends TestCase
         $request = new Request([], [], 'http://local.example.com/test', 'GET', 'php://memory');
         $result  = $this->middleware->__invoke($request, $this->response, $this->createFinalHandler());
         $this->assertTrue($triggered);
-        $this->assertInstanceOf('Zend\Stratigility\Http\Response', $result);
+        $this->assertInstanceOf('Laminas\Stratigility\Http\Response', $result);
         $this->assertSame($this->response, $result->getOriginalResponse());
     }
 

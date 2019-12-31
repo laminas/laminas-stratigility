@@ -1,13 +1,12 @@
 <?php
+
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       http://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\Stratigility;
+namespace Laminas\Stratigility;
 
 use Interop\Http\Middleware\DelegateInterface;
 use InvalidArgumentException;
@@ -430,7 +429,7 @@ class Next implements DelegateInterface
     {
         trigger_error(
             'Usage of error middleware is deprecated as of 1.3.0, and will be removed in 2.0.0; '
-            . 'please see https://docs.zendframework.com/zend-stratigility/migration/to-v2/ '
+            . 'please see https://docs.laminas.dev/laminas-stratigility/migration/to-v2/ '
             . 'for details on how to update your application to remove this message.',
             E_USER_DEPRECATED
         );
