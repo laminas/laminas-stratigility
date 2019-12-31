@@ -7,10 +7,10 @@ take the incoming request, perform actions based on it, and either complete the
 response or pass delegation on to the next middleware in the queue.
 
 ```php
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Server;
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\NoopFinalHandler;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Server;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Stratigility\NoopFinalHandler;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -173,13 +173,13 @@ Within Stratigility, middleware can be:
   ServerRequest and Response (in that order), and, optionally, a callable (for
   invoking the next middleware in the queue, if any).
 - Any [http-interop 0.2.0 - middleware](https://github.com/http-interop/http-middleware/tree/0.2.0).
-  `Zend\Stratigility\MiddlewarePipe` implements
+  `Laminas\Stratigility\MiddlewarePipe` implements
   `Interop\Http\Middleware\ServerMiddlewareInterface`. (Stratigility 1.3.0 series.)
 - Any [http-interop 0.4.1 - middleware](https://github.com/http-interop/http-middleware/tree/0.4.1).
-  `Zend\Stratigility\MiddlewarePipe` implements
+  `Laminas\Stratigility\MiddlewarePipe` implements
   `Interop\Http\ServerMiddleware\MiddlewareInterface`. (Stratigility 2.0 series.)
 - Any [http-interop 0.5.0 - middleware](https://github.com/http-interop/http-middleware/tree/0.5.0).
-  `Zend\Stratigility\MiddlewarePipe` implements
+  `Laminas\Stratigility\MiddlewarePipe` implements
   `Interop\Http\Server\MiddlewareInterface`. (Since Stratigility 2.1)
-- An object implementing `Zend\Stratigility\MiddlewareInterface`.
+- An object implementing `Laminas\Stratigility\MiddlewareInterface`.
   (Legacy; this interface is deprecated starting in 1.3.0.)
