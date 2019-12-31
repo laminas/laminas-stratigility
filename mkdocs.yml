@@ -1,50 +1,16 @@
 docs_dir: docs/book
 site_dir: docs/html
 extra:
-  current_version: v3
-  versions:
-    - v3
-    - v2
-    - v1
+    current_version: v3
+    versions: [v3, v2, v1]
+    project: Components
+    project_url: 'https://docs.laminas.dev'
 nav:
-    - Home: index.md
-    - v3:
-      - Intro: v3/intro.md
-      - Reference:
-          - "Installation and Requirements": v3/install.md
-          - Usage: v3/usage.md
-          - Middleware: v3/middleware.md
-          - "Error Handlers": v3/error-handlers.md
-          - "Creating Middleware": v3/creating-middleware.md
-          - "Composing middleware": v3/executing-middleware.md
-          - "API Reference": v3/api.md
-          - Migration: v3/migration.md
-    - v2:
-        - "Installation and Requirements": v2/install.md
-        - Usage: v2/usage.md
-        - Middleware: v2/middleware.md
-        - "Error Handlers": v2/error-handlers.md
-        - "Creating Middleware": v2/creating-middleware.md
-        - "Executing and composing middleware": v2/executing-middleware.md
-        - "API Reference": v2/api.md
-        - Migration: v2/migration.md
-    - v1:
-        - "Installation and Requirements": v1/install.md
-        - Usage: v1/usage.md
-        - Middleware: v1/middleware.md
-        - "Error Handlers": v1/error-handlers.md
-        - "Creating Middleware": v1/creating-middleware.md
-        - "Executing and composing middleware": v1/executing-middleware.md
-        - "API Reference": v1/api.md
-    - "_hidden-legacy-page-links":
-        - "_install": install.md
-        - "_usage": usage.md
-        - "_middleware": middleware.md
-        - "_error-handlers": error-handlers.md
-        - "_creating-middleware": creating-middleware.md
-        - "_executing-middleware": executing-middleware.md
-        - "_api": api.md
-        - "_migration": migration.md
+    - { Home: index.md }
+    - { v3: [{ Intro: v3/intro.md }, { Reference: [{ 'Installation and Requirements': v3/install.md }, { Usage: v3/usage.md }, { Middleware: v3/middleware.md }, { 'Error Handlers': v3/error-handlers.md }, { 'Creating Middleware': v3/creating-middleware.md }, { 'Composing middleware': v3/executing-middleware.md }, { 'API Reference': v3/api.md }, { Migration: v3/migration.md }] }] }
+    - { v2: [{ 'Installation and Requirements': v2/install.md }, { Usage: v2/usage.md }, { Middleware: v2/middleware.md }, { 'Error Handlers': v2/error-handlers.md }, { 'Creating Middleware': v2/creating-middleware.md }, { 'Executing and composing middleware': v2/executing-middleware.md }, { 'API Reference': v2/api.md }, { Migration: v2/migration.md }] }
+    - { v1: [{ 'Installation and Requirements': v1/install.md }, { Usage: v1/usage.md }, { Middleware: v1/middleware.md }, { 'Error Handlers': v1/error-handlers.md }, { 'Creating Middleware': v1/creating-middleware.md }, { 'Executing and composing middleware': v1/executing-middleware.md }, { 'API Reference': v1/api.md }] }
+    - { _hidden-legacy-page-links: [{ _install: install.md }, { _usage: usage.md }, { _middleware: middleware.md }, { _error-handlers: error-handlers.md }, { _creating-middleware: creating-middleware.md }, { _executing-middleware: executing-middleware.md }, { _api: api.md }, { _migration: migration.md }] }
 site_name: laminas-stratigility
 site_description: laminas-stratigility
 repo_url: 'https://github.com/laminas/laminas-stratigility'
