@@ -1,20 +1,21 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2016 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 declare(strict_types=1);
 
-namespace ZendTest\Stratigility\Middleware;
+namespace LaminasTest\Stratigility\Middleware;
 
 use Interop\Http\Server\RequestHandlerInterface;
+use Laminas\Stratigility\Middleware\OriginalMessages;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
-use Zend\Stratigility\Middleware\OriginalMessages;
 
 class OriginalMessagesTest extends TestCase
 {

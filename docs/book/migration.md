@@ -41,9 +41,9 @@ If you wish to use those types, you will need to decorate them in a
 
 ### Class additions
 
-- `Zend\Stratigility\Middleware\CallableMiddlewareDecorator` provides the
+- `Laminas\Stratigility\Middleware\CallableMiddlewareDecorator` provides the
   functionality that was formerly provided by
-  `Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper`: it provides
+  `Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper`: it provides
   the ability to decorate PHP callables that have the same or compatible
   signatures to the PSR-15 `MiddlewareInterface`. This allows for one-off piping
   of middleware:
@@ -61,10 +61,10 @@ If you wish to use those types, you will need to decorate them in a
   decorator provides some checking on the return value in order to raise an
   exception if a response is not returned.
 
-- `Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator` provides the
-  functionality that was formerly provided by `Zend\Stratigility\Middleware\CallableMiddlewareWrapper`.
+- `Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator` provides the
+  functionality that was formerly provided by `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper`.
   The class now makes the response prototype argument to the constructor
-  optional, and falls back to a zend-diactoros response instance if that library
+  optional, and falls back to a laminas-diactoros response instance if that library
   is installed. Internally, it decorates the `$handler` as a callable.
 
   ```php
@@ -81,24 +81,24 @@ If you wish to use those types, you will need to decorate them in a
   only operate on the response returned by `$next`, or produce a concrete
   response yourself.
 
-- `Zend\Stratigility\Exception\ExceptionInterface` - marker for
+- `Laminas\Stratigility\Exception\ExceptionInterface` - marker for
   package-specific exceptions.
 
 ### Removed classes and exceptions
 
 The following classes have been removed:
 
-- `Zend\Stratigility\Delegate\CallableDelegateDecorator`
-- `Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper`
-- `Zend\Stratigility\Middleware\CallableMiddlewareWrapper`
-- `Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory`
-- `Zend\Stratigility\MiddlewareInterface` (Please use the PSR-15
+- `Laminas\Stratigility\Delegate\CallableDelegateDecorator`
+- `Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper`
+- `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper`
+- `Laminas\Stratigility\Middleware\CallableMiddlewareWrapperFactory`
+- `Laminas\Stratigility\MiddlewareInterface` (Please use the PSR-15
   `MiddlewareInterface` instead.)
-- `Zend\Stratigility\NoopFinalHandler`
+- `Laminas\Stratigility\NoopFinalHandler`
 
 The following exceptions have been removed:
 
-- `Zend\Stratigility\Exception\InvalidRequestTypeException`
+- `Laminas\Stratigility\Exception\InvalidRequestTypeException`
 
 ### Signature changes
 
@@ -120,11 +120,11 @@ were a matter of updating typehints on
 
 Signatures affected include:
 
-- `Zend\Stratigility\MiddlewarePipe::process()`
-- `Zend\Stratigility\Middleware\ErrorHandler::process()`
-- `Zend\Stratigility\Middleware\NotFoundHandler::process()`
-- `Zend\Stratigility\Middleware\OriginalMessages::process()`
-- `Zend\Stratigility\MiddlewarePipe::process()`
+- `Laminas\Stratigility\MiddlewarePipe::process()`
+- `Laminas\Stratigility\Middleware\ErrorHandler::process()`
+- `Laminas\Stratigility\Middleware\NotFoundHandler::process()`
+- `Laminas\Stratigility\Middleware\OriginalMessages::process()`
+- `Laminas\Stratigility\MiddlewarePipe::process()`
 
 All of these classes now implement the PSR-15 `MiddlewareInterface`.
 

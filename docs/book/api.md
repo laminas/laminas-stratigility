@@ -11,11 +11,11 @@ The following make up the primary API of Stratigility.
 
 ## Middleware
 
-`Zend\Stratigility\MiddlewarePipe` is the primary application interface, and
+`Laminas\Stratigility\MiddlewarePipe` is the primary application interface, and
 has been discussed previously. Its API is:
 
 ```php
-namespace Zend\Stratigility;
+namespace Laminas\Stratigility;
 
 use Interop\Http\Server\MiddlewareInterface as ServerMiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface as DelegateInterface;
@@ -63,16 +63,16 @@ Middleware should either return a response, or the result of
 `RequestHandlerInterface::handle()` (which should eventually evaluate to a
 response instance).
 
-Within Stratigility, `Zend\Stratigility\Next` provides an implementation
+Within Stratigility, `Laminas\Stratigility\Next` provides an implementation
 of `RequestHandlerInterface`.
 
 Internally, during execution of the `process()` method, `MiddlewarePipe` creates
-an instance of `Zend\Stratigility\Next` (feeding it its queue), executes it, and
+an instance of `Laminas\Stratigility\Next` (feeding it its queue), executes it, and
 returns its response.
 
 ## Next
 
-`Zend\Stratigility\Next` is primarily an implementation detail of middleware,
+`Laminas\Stratigility\Next` is primarily an implementation detail of middleware,
 and exists to allow delegating to middleware registered later in the stack. It
 is implemented as an http-interop/http-middleware `RequestHandlerInterface`.
 
@@ -175,7 +175,7 @@ Stratigility provides several concrete middleware implementations.
 
 ### CallableMiddlewareDecorator
 
-`Zend\Stratigility\Middleware\CallableMiddlewareDecorator` provides the ability
+`Laminas\Stratigility\Middleware\CallableMiddlewareDecorator` provides the ability
 to decorate PHP callables that have the same signature as or a compatible
 signature to PSR-15's `MiddlewareInterface`. This allows for one-off middleware
 creation when creating your pipeline:
@@ -191,7 +191,7 @@ $pipeline->pipe(new CallableMiddlewareDecorator(function ($req, $handler) {
 
 ### DoublePassMiddlewareDecorator
 
-`Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator` provides the
+`Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator` provides the
 ability to decorate "double-pass", callable middleware (so-called because you
 pass the request _and_ response to the delegate) within a class implementing the
 PSR-15 `MiddlewareInterface`. This allows you to adapt existing middleware with
@@ -211,7 +211,7 @@ ignores the response argument.
 
 The constructor takes an optional second argument, a response prototype. This
 will be used to pass to the middleware when it is executed. If no instance is
-provided, a zend-diactoros response instance is auto-wired. If you want to use
+provided, a laminas-diactoros response instance is auto-wired. If you want to use
 an alternate PSR-7 `ResponseInterface` implementation, pass it when creating the
 decorator instance:
 
