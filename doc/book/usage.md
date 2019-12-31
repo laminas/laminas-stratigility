@@ -7,8 +7,8 @@ Creating an application consists of 3 steps:
 - Instruct the server to listen for a request
 
 ```php
-use Zend\Stratigility\MiddlewarePipe;
-use Zend\Diactoros\Server;
+use Laminas\Stratigility\MiddlewarePipe;
+use Laminas\Diactoros\Server;
 
 require __DIR__ . '/../vendor/autoload.php';
 
