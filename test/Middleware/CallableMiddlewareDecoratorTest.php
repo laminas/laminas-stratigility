@@ -1,21 +1,22 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2017-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 declare(strict_types=1);
 
-namespace ZendTest\Stratigility\Middleware;
+namespace LaminasTest\Stratigility\Middleware;
 
+use Laminas\Stratigility\Exception;
+use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Stratigility\Exception;
-use Zend\Stratigility\Middleware\CallableMiddlewareDecorator;
 
-use function Zend\Stratigility\middleware;
+use function Laminas\Stratigility\middleware;
 
 class CallableMiddlewareDecoratorTest extends TestCase
 {

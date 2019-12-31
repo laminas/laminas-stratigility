@@ -9,12 +9,12 @@ response or pass delegation on to the next middleware in the queue.
 ```php
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Server;
-use Zend\Stratigility\MiddlewarePipe;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Server;
+use Laminas\Stratigility\MiddlewarePipe;
 
-use function Zend\Stratigility\middleware;
-use function Zend\Stratigility\path;
+use function Laminas\Stratigility\middleware;
+use function Laminas\Stratigility\path;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -95,5 +95,5 @@ any path you wish.
 
 Within Stratigility, middleware must be
 [PSR-15](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-15-request-handlers.md) middleware.
-`Zend\Stratigility\MiddlewarePipe` implements
+`Laminas\Stratigility\MiddlewarePipe` implements
 `Psr\Http\Server\MiddlewareInterface`.

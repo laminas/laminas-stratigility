@@ -39,11 +39,11 @@ the immediate predecessor to the final spec) to
 
 Signatures affected include:
 
-- `Zend\Stratigility\MiddlewarePipe::process()`
-- `Zend\Stratigility\Middleware\ErrorHandler::process()`
-- `Zend\Stratigility\Middleware\NotFoundHandler::process()`
-- `Zend\Stratigility\Middleware\OriginalMessages::process()`
-- `Zend\Stratigility\MiddlewarePipe::process()`
+- `Laminas\Stratigility\MiddlewarePipe::process()`
+- `Laminas\Stratigility\Middleware\ErrorHandler::process()`
+- `Laminas\Stratigility\Middleware\NotFoundHandler::process()`
+- `Laminas\Stratigility\Middleware\OriginalMessages::process()`
+- `Laminas\Stratigility\MiddlewarePipe::process()`
 
 All of these classes now implement the PSR-15 `MiddlewareInterface`.
 
@@ -81,7 +81,7 @@ internal logic.
 - `MiddlewarePipe::pipe()`: reduces the number of arguments to one, which now
   typehints against `Psr\Http\Server\MiddlewareInterface`. This means the method
   can no longer be used to segregate middleware by path. If you want to do that,
-  please use `Zend\Stratigility\Middleware\PathMiddlewareDecorator` to decorate
+  please use `Laminas\Stratigility\Middleware\PathMiddlewareDecorator` to decorate
   your middleware and to provide the path prefix it will run under. See the next
   section for details.
 
@@ -91,12 +91,12 @@ internal logic.
 
 ### Class additions
 
-- `Zend\Stratigility\MiddlewarePipeInterface` extends
+- `Laminas\Stratigility\MiddlewarePipeInterface` extends
   `Psr\Http\Server\MiddlewareInterface` and `Psr\Http\Server\RequestHandlerInterface`,
   and defines the method `pipe(Psr\Http\Server\MiddlewareInterface $middleware) : void`.
   It is implemented by `MiddlewarePipe`.
 
-- `Zend\Stratigility\Middleware\HostMiddlewareDecorator` allows you to segregate
+- `Laminas\Stratigility\Middleware\HostMiddlewareDecorator` allows you to segregate
   middleware by a static host name. This allows executing middleware only
   if a particular host matches.
 
@@ -108,7 +108,7 @@ internal logic.
   Alternately, use the `host()` utility function to generate the instance; [see
   below](#host).
 
-- `Zend\Stratigility\Middleware\PathMiddlewareDecorator` allows you to segregate
+- `Laminas\Stratigility\Middleware\PathMiddlewareDecorator` allows you to segregate
   middleware by a static URI path prefix. This allows executing middleware only
   if a particular path matches, or segregating a sub-application by path.
 
@@ -120,9 +120,9 @@ internal logic.
   Alternately, use the `path()` utility function to generate the instance; [see
   below](#path).
 
-- `Zend\Stratigility\Middleware\CallableMiddlewareDecorator` provides the
+- `Laminas\Stratigility\Middleware\CallableMiddlewareDecorator` provides the
   functionality that was formerly provided by
-  `Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper`: it provides
+  `Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper`: it provides
   the ability to decorate PHP callables that have the same or compatible
   signatures to the PSR-15 `MiddlewareInterface`. This allows for one-off piping
   of middleware:
@@ -143,10 +143,10 @@ internal logic.
   Alternately, use the `middleware()` utility function to generate the instance;
   [see below](#middleware).
 
-- `Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator` provides the
-  functionality that was formerly provided by `Zend\Stratigility\Middleware\CallableMiddlewareWrapper`.
+- `Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator` provides the
+  functionality that was formerly provided by `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper`.
   The class now makes the response prototype argument to the constructor
-  optional, and falls back to a zend-diactoros response instance if that library
+  optional, and falls back to a laminas-diactoros response instance if that library
   is installed. Internally, it decorates the `$handler` as a callable.
 
   ```php
@@ -166,28 +166,28 @@ internal logic.
   Alternately, use the `doublePassMiddleware()` utility function to create the
   instance; [see below](#doublepassmiddleware).
 
-- `Zend\Stratigility\Exception\ExceptionInterface` - marker for
+- `Laminas\Stratigility\Exception\ExceptionInterface` - marker for
   package-specific exceptions.
 
 ### Removed classes and exceptions
 
 The following classes have been removed:
 
-- `Zend\Stratigility\Delegate\CallableDelegateDecorator`
-- `Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper`
-- `Zend\Stratigility\Middleware\CallableMiddlewareWrapper`
-- `Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory`
-- `Zend\Stratigility\MiddlewareInterface` (Please use the PSR-15
+- `Laminas\Stratigility\Delegate\CallableDelegateDecorator`
+- `Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper`
+- `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper`
+- `Laminas\Stratigility\Middleware\CallableMiddlewareWrapperFactory`
+- `Laminas\Stratigility\MiddlewareInterface` (Please use the PSR-15
   `MiddlewareInterface` instead.)
-- `Zend\Stratigility\NoopFinalHandler`
-- `Zend\Stratigility\Route`. This was an internal class used by `MiddlewarePipe`
+- `Laminas\Stratigility\NoopFinalHandler`
+- `Laminas\Stratigility\Route`. This was an internal class used by `MiddlewarePipe`
   and `Next`, and its removal should not affect consumers.
 
 The following exceptions have been removed:
 
-- `Zend\Stratigility\Exception\InvalidMiddlewareException` (this is no longer
+- `Laminas\Stratigility\Exception\InvalidMiddlewareException` (this is no longer
   thrown by `MiddlewarePipe`, and thus no longer necessary).
-- `Zend\Stratigility\Exception\InvalidRequestTypeException`
+- `Laminas\Stratigility\Exception\InvalidRequestTypeException`
 
 ### Removed methods
 
@@ -233,14 +233,14 @@ Release 3.0 adds the following utility functions:
 #### host
 
 ```php
-function Zend\Stratigility\host(
+function Laminas\Stratigility\host(
   string $host,
   Psr\Http\Server\MiddlewareInterface $middleware
-) : Zend\Stratigility\Middleware\HostMiddlewareDecorator
+) : Laminas\Stratigility\Middleware\HostMiddlewareDecorator
 ```
 
 This is a convenience wrapper around instantiation of a
-`Zend\Stratigility\Middleware\HostMiddlewareDecorator` instance:
+`Laminas\Stratigility\Middleware\HostMiddlewareDecorator` instance:
 
 ```php
 $pipeline->pipe(host('example.com', $middleware));
@@ -249,14 +249,14 @@ $pipeline->pipe(host('example.com', $middleware));
 #### path
 
 ```php
-function Zend\Stratigility\path(
+function Laminas\Stratigility\path(
   string $pathPrefix,
   Psr\Http\Server\MiddlewareInterface $middleware
-) : Zend\Stratigility\Middleware\PathMiddlewareDecorator
+) : Laminas\Stratigility\Middleware\PathMiddlewareDecorator
 ```
 
 This is a convenience wrapper around instantiation of a
-`Zend\Stratigility\Middleware\PathMiddlewareDecorator` instance:
+`Laminas\Stratigility\Middleware\PathMiddlewareDecorator` instance:
 
 ```php
 $pipeline->pipe(path('/foo', $middleware));
@@ -265,9 +265,9 @@ $pipeline->pipe(path('/foo', $middleware));
 #### middleware
 
 ```php
-function Zend\Stratigility\middleware(
+function Laminas\Stratigility\middleware(
     callable $middleware
-) : Zend\Stratigility\Middleware\CallableMiddlewareDecorator
+) : Laminas\Stratigility\Middleware\CallableMiddlewareDecorator
 ```
 
 `middleware()` provides a convenient way to decorate callable middleware that
@@ -282,10 +282,10 @@ $pipeline->pipe(middleware(function ($request, $handler) {
 #### doublePassMiddleware
 
 ```php
-function Zend\Stratigility\doublePassMiddleware(
+function Laminas\Stratigility\doublePassMiddleware(
     callable $middleware,
     Psr\Http\Message\ResponseInterface $responsePrototype = null
-) : Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator
+) : Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator
 ```
 
 `doublePassMiddleware()` provides a convenient way to decorate middleware that
@@ -297,7 +297,7 @@ $pipeline->pipe(doublePassMiddleware(function ($request, $response, $next) {
 });
 ```
 
-If you are not using zend-diactoros as a PSR-7 implementation, you will need to
+If you are not using laminas-diactoros as a PSR-7 implementation, you will need to
 pass a response prototype as well:
 
 ```php

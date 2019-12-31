@@ -7,11 +7,16 @@
  */
 declare(strict_types=1);
 
-namespace LaminasTest\Stratigility\TestAsset;
+namespace Zend\Stratigility;
 
-class NormalHandler
+use Psr\Http\Server\MiddlewareInterface;
+
+use function Laminas\Stratigility\path as laminas_path;
+
+/**
+ * @deprecated Use Laminas\Stratigility\path instead
+ */
+function path(string $path, MiddlewareInterface $middleware) : Middleware\PathMiddlewareDecorator
 {
-    public function handle($req, $res, $next)
-    {
-    }
+    laminas_path(...func_get_args());
 }
