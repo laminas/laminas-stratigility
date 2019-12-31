@@ -3,7 +3,7 @@
 Install this library using composer:
 
 ```console
-$ composer require zendframework/zend-diactoros zendframework/zend-stratigility
+$ composer require laminas/laminas-diactoros laminas/laminas-stratigility
 ```
 
 Stratigility has the following dependencies (which are managed by Composer):
@@ -12,13 +12,13 @@ Stratigility has the following dependencies (which are managed by Composer):
   the interfaces specified in [PSR-7](http://www.php-fig.org/psr/psr-7),
   and type-hinted against in this package. In order to use Stratigility, you
   will need an implementation of PSR-7; one such package is
-  [Diactoros](https://docs.zendframework.com/zend-diactoros/).
+  [Diactoros](https://docs.laminas.dev/laminas-diactoros/).
 
 - [psr/http-server-middleware](https://github.com/php-fig/http-server-middleware),
   which provides the [PSR-15](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-15-request-handlers.md)
   interfaces.
 
-- `zendframework/zend-escaper`, used by the `ErrorHandler` middleware and the
+- `laminas/laminas-escaper`, used by the `ErrorHandler` middleware and the
   (legacy) `FinalHandler` implementation for escaping error messages prior to
   passing them to the response.
 
