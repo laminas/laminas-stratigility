@@ -1,14 +1,18 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-stratigility for the canonical source repository
- * @copyright Copyright (c) 2016-2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-stratigility/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\Stratigility\Middleware;
+namespace LaminasTest\Stratigility\Middleware;
 
+use Laminas\Escaper\Escaper;
+use Laminas\Stratigility\Middleware\ErrorHandler;
+use Laminas\Stratigility\Middleware\ErrorResponseGenerator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -17,9 +21,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
-use Zend\Escaper\Escaper;
-use Zend\Stratigility\Middleware\ErrorHandler;
-use Zend\Stratigility\Middleware\ErrorResponseGenerator;
 
 use function error_reporting;
 use function trigger_error;
