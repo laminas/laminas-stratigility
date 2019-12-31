@@ -4,11 +4,11 @@ The following make up the primary API of Stratigility.
 
 ## Middleware
 
-`Zend\Stratigility\MiddlewarePipe` is the primary application interface, and
+`Laminas\Stratigility\MiddlewarePipe` is the primary application interface, and
 has been discussed previously. Its API is:
 
 ```php
-namespace Zend\Stratigility;
+namespace Laminas\Stratigility;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
@@ -74,17 +74,17 @@ function (
 ) : ResponseInterface
 ```
 
-Most often, you can pass an instance of `Zend\Stratigility\NoopFinalHandler` for
+Most often, you can pass an instance of `Laminas\Stratigility\NoopFinalHandler` for
 `$out` if invoking a middleware pipeline manually; otherwise, a suitable
 callback will be provided for you (typically an instance of
-`Zend\Stratigility\Next`, which `MiddlewarePipe` creates internally before
+`Laminas\Stratigility\Next`, which `MiddlewarePipe` creates internally before
 dispatching to the various middleware in its pipeline).
 
 Middleware should either return a response, or the result of
 `$next()/DelegateInterface::process()/RequestHandlerInterface::handle()`
 (which should eventually evaluate to a response instance).
 
-Within Stratigility, `Zend\Stratigility\Next` provides an implementation
+Within Stratigility, `Laminas\Stratigility\Next` provides an implementation
 compatible with either usage.
 
 `MiddlewarePipe` implements the http-interop/http-middleware server-side
@@ -94,7 +94,7 @@ requires a `ServerRequestInterface` instance and an http-interop/http-middleware
 as it also implements that interface.
 
 Internally, for both `__invoke()` and `process()`, `MiddlewarePipe` creates an
-instance of `Zend\Stratigility\Next` (feeding it its queue), executes it, and
+instance of `Laminas\Stratigility\Next` (feeding it its queue), executes it, and
 returns its response.
 
 ### Response prototype
@@ -113,7 +113,7 @@ $pipeline->setResponsePrototype(new Response());
 
 ## Next
 
-`Zend\Stratigility\Next` is primarily an implementation detail of middleware,
+`Laminas\Stratigility\Next` is primarily an implementation detail of middleware,
 and exists to allow delegating to middleware registered later in the stack. It
 is implemented both as a functor and as an http-interop/http-middleware
 `DelegateInterface`.
@@ -150,7 +150,7 @@ when calling it in your application, or return a response yourself.
 >
 > - For innermost middleware that will be returning a response without
 >   delegation, we recommend instantiating and returning a concrete
->   response instance. [Diactoros provides a number of convenient custom responses](https://docs.zendframework.com/zend-diactoros/custom-responses/).
+>   response instance. [Diactoros provides a number of convenient custom responses](https://docs.laminas.dev/laminas-diactoros/custom-responses/).
 > - For middleware delegating to another layer, operate on the *returned*
 >   response instead:
 >
@@ -324,14 +324,14 @@ middleware piped to the instance will be wrapped in a decorator.
 
 Two versions exist:
 
-- `Zend\Stratigility\Middleware\CallableMiddlewareWrapper` will wrap a callable
+- `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper` will wrap a callable
   using the legacy interface; as such, it also requires a response instance:
 
   ```php
   $middleware = new CallableMiddlewareWrapper($middleware, $response);
   ```
 
-- `Zend\Stratigility\Middleware\CallableMiddlewareWrapper` will wrap a callable
+- `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper` will wrap a callable
   that defines exactly two arguments, with the second type-hinting on the
   http-interop/http-middleware `DelegateInterface`:
 
@@ -350,9 +350,9 @@ using the legacy middleware signature.
 
 ## Delegates
 
-In addition to `Zend\Stratigility\Next`, Stratigility provides another
+In addition to `Laminas\Stratigility\Next`, Stratigility provides another
 http-interop/http-middleware `DelegateInterface` implementation,
-`Zend\Stratigility\Delegate\CallableDelegateDecorator`.
+`Laminas\Stratigility\Delegate\CallableDelegateDecorator`.
 
 This class can be used to wrap a callable `$next` instance for use in passing to
 an http-interop/http-middleware middleware interface `process()` method as a
@@ -372,7 +372,7 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterfa
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Stratigility\Delegate\CallableDelegateDecorator;
+use Laminas\Stratigility\Delegate\CallableDelegateDecorator;
 
 class TimestampMiddleware implements ServerMiddlewareInterface
 {

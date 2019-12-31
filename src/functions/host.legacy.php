@@ -8,11 +8,16 @@
 
 declare(strict_types=1);
 
-namespace LaminasTest\Stratigility\TestAsset;
+namespace Zend\Stratigility;
 
-class ErrorHandler
+use Psr\Http\Server\MiddlewareInterface;
+
+use function Laminas\Stratigility\host as laminas_host;
+
+/**
+ * @deprecated Use Laminas\Stratigility\host instead
+ */
+function host(string $host, MiddlewareInterface $middleware) : Middleware\HostMiddlewareDecorator
 {
-    public function handle($err, $req, $res, $next)
-    {
-    }
+    laminas_host(...func_get_args());
 }
