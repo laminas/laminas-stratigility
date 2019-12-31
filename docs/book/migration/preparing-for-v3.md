@@ -35,7 +35,7 @@ This means the following:
 - You can no longer pipe callable middleware of any type.
 
 To support path segregation, we have introduced
-`Zend\Stratigility\Middleware\PathMiddlewareDecorator`. This class accepts two
+`Laminas\Stratigility\Middleware\PathMiddlewareDecorator`. This class accepts two
 arguments to its constructor: a string `$pathPrefix` (previously, the `$path`
 argument to `MiddlewarePipe::pipe()`), and a middleware implementation. This
 class has been backported to version 2.2.0, with usage as follows:
@@ -45,11 +45,11 @@ class has been backported to version 2.2.0, with usage as follows:
 $pipeline->pipe('/api', $apiMiddleware);
 
 // Version 2.2.0+:
-use Zend\Stratigility\Middleware\PathMiddlewareDecorator;
+use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 $pipeline->pipe(new PathMiddlewareDecorator('/api', $apiMiddleware));
 
 // OR:
-use Zend\Stratigility\path;
+use Laminas\Stratigility\path;
 $pipeline->pipe(path('/api', $apiMiddleware));
 ```
 
@@ -63,11 +63,11 @@ two arguments).
 
 To support callable middleware, we have introduced two classes:
 
-- `Zend\Stratigility\Middleware\CallableMiddlewareDecorator` can be used to
+- `Laminas\Stratigility\Middleware\CallableMiddlewareDecorator` can be used to
   decorate callable middleware following the PSR-15 signature. It replaces the
   class `CallableInteropMiddlewareWrapper`.
 
-- `Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator` can be used to
+- `Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator` can be used to
   decorate callable middleware following the double-pass signature. It replaces
   the class `CallableMiddlewareWrapper`.
 
@@ -80,8 +80,8 @@ $pipeline->pipe(function ($request, $delegate) {
 });
 
 // Version 2.2.0+:
-use Zend\Stratigility\Middleware\CallableMiddlewareDecorator;
-use Zend\Stratigility\middleware;
+use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
+use Laminas\Stratigility\middleware;
 $pipeline->pipe(new CallableMiddlewareDecorator(function ($request, $delegate) {
     /* ... */
 }));
@@ -96,8 +96,8 @@ $pipeline->pipe(function ($request, $response, $next) {
 });
 
 // Version 2.2.0+:
-use Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator;
-use Zend\Stratigility\doublePassMiddleware;
+use Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator;
+use Laminas\Stratigility\doublePassMiddleware;
 $pipeline->pipe(new DoublePassMiddlewareDecorator(function ($request, $response, $next) {
     /* ... */
 }));
@@ -117,7 +117,7 @@ utility functions as noted in the examples above.**
 
 ## Extending MiddlewarePipe
 
-Starting in version 3, `Zend\Stratigility\MiddlewarePipe` is marked as `final`.
+Starting in version 3, `Laminas\Stratigility\MiddlewarePipe` is marked as `final`.
 This means you will no longer be able to directly extend it.
 
 We recommend the following:
@@ -138,12 +138,12 @@ We recommend the following:
 The following classes are now marked as deprecated. Where alternatives are
 available, we note them. If no alternative is available, we note why.
 
-### `Zend\Stratigility\MiddlewareInterface`
+### `Laminas\Stratigility\MiddlewareInterface`
 
 This interface has been marked as deprecated since 2.0.0, and unused internally
 since that release. It is removed with version 3.0.0.
 
-### `Zend\Stratigility\Route`
+### `Laminas\Stratigility\Route`
 
 This is an internal message shared between a `MiddlewarePipe` and a `Next`
 instance for purposes of path segregation. In general, it should never be
@@ -152,17 +152,17 @@ consumed directly; however, it was never marked as internal or final previously.
 If you are extending this class or manipulating instances manually, be aware
 that this class is removed in version 3 as it is no longer used internally.
 
-### `Zend\Stratigility\Exception\InvalidMiddlewareException`
+### `Laminas\Stratigility\Exception\InvalidMiddlewareException`
 
 This was thrown by `MiddlewarePipe::pipe()`. In version 3, since the sole
 argument to that method is type-hinted against the PSR-15 `MiddlewareInterface`,
 it is no longer used.
 
-### `Zend\Stratigility\Exception\InvalidRequestTypeException`
+### `Laminas\Stratigility\Exception\InvalidRequestTypeException`
 
 This has not been used internally since before version 2.
 
-### `Zend\Stratigility\Delegate\CallableDelegateDecorator`
+### `Laminas\Stratigility\Delegate\CallableDelegateDecorator`
 
 This was an internal class used by several classes when they were being used
 within double-pass systems in order to cast a `callable $next` argument into a
@@ -175,23 +175,23 @@ Methods that produce an instance include:
 - `NotFoundHandler::__invoke()`
 - `ErrorHandler::__invoke()`
 
-### `Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper`
+### `Laminas\Stratigility\Middleware\CallableInteropMiddlewareWrapper`
 
 This class has been deprecated in favor of a new class,
-`Zend\Stratigility\Middleware\CallableMiddlewareDecorator`.
+`Laminas\Stratigility\Middleware\CallableMiddlewareDecorator`.
 
-### `Zend\Stratigility\Middleware\CallableMiddlewareWrapper`
+### `Laminas\Stratigility\Middleware\CallableMiddlewareWrapper`
 
 This class has been deprecated in favor of a new class,
-`Zend\Stratigility\Middleware\DoublePassMiddlewareDecorator`.
+`Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator`.
 
-### `Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory`
+### `Laminas\Stratigility\Middleware\CallableMiddlewareWrapperFactory`
 
 The primary purpose of this class was for composition within a `MiddlewarePipe`
 for purposes of decorating callable double-pass middleware. Since
 `MiddlewarePipe::pipe()` will no longer accept callables, it will also no longer
 need to compose this factory.
 
-### `Zend\Stratigility\Middleware\NoopFinalFactory`
+### `Laminas\Stratigility\Middleware\NoopFinalFactory`
 
 This class has no internal usage, and is removed in version 3.
