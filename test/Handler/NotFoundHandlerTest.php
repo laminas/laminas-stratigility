@@ -7,13 +7,13 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Stratigility\Handler;
+namespace LaminasTest\Stratigility\Handler;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
-use Zend\Stratigility\Handler\NotFoundHandler;
+use Laminas\Stratigility\Handler\NotFoundHandler;
 
 class NotFoundHandlerTest extends TestCase
 {
