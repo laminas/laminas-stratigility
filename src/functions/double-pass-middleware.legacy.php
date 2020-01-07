@@ -21,5 +21,5 @@ function doublePassMiddleware(
     callable $middleware,
     ResponseInterface $response = null
 ) : Middleware\DoublePassMiddlewareDecorator {
-    laminas_doublePassMiddleware(...func_get_args());
+    return laminas_doublePassMiddleware(...func_get_args());
 }
