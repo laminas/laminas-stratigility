@@ -28,6 +28,28 @@ details.
 
 - Nothing.
 
+## 3.2.2 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 3.2.1 - 2020-01-07
 
 ### Added
