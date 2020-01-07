@@ -17,5 +17,5 @@ use function Laminas\Stratigility\middleware as laminas_middleware;
  */
 function middleware(callable $middleware) : Middleware\CallableMiddlewareDecorator
 {
-    laminas_middleware(...func_get_args());
+    return laminas_middleware(...func_get_args());
 }
