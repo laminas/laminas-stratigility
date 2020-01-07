@@ -19,5 +19,5 @@ use function Laminas\Stratigility\path as laminas_path;
  */
 function path(string $path, MiddlewareInterface $middleware) : Middleware\PathMiddlewareDecorator
 {
-    laminas_path(...func_get_args());
+    return laminas_path(...func_get_args());
 }
