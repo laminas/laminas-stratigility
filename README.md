@@ -1,6 +1,6 @@
 # laminas-stratigility
 
-[![Build Status](https://travis-ci.org/laminas/laminas-stratigility.svg?branch=master)](https://travis-ci.org/laminas/laminas-stratigility)
+[![Build Status](https://travis-ci.com/laminas/laminas-stratigility.svg?branch=master)](https://travis-ci.com/laminas/laminas-stratigility)
 [![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-stratigility/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-stratigility?branch=master)
 
 > From "Strata", Latin for "layer", and "agility".

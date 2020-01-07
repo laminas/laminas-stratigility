@@ -28,7 +28,7 @@ details.
 
 - Nothing.
 
-## 3.2.1 - TBD
+## 3.2.1 - 2020-01-07
 
 ### Added
 
@@ -48,7 +48,7 @@ details.
 
 ### Fixed
 
-- Nothing.
+- Fixes all legacy proxying function definitions to add missing return statements.
 
 ## 3.2.0 - 2019-06-12
 
