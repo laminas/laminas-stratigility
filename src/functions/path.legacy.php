@@ -17,5 +17,5 @@ use function Laminas\Stratigility\path as laminas_path;
  */
 function path($path, MiddlewareInterface $middleware)
 {
-    laminas_path(...func_get_args());
+    return laminas_path(...func_get_args());
 }
