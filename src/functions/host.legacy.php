@@ -19,5 +19,5 @@ use function Laminas\Stratigility\host as laminas_host;
  */
 function host(string $host, MiddlewareInterface $middleware) : Middleware\HostMiddlewareDecorator
 {
-    laminas_host(...func_get_args());
+    return laminas_host(...func_get_args());
 }
