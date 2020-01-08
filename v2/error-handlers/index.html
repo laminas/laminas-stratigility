@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -311,44 +315,42 @@ middleware that you may register in an innermost layer that will return a 404
 condition, <code>Laminas\Stratigility\Middleware\NotFoundHandler</code>. The class requires a
 response prototype instance that it will use to provide the 404 status and a
 message indicating the request method and URI used:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// setup layers</span>
-<span class=x>$app-&gt;pipe(/* ... */);</span>
-<span class=x>$app-&gt;pipe(/* ... */);</span>
-<span class=x>$app-&gt;pipe(new NotFoundHandler(new Response());</span>
+<pre class=codehilite><code class=language-php>// setup layers
+$app-&gt;pipe(/* ... */);
+$app-&gt;pipe(/* ... */);
+$app-&gt;pipe(new NotFoundHandler(new Response());
 
-<span class=x>// execute application</span>
-</pre></div></p>
+// execute application</code></pre>
 <p>Note that it is the last middleware piped into the application! Since it returns
 a response, no deeper nested layers will execute once it has been invoked.</p>
 <p>If you would like a templated response, you will need to write your own
 middleware; such middleware might look like the following:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Interop\Http\ServerMiddleware\DelegateInterface;</span>
-<span class=x>use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;</span>
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
+<pre class=codehilite><code class=language-php>use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-<span class=x>class NotFoundMiddleware implements ServerMiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    private $renderer;</span>
+class NotFoundMiddleware implements ServerMiddlewareInterface
+{
+    private $renderer;
 
-<span class=x>    public function __construct(</span>
-<span class=x>        TemplateRendererInterface $renderer,</span>
-<span class=x>        ResponseInterface $response</span>
-<span class=x>    ) {</span>
-<span class=x>        $this-&gt;renderer = $renderer;</span>
-<span class=x>        $this-&gt;response = $response;</span>
-<span class=x>    }</span>
+    public function __construct(
+        TemplateRendererInterface $renderer,
+        ResponseInterface $response
+    ) {
+        $this-&gt;renderer = $renderer;
+        $this-&gt;response = $response;
+    }
 
-<span class=x>    public function process(ServerRequestInterface $request, DelegateInterface $delegate)</span>
-<span class=x>    {</span>
-<span class=x>        $response = $this-&gt;response-&gt;withStatus(404);</span>
-<span class=x>        $response-&gt;getBody()-&gt;write(</span>
-<span class=x>            $this-&gt;renderer-&gt;render(&#39;error::404&#39;)</span>
-<span class=x>        );</span>
-<span class=x>        return $response;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    {
+        $response = $this-&gt;response-&gt;withStatus(404);
+        $response-&gt;getBody()-&gt;write(
+            $this-&gt;renderer-&gt;render('error::404')
+        );
+        return $response;
+    }
+}</code></pre>
 <h2 id="handling-php-errors-and-exceptions">Handling PHP errors and exceptions</h2>
 <p><code>Laminas\Stratigility\Middleware\ErrorHandler</code> is a middleware implementation to
 register as the <em>outermost layer</em> of your application (or close to the outermost
@@ -363,15 +365,14 @@ layer). It does the following:</p>
 </ul>
 <p>To generate the error response, we provide the ability to inject a callable with
 the following signature into the <code>ErrorHandler</code> during instantiation:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>Psr\Http\Message\ResponseInterface;</span>
-<span class=x>Psr\Http\Message\ServerRequestInterface;</span>
+<pre class=codehilite><code class=language-php>Psr\Http\Message\ResponseInterface;
+Psr\Http\Message\ServerRequestInterface;
 
-<span class=x>function (</span>
-<span class=x>    Throwable|Exception $e,</span>
-<span class=x>    ServerRequestInterface $request,</span>
-<span class=x>    ResponseInterface $response</span>
-<span class=x>) : ResponseInterface</span>
-</pre></div></p>
+function (
+    Throwable|Exception $e,
+    ServerRequestInterface $request,
+    ResponseInterface $response
+) : ResponseInterface</code></pre>
 <p>We provide a default implementation, <code>Laminas\Stratigility\Middleware\ErrorResponseGenerator</code>,
 which generates an error response with a <code>5XX</code> series status code and a message
 derived from the reason phrase, if any is present. You may pass a boolean flag
@@ -380,69 +381,65 @@ response will have the stack trace included in the body.</p>
 <p>In order to work, the <code>ErrorHandler</code> needs a prototype response instance, and,
 optionally, an error response generator (if none is provided,
 <code>ErrorResponseGenerator</code> is used, in production mode):</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// setup error handling</span>
-<span class=x>$app-&gt;pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDevelopmentMode));</span>
+<pre class=codehilite><code class=language-php>// setup error handling
+$app-&gt;pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDevelopmentMode));
 
-<span class=x>// setup layers</span>
-<span class=x>$app-&gt;pipe(/* ... */);</span>
-<span class=x>$app-&gt;pipe(/* ... */);</span>
-</pre></div></p>
+// setup layers
+$app-&gt;pipe(/* ... */);
+$app-&gt;pipe(/* ... */);</code></pre>
 <p>As a full example, you can combine the two middleware into the same application
 as separate layers:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// setup error handling</span>
-<span class=x>$app-&gt;pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDevelopmentMode));</span>
+<pre class=codehilite><code class=language-php>// setup error handling
+$app-&gt;pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDevelopmentMode));
 
-<span class=x>// setup layers</span>
-<span class=x>$app-&gt;pipe(/* ... */);</span>
-<span class=x>$app-&gt;pipe(/* ... */);</span>
+// setup layers
+$app-&gt;pipe(/* ... */);
+$app-&gt;pipe(/* ... */);
 
-<span class=x>// setup 404 handling</span>
-<span class=x>$app-&gt;pipe(new NotFoundHandler(new Response());</span>
+// setup 404 handling
+$app-&gt;pipe(new NotFoundHandler(new Response());
 
-<span class=x>// execute application</span>
-</pre></div></p>
+// execute application</code></pre>
 <p>The <code>ErrorResponseGenerator</code> provides no templating facilities, and only
 responds as <code>text/html</code>. If you want to provide a templated response, or a
 different serialization and/or markup format, you will need to write your own
 error response generator.</p>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use ErrorException;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Throwable;</span>
-<span class=x>use Laminas\Stratigility\Exception\MissingResponseException;</span>
-<span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
+<pre class=codehilite><code class=language-php>use ErrorException;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Throwable;
+use Laminas\Stratigility\Exception\MissingResponseException;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
-<span class=x>class TemplatedErrorResponseGenerator</span>
-<span class=x>{</span>
-<span class=x>    private $isDevelopmentMode;</span>
-<span class=x>    private $renderer;</span>
+class TemplatedErrorResponseGenerator
+{
+    private $isDevelopmentMode;
+    private $renderer;
 
-<span class=x>    public function __construct(</span>
-<span class=x>        TemplateRendererInterface $renderer,</span>
-<span class=x>        $isDevelopmentMode = false</span>
-<span class=x>    ) {</span>
-<span class=x>        $this-&gt;renderer = $renderer;</span>
-<span class=x>        $this-&gt;isDevelopmentMode = $isDevelopmentMode;</span>
-<span class=x>    }</span>
+    public function __construct(
+        TemplateRendererInterface $renderer,
+        $isDevelopmentMode = false
+    ) {
+        $this-&gt;renderer = $renderer;
+        $this-&gt;isDevelopmentMode = $isDevelopmentMode;
+    }
 
-<span class=x>    public function __invoke($e, ServerRequestInterface $request, ResponseInterface $response)</span>
-<span class=x>    {</span>
-<span class=x>        $response = $response-&gt;withStatus(500);</span>
-<span class=x>        $response-&gt;getBody()-&gt;write($this-&gt;renderer-&gt;render(&#39;error::error&#39;, [</span>
-<span class=x>            &#39;exception&#39;        =&gt; $e,</span>
-<span class=x>            &#39;development_mode&#39; =&gt; $this-&gt;isDevelopmentMode,</span>
-<span class=x>        ]));</span>
-<span class=x>        return $response;</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function __invoke($e, ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $response = $response-&gt;withStatus(500);
+        $response-&gt;getBody()-&gt;write($this-&gt;renderer-&gt;render('error::error', [
+            'exception'        =&gt; $e,
+            'development_mode' =&gt; $this-&gt;isDevelopmentMode,
+        ]));
+        return $response;
+    }
+}</code></pre>
 <p>You would then pass this to the <code>ErrorHandler</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(new ErrorHandler(</span>
-<span class=x>    new Response(),</span>
-<span class=x>    new TemplatedErrorResponseGenerator($renderer, $isDevelopmentMode)</span>
-<span class=x>));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(new ErrorHandler(
+    new Response(),
+    new TemplatedErrorResponseGenerator($renderer, $isDevelopmentMode)
+));</code></pre>
 <h3>ErrorHandler Listeners</h3>
 <p><code>Laminas\Stratigility\Middleware\ErrorHandler</code> provides the ability to attach
 <em>listeners</em>; these are triggered when an error or exception is caught, and
@@ -450,27 +447,25 @@ provided with the exception/throwable raised, the original request, and the
 final response. These instances are considered immutable, so listeners are for
 purposes of logging/monitoring only.</p>
 <p>Listeners must implement the following signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>Psr\Http\Message\ResponseInterface;</span>
-<span class=x>Psr\Http\Message\ServerRequestInterface;</span>
+<pre class=codehilite><code class=language-php>Psr\Http\Message\ResponseInterface;
+Psr\Http\Message\ServerRequestInterface;
 
-<span class=x>function (</span>
-<span class=x>    Throwable|Exception $e,</span>
-<span class=x>    ServerRequestInterface $request,</span>
-<span class=x>    ResponseInterface $response</span>
-<span class=x>) : void</span>
-</pre></div></p>
+function (
+    Throwable|Exception $e,
+    ServerRequestInterface $request,
+    ResponseInterface $response
+) : void</code></pre>
 <p>Attach listeners using <code>ErrorHandler::attachListener()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$errorHandler-&gt;attachListener(function ($throwable, $request, $response) use ($logger) {</span>
-<span class=x>    $message = sprintf(</span>
-<span class=x>        &#39;[%s] %s %s: %s&#39;,</span>
-<span class=x>        date(&#39;Y-m-d H:i:s&#39;),</span>
-<span class=x>        $request-&gt;getMethod(),</span>
-<span class=x>        (string) $request-&gt;getUri(),</span>
-<span class=x>        $throwable-&gt;getMessage()</span>
-<span class=x>    );</span>
-<span class=x>    $logger-&gt;error($message);</span>
-<span class=x>});</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$errorHandler-&gt;attachListener(function ($throwable, $request, $response) use ($logger) {
+    $message = sprintf(
+        '[%s] %s %s: %s',
+        date('Y-m-d H:i:s'),
+        $request-&gt;getMethod(),
+        (string) $request-&gt;getUri(),
+        $throwable-&gt;getMessage()
+    );
+    $logger-&gt;error($message);
+});</code></pre>
 
 
 
@@ -625,9 +620,10 @@ purposes of logging/monitoring only.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -664,7 +660,7 @@ purposes of logging/monitoring only.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-stratigility//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -673,8 +669,8 @@ purposes of logging/monitoring only.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-stratigility//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-stratigility/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -301,50 +305,49 @@
 <p>Middleware is code that exists between the request and response, and which can
 take the incoming request, perform actions based on it, and either complete the
 response or pass delegation on to the next middleware in the queue.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// In public/index.php:</span>
-<span class=x>use Laminas\Diactoros\Response;</span>
-<span class=x>use Laminas\Diactoros\Server;</span>
-<span class=x>use Laminas\Stratigility\Middleware\NotFoundHandler;</span>
-<span class=x>use Laminas\Stratigility\MiddlewarePipe;</span>
+<pre class=codehilite><code class=language-php>// In public/index.php:
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Server;
+use Laminas\Stratigility\Middleware\NotFoundHandler;
+use Laminas\Stratigility\MiddlewarePipe;
 
-<span class=x>use function Laminas\Stratigility\middleware;</span>
-<span class=x>use function Laminas\Stratigility\path;</span>
+use function Laminas\Stratigility\middleware;
+use function Laminas\Stratigility\path;
 
-<span class=x>require __DIR__ . &#39;/../vendor/autoload.php&#39;;</span>
+require __DIR__ . '/../vendor/autoload.php';
 
-<span class=x>$app = new MiddlewarePipe();</span>
+$app = new MiddlewarePipe();
 
-<span class=x>$server = Server::createServer([$app, &#39;handle&#39;], $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);</span>
+$server = Server::createServer([$app, 'handle'], $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 
-<span class=x>// Landing page</span>
-<span class=x>$app-&gt;pipe(middleware(function ($req, $handler) {</span>
-<span class=x>    if (! in_array($req-&gt;getUri()-&gt;getPath(), [&#39;/&#39;, &#39;&#39;], true)) {</span>
-<span class=x>        return $handler-&gt;handle($req);</span>
-<span class=x>    }</span>
+// Landing page
+$app-&gt;pipe(middleware(function ($req, $handler) {
+    if (! in_array($req-&gt;getUri()-&gt;getPath(), ['/', ''], true)) {
+        return $handler-&gt;handle($req);
+    }
 
-<span class=x>    $response = new Response();</span>
-<span class=x>    $response-&gt;getBody()-&gt;write(&#39;Hello world!&#39;);</span>
+    $response = new Response();
+    $response-&gt;getBody()-&gt;write('Hello world!');
 
-<span class=x>    return $response;</span>
-<span class=x>}));</span>
+    return $response;
+}));
 
-<span class=x>// Another page</span>
-<span class=x>$app-&gt;pipe(path(&#39;/foo&#39;, middleware(function ($req, $handler) {</span>
-<span class=x>    $response = new Response();</span>
-<span class=x>    $response-&gt;getBody()-&gt;write(&#39;FOO!&#39;);</span>
+// Another page
+$app-&gt;pipe(path('/foo', middleware(function ($req, $handler) {
+    $response = new Response();
+    $response-&gt;getBody()-&gt;write('FOO!');
 
-<span class=x>    return $response;</span>
-<span class=x>})));</span>
+    return $response;
+})));
 
-<span class=x>// 404 handler</span>
-<span class=x>$app-&gt;pipe(new NotFoundHandler(function () {</span>
-<span class=x>    return new Response();</span>
-<span class=x>}));</span>
+// 404 handler
+$app-&gt;pipe(new NotFoundHandler(function () {
+    return new Response();
+}));
 
-<span class=x>$server-&gt;listen(function ($req, $res) {</span>
-<span class=x>    return $res;</span>
-<span class=x>});</span>
-</pre></div></p>
+$server-&gt;listen(function ($req, $res) {
+    return $res;
+});</code></pre>
 <p>In the above example, we have two examples of middleware. The first is a
 landing page, and listens at the root path. If the request path is empty or
 <code>/</code>, it completes the response. If it is not, it delegates to the next
@@ -376,10 +379,9 @@ demonstrated in the initial example), you can also attach middleware to specific
 paths, allowing you to mix and match applications under a common domain. As an
 example, you could put API middleware next to middleware that serves its
 documentation, next to middleware that serves files, and segregate each by URI:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$app-&gt;pipe(path(&#39;/api&#39;, $apiMiddleware));</span>
-<span class=x>$app-&gt;pipe(path(&#39;/docs&#39;, $apiDocMiddleware));</span>
-<span class=x>$app-&gt;pipe(path(&#39;/files&#39;, $filesMiddleware));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$app-&gt;pipe(path('/api', $apiMiddleware));
+$app-&gt;pipe(path('/docs', $apiDocMiddleware));
+$app-&gt;pipe(path('/files', $filesMiddleware));</code></pre>
 <p>The handlers in each middleware attached this way will see a URI with that path
 segment stripped, allowing them to be developed separately and re-used under
 any path you wish.</p>
@@ -556,9 +558,10 @@ any path you wish.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -595,7 +598,7 @@ any path you wish.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-stratigility//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -604,8 +607,8 @@ any path you wish.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-stratigility//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-stratigility/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

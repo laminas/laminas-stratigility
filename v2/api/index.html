@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -312,32 +316,31 @@
 <h2 id="middleware">Middleware</h2>
 <p><code>Laminas\Stratigility\MiddlewarePipe</code> is the primary application interface, and
 has been discussed previously. Its API is:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Stratigility;</span>
+<pre class=codehilite><code class=language-php>namespace Laminas\Stratigility;
 
-<span class=x>use Interop\Http\ServerMiddleware\DelegateInterface;</span>
-<span class=x>use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;</span>
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-<span class=x>class MiddlewarePipe implements ServerMiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    public function pipe(</span>
-<span class=x>        string|callable|ServerMiddlewareInterface $path,</span>
-<span class=x>        callable|ServerMiddlewareInterface $middleware = null</span>
-<span class=x>    );</span>
+class MiddlewarePipe implements ServerMiddlewareInterface
+{
+    public function pipe(
+        string|callable|ServerMiddlewareInterface $path,
+        callable|ServerMiddlewareInterface $middleware = null
+    );
 
-<span class=x>    public function __invoke(</span>
-<span class=x>        ServerRequestInterface $request,</span>
-<span class=x>        ResponseInterface $response,</span>
-<span class=x>        $delegate</span>
-<span class=x>    ) : ResponseInterface;</span>
+    public function __invoke(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $delegate
+    ) : ResponseInterface;
 
-<span class=x>    public function process(</span>
-<span class=x>        ServerRequestInterface $request,</span>
-<span class=x>        DelegateInterface $delegate</span>
-<span class=x>    ) : ResponseInterface;</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function process(
+        ServerRequestInterface $request,
+        DelegateInterface $delegate
+    ) : ResponseInterface;
+}</code></pre>
 <p><code>pipe()</code> takes up to two arguments. If only one argument is provided,
 <code>$middleware</code> will be assigned that value, and <code>$path</code> will be re-assigned to
 the value <code>/</code>; this is an indication that the <code>$middleware</code> should be invoked
@@ -361,14 +364,13 @@ expecting http-interop middleware signatures (via the <code>process()</code> met
 <p>When using <code>__invoke()</code>, the callable <code>$out</code> argument should either implement
 delegator/request handler interface from <code>http-interop/http-middleware</code>
 (depends on version you are using), or use the signature:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
+<pre class=codehilite><code class=language-php>use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-<span class=x>function (</span>
-<span class=x>    ServerRequestInterface $request,</span>
-<span class=x>    ResponseInterface $response</span>
-<span class=x>) : ResponseInterface</span>
-</pre></div></p>
+function (
+    ServerRequestInterface $request,
+    ResponseInterface $response
+) : ResponseInterface</code></pre>
 <p>Most often, you can pass an instance of <code>Laminas\Stratigility\NoopFinalHandler</code> for
 <code>$out</code> if invoking a middleware pipeline manually; otherwise, a suitable
 callback will be provided for you (typically an instance of
@@ -393,9 +395,8 @@ any callable middleware piped to the instance will be wrapped in a decorator
 (see the <a href="#middleware-decorators">section on middleware decorators</a>, below) such
 that it will now conform to http-interop middleware interfaces.</p>
 <p>To use this functionality, inject the prototype before piping middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pipeline = new MiddlewarePipe();</span>
-<span class=x>$pipeline-&gt;setResponsePrototype(new Response());</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pipeline = new MiddlewarePipe();
+$pipeline-&gt;setResponsePrototype(new Response());</code></pre>
 <h2 id="next">Next</h2>
 <p><code>Laminas\Stratigility\Next</code> is primarily an implementation detail of middleware,
 and exists to allow delegating to middleware registered later in the stack. It
@@ -406,14 +407,13 @@ is implemented both as a functor and as an http-interop/http-middleware
 your Request and/or Response instances, you will have new instances, and will
 need to make these known to the next middleware in the chain. <code>Next</code> expects
 these arguments for every invocation.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class Next</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(</span>
-<span class=x>        Psr\Http\Message\ServerRequestInterface $request,</span>
-<span class=x>        Psr\Http\Message\ResponseInterface $response</span>
-<span class=x>    ) : Psr\Http\Message\ResponseInterface;</span>
-<span class=x>}</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>class Next
+{
+    public function __invoke(
+        Psr\Http\Message\ServerRequestInterface $request,
+        Psr\Http\Message\ResponseInterface $response
+    ) : Psr\Http\Message\ResponseInterface;
+}</code></pre>
 <p>You should <strong>always</strong> either capture or return the return value of <code>$next()</code>
 when calling it in your application, or return a response yourself.</p>
 <blockquote>
@@ -431,7 +431,7 @@ following:</p>
 <li>For middleware delegating to another layer, operate on the <em>returned</em>
   response instead:</li>
 </ul>
-<pre class=codehilite><code class=language-php>
+<pre class="codehilite"><code class="language-php">
 $response = $next($request, $response);
 return $response-&gt;withHeader('X-Foo', 'Bar');
 </code></pre>
@@ -447,105 +447,99 @@ you will need to:</p>
 <li>Operate on a response returned by invoking the delegate.</li>
 </ul>
 <h3>Providing an altered request:</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>// Standard invokable:</span>
-<span class=x>function ($request, $response, $next) use ($bodyParser)</span>
-<span class=x>{</span>
-<span class=x>    $bodyParams = $bodyParser($request);</span>
-<span class=x>    return $next(</span>
-<span class=x>        $request-&gt;withBodyParams($bodyParams), // Next will pass the new</span>
-<span class=x>        $response                              // request instance</span>
-<span class=x>    );</span>
-<span class=x>}</span>
+<pre class=codehilite><code class=language-php>// Standard invokable:
+function ($request, $response, $next) use ($bodyParser)
+{
+    $bodyParams = $bodyParser($request);
+    return $next(
+        $request-&gt;withBodyParams($bodyParams), // Next will pass the new
+        $response                              // request instance
+    );
+}
 
-<span class=x>// http-interop invokable:</span>
-<span class=x>function ($request, DelegateInterface $delegate) use ($bodyParser)</span>
-<span class=x>{</span>
-<span class=x>    $bodyParams = $bodyParser($request);</span>
+// http-interop invokable:
+function ($request, DelegateInterface $delegate) use ($bodyParser)
+{
+    $bodyParams = $bodyParser($request);
 
-<span class=x>    // Delegate will receive the new request instance:</span>
-<span class=x>    return $delegate-&gt;process(</span>
-<span class=x>        $request-&gt;withBodyParams($bodyParams)</span>
-<span class=x>    );</span>
-<span class=x>}</span>
-</pre></div></p>
+    // Delegate will receive the new request instance:
+    return $delegate-&gt;process(
+        $request-&gt;withBodyParams($bodyParams)
+    );
+}</code></pre>
 <h3>Providing an altered request and operating on the returned response:</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>function ($request, $response, $next) use ($bodyParser)</span>
-<span class=x>{</span>
-<span class=x>    $response = $next(</span>
-<span class=x>        $request-&gt;withBodyParams($bodyParser($request)),</span>
-<span class=x>        $response</span>
-<span class=x>    );</span>
+<pre class=codehilite><code class=language-php>function ($request, $response, $next) use ($bodyParser)
+{
+    $response = $next(
+        $request-&gt;withBodyParams($bodyParser($request)),
+        $response
+    );
 
-<span class=x>    return $response-&gt;withAddedHeader(&#39;Cache-Control&#39;, [</span>
-<span class=x>}</span>
+    return $response-&gt;withAddedHeader('Cache-Control', [
+}
 
-<span class=x>// http-interop invokable:</span>
-<span class=x>function ($request, DelegateInterface $delegate) use ($bodyParser)</span>
-<span class=x>{</span>
-<span class=x>    $bodyParams = $bodyParser($request);</span>
+// http-interop invokable:
+function ($request, DelegateInterface $delegate) use ($bodyParser)
+{
+    $bodyParams = $bodyParser($request);
 
-<span class=x>    // Provide a new request instance to the delegate:</span>
-<span class=x>    return $delegate-&gt;process(</span>
-<span class=x>        $request-&gt;withBodyParams($bodyParams)</span>
-<span class=x>    );</span>
-<span class=x>}</span>
-</pre></div></p>
+    // Provide a new request instance to the delegate:
+    return $delegate-&gt;process(
+        $request-&gt;withBodyParams($bodyParams)
+    );
+}</code></pre>
 <h3>Returning a response to complete the request</h3>
 <p>If your middleware does not need to delegate to another layer, it's time to
 return a response.</p>
 <p>While we pass a response when using <code>Next</code> as a functor, we recommend creating
 a new response, or providing your middleware with a response prototype; this
 will ensure that the response is specific for your context.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$prototype = new Response();</span>
+<pre class=codehilite><code class=language-php>$prototype = new Response();
 
-<span class=x>// Standard invokable signature:</span>
-<span class=x>function ($request, $response, $next) use ($prototype)</span>
-<span class=x>{</span>
-<span class=x>    $response = $prototype-&gt;withAddedHeader(&#39;Cache-Control&#39;, [</span>
-<span class=x>        &#39;public&#39;,</span>
-<span class=x>        &#39;max-age=18600&#39;,</span>
-<span class=x>        &#39;s-maxage=18600&#39;,</span>
-<span class=x>    ]);</span>
+// Standard invokable signature:
+function ($request, $response, $next) use ($prototype)
+{
+    $response = $prototype-&gt;withAddedHeader('Cache-Control', [
+        'public',
+        'max-age=18600',
+        's-maxage=18600',
+    ]);
 
-<span class=x>    return $response;</span>
-<span class=x>}</span>
+    return $response;
+}
 
-<span class=x>// http-interop invokable signature:</span>
-<span class=x>function ($request, DelegateInterface $delegate) use ($prototype)</span>
-<span class=x>{</span>
-<span class=x>    $response = $prototype-&gt;withAddedHeader(&#39;Cache-Control&#39;, [</span>
-<span class=x>        &#39;public&#39;,</span>
-<span class=x>        &#39;max-age=18600&#39;,</span>
-<span class=x>        &#39;s-maxage=18600&#39;,</span>
-<span class=x>    ]);</span>
-<span class=x>}</span>
-</pre></div></p>
+// http-interop invokable signature:
+function ($request, DelegateInterface $delegate) use ($prototype)
+{
+    $response = $prototype-&gt;withAddedHeader('Cache-Control', [
+        'public',
+        'max-age=18600',
+        's-maxage=18600',
+    ]);
+}</code></pre>
 <h3>Delegation</h3>
 <p>If your middleware is not capable of returning a response, or a particular path
 in the middleware cannot return a response, return the result of executing the
 delegate.</p>
 <p>If using the legacy middleware signature, invoke the <code>$next</code> argument:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return $next($request, $response);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return $next($request, $response);</code></pre>
 <p>If using a <code>DelegateInterface</code>, invoke its <code>process()</code> method:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return $delegate-&gt;process($request);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return $delegate-&gt;process($request);</code></pre>
 <p><strong>Middleware should always return a response, and, if it cannot, return the
 result of delegation.</strong></p>
 <h3>Raising an error condition</h3>
 <p>If your middleware cannot complete &mdash; perhaps a database error occurred, a
 service was unreachable, etc. &mdash; how can you report the error?</p>
 <p>Raise an exception!</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function ($request, $response, $next) use ($service)</span>
-<span class=x>{</span>
-<span class=x>    $result = $service-&gt;fetchSomething();</span>
-<span class=x>    if (! $result-&gt;isSuccess()) {</span>
-<span class=x>        throw new RuntimeException(&#39;Error fetching something&#39;);</span>
-<span class=x>    }</span>
+<pre class=codehilite><code class=language-php>function ($request, $response, $next) use ($service)
+{
+    $result = $service-&gt;fetchSomething();
+    if (! $result-&gt;isSuccess()) {
+        throw new RuntimeException('Error fetching something');
+    }
 
-<span class=x>    /* ... otherwise, complete the request ... */</span>
-<span class=x>}</span>
-</pre></div></p>
+    /* ... otherwise, complete the request ... */
+}</code></pre>
 <p>Use the <a href="../error-handlers/#handling-php-errors-and-exceptions">ErrorHandler middleware</a>
 to handle exceptions thrown by your middleware and report the error condition to
 your users.</p>
@@ -594,37 +588,36 @@ an http-interop/http-middleware middleware interface <code>process()</code> meth
 delegate; the primary use case is adapting functor middleware to work as
 http-interop middleware.</p>
 <p>As an example:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// http-interop/http-middleware 0.2:</span>
-<span class=x>use Interop\Http\Middleware\DelegateInterface;</span>
-<span class=x>use Interop\Http\Middleware\ServerMiddlewareInterface;</span>
+<pre class=codehilite><code class=language-php>// http-interop/http-middleware 0.2:
+use Interop\Http\Middleware\DelegateInterface;
+use Interop\Http\Middleware\ServerMiddlewareInterface;
 
-<span class=x>// http-interop/http-middleware 0.4.1:</span>
-<span class=x>use Interop\Http\ServerMiddleware\DelegateInterface;</span>
-<span class=x>use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;</span>
+// http-interop/http-middleware 0.4.1:
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
 
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Laminas\Stratigility\Delegate\CallableDelegateDecorator;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Laminas\Stratigility\Delegate\CallableDelegateDecorator;
 
-<span class=x>class TimestampMiddleware implements ServerMiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    public function __invoke(</span>
-<span class=x>        ServerRequestInterface $request,</span>
-<span class=x>        ResponseInterface $response,</span>
-<span class=x>        callable $next</span>
-<span class=x>    ) {</span>
-<span class=x>        return $this-&gt;process($request, new CallableDelegateDecorator($next, $response));</span>
-<span class=x>    }</span>
+class TimestampMiddleware implements ServerMiddlewareInterface
+{
+    public function __invoke(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        callable $next
+    ) {
+        return $this-&gt;process($request, new CallableDelegateDecorator($next, $response));
+    }
 
-<span class=x>    public function process(</span>
-<span class=x>        ServerRequestInterface $request,</span>
-<span class=x>        DelegateInterface $delegate</span>
-<span class=x>    ) {</span>
-<span class=x>        $response = $delegate-&gt;process($request);</span>
-<span class=x>        return $response-&gt;withHeader(&#39;X-Processed-Timestamp&#39;, time());</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function process(
+        ServerRequestInterface $request,
+        DelegateInterface $delegate
+    ) {
+        $response = $delegate-&gt;process($request);
+        return $response-&gt;withHeader('X-Processed-Timestamp', time());
+    }
+}</code></pre>
 
 
 
@@ -779,9 +772,10 @@ http-interop middleware.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -818,7 +812,7 @@ http-interop middleware.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-stratigility//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -827,8 +821,8 @@ http-interop middleware.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-stratigility//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-stratigility/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

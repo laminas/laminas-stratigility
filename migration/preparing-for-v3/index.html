@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -269,10 +273,9 @@ your code to be forwards-compatible.</p>
 <p>Starting in version 3, <code>MiddlewarePipe</code> and <code>Next</code> have significantly
 different behavior.</p>
 <p>First, the signature of <code>MiddlewarePipe::pipe()</code> will change to:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>public function pipe(</span>
-<span class=x>    MiddlewareInterface $middleware</span>
-<span class=x>) : void</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>public function pipe(
+    MiddlewareInterface $middleware
+) : void</code></pre>
 <p>This means the following:</p>
 <ul>
 <li>You can no longer use <code>pipe()</code> to perform path segregation.</li>
@@ -283,17 +286,16 @@ different behavior.</p>
 arguments to its constructor: a string <code>$pathPrefix</code> (previously, the <code>$path</code>
 argument to <code>MiddlewarePipe::pipe()</code>), and a middleware implementation. This
 class has been backported to version 2.2.0, with usage as follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Previously:</span>
-<span class=x>$pipeline-&gt;pipe(&#39;/api&#39;, $apiMiddleware);</span>
+<pre class=codehilite><code class=language-php>// Previously:
+$pipeline-&gt;pipe('/api', $apiMiddleware);
 
-<span class=x>// Version 2.2.0+:</span>
-<span class=x>use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;</span>
-<span class=x>$pipeline-&gt;pipe(new PathMiddlewareDecorator(&#39;/api&#39;, $apiMiddleware));</span>
+// Version 2.2.0+:
+use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
+$pipeline-&gt;pipe(new PathMiddlewareDecorator('/api', $apiMiddleware));
 
-<span class=x>// OR:</span>
-<span class=x>use Laminas\Stratigility\path;</span>
-<span class=x>$pipeline-&gt;pipe(path(&#39;/api&#39;, $apiMiddleware));</span>
-</pre></div></p>
+// OR:
+use Laminas\Stratigility\path;
+$pipeline-&gt;pipe(path('/api', $apiMiddleware));</code></pre>
 <p>Path segregation using this middleware works exactly as it has in previous
 versions. (Internally, if you provide both a <code>$path</code> and <code>$middleware</code> argument,
 <code>MiddlewarePipe::pipe()</code> creates a <code>PathMiddlewareDecorator</code> instance from the
@@ -314,38 +316,37 @@ two arguments).</p>
 </li>
 </ul>
 <p>Use these classes to decorate your callable middleware when piping them:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Previously (interop middleware):</span>
-<span class=x>$pipeline-&gt;pipe(function ($request, $delegate) {</span>
-<span class=x>    /* ... */</span>
-<span class=x>});</span>
+<pre class=codehilite><code class=language-php>// Previously (interop middleware):
+$pipeline-&gt;pipe(function ($request, $delegate) {
+    /* ... */
+});
 
-<span class=x>// Version 2.2.0+:</span>
-<span class=x>use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;</span>
-<span class=x>use Laminas\Stratigility\middleware;</span>
-<span class=x>$pipeline-&gt;pipe(new CallableMiddlewareDecorator(function ($request, $delegate) {</span>
-<span class=x>    /* ... */</span>
-<span class=x>}));</span>
-<span class=x>// or:</span>
-<span class=x>$pipeline-&gt;pipe(middleware(function ($request, $delegate) {</span>
-<span class=x>    /* ... */</span>
-<span class=x>}));</span>
+// Version 2.2.0+:
+use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
+use Laminas\Stratigility\middleware;
+$pipeline-&gt;pipe(new CallableMiddlewareDecorator(function ($request, $delegate) {
+    /* ... */
+}));
+// or:
+$pipeline-&gt;pipe(middleware(function ($request, $delegate) {
+    /* ... */
+}));
 
-<span class=x>// Previously (double-pass middleware):</span>
-<span class=x>$pipeline-&gt;pipe(function ($request, $response, $next) {</span>
-<span class=x>    /* ... */</span>
-<span class=x>});</span>
+// Previously (double-pass middleware):
+$pipeline-&gt;pipe(function ($request, $response, $next) {
+    /* ... */
+});
 
-<span class=x>// Version 2.2.0+:</span>
-<span class=x>use Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator;</span>
-<span class=x>use Laminas\Stratigility\doublePassMiddleware;</span>
-<span class=x>$pipeline-&gt;pipe(new DoublePassMiddlewareDecorator(function ($request, $response, $next) {</span>
-<span class=x>    /* ... */</span>
-<span class=x>}));</span>
-<span class=x>// or:</span>
-<span class=x>$pipeline-&gt;pipe(doublePassMiddleware(function ($request, $response, $next) {</span>
-<span class=x>    /* ... */</span>
-<span class=x>}));</span>
-</pre></div></p>
+// Version 2.2.0+:
+use Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator;
+use Laminas\Stratigility\doublePassMiddleware;
+$pipeline-&gt;pipe(new DoublePassMiddlewareDecorator(function ($request, $response, $next) {
+    /* ... */
+}));
+// or:
+$pipeline-&gt;pipe(doublePassMiddleware(function ($request, $response, $next) {
+    /* ... */
+}));</code></pre>
 <p>If you pipe callables directly, you will now trigger an <code>E_USER_DEPRECATION</code>
 error. Internally, <code>MiddlewarePipe::pipe()</code> will decorate them using the classes
 noted above.</p>
@@ -497,9 +498,10 @@ need to compose this factory.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -536,7 +538,7 @@ need to compose this factory.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-stratigility//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -545,8 +547,8 @@ need to compose this factory.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-stratigility//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-stratigility/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

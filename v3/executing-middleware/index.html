@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -316,12 +320,11 @@
 <code>Laminas\Stratigility\MiddlewarePipe</code> instance. You can nest <code>MiddlewarePipe</code>
 instances to create groups of related middleware, and attach them using a base
 path so they only execute if that path is matched.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$api = new MiddlewarePipe();  // API middleware collection</span>
-<span class=x>$api-&gt;pipe(/* ... */);        // repeat as necessary</span>
+<pre class=codehilite><code class=language-php>$api = new MiddlewarePipe();  // API middleware collection
+$api-&gt;pipe(/* ... */);        // repeat as necessary
 
-<span class=x>$app = new MiddlewarePipe();  // Middleware representing the application</span>
-<span class=x>$app-&gt;pipe(new PathMiddlewareDecorator(&#39;/api&#39;, $api)); // API middleware attached to the path &quot;/api&quot;</span>
-</pre></div></p>
+$app = new MiddlewarePipe();  // Middleware representing the application
+$app-&gt;pipe(new PathMiddlewareDecorator('/api', $api)); // API middleware attached to the path &quot;/api&quot;</code></pre>
 <blockquote>
 <h3>Request path changes when path matched</h3>
 <p>When you use the <code>PathMiddlewareDecorator</code> using a path (other than '' or
@@ -335,12 +338,11 @@ be re-used without changes to its own internal routing.</p>
 <p>While the above will give you a basic application, it has no error handling
 whatsoever. We recommend adding an initial middleware layer using the
 <code>Laminas\Stratigility\Middleware\ErrorHandler</code> class:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Diactoros\Response;</span>
-<span class=x>use Laminas\Stratigility\Middleware\ErrorHandler;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Diactoros\Response;
+use Laminas\Stratigility\Middleware\ErrorHandler;
 
-<span class=x>$app-&gt;pipe(new ErrorHandler(new Response());</span>
-<span class=x>// Add more middleware...</span>
-</pre></div></p>
+$app-&gt;pipe(new ErrorHandler(new Response());
+// Add more middleware...</code></pre>
 <p>You can learn how to customize the error handler to your needs in the
 <a href="../error-handlers/">chapter on error handlers</a>.</p>
 <h2 id="decorating-the-middlewarepipe">Decorating the MiddlewarePipe</h2>
@@ -350,54 +352,52 @@ optionally implementing the <code>RequestHandlerInterface</code> and/or <code>pi
 <p>In such a case, you might define the <code>process()</code> method to perform any
 additional logic you have, and then call on the decorated <code>MiddlewarePipe</code>
 instance in order to iterate through your stack of middleware:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>class CustomMiddleware implements MiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    private $pipeline;</span>
+<pre class=codehilite><code class=language-php>class CustomMiddleware implements MiddlewareInterface
+{
+    private $pipeline;
 
-<span class=x>    public function __construct(MiddlewarePipe $pipeline)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;pipeline = $pipeline;</span>
-<span class=x>    }</span>
+    public function __construct(MiddlewarePipe $pipeline)
+    {
+        $this-&gt;pipeline = $pipeline;
+    }
 
-<span class=x>    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface</span>
-<span class=x>    {</span>
-<span class=x>        // perform some work...</span>
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        // perform some work...
 
-<span class=x>        // delegate to parent</span>
-<span class=x>        $this-&gt;pipeline-&gt;process($request, $handler);</span>
+        // delegate to parent
+        $this-&gt;pipeline-&gt;process($request, $handler);
 
-<span class=x>        // maybe do more work?</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+        // maybe do more work?
+    }
+}</code></pre>
 <p>Another approach using this method would be to override the constructor to add
 in specific middleware, perhaps using configuration provided.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Psr\Http\Server\MiddlewareInterface;</span>
-<span class=x>use Psr\Http\Server\RequestHandlerInterface;</span>
-<span class=x>use Laminas\Stratigility\MiddlewarePipe;</span>
+<pre class=codehilite><code class=language-php>use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Laminas\Stratigility\MiddlewarePipe;
 
-<span class=x>class CustomMiddleware implements MiddlewareInterface</span>
-<span class=x>{</span>
-<span class=x>    private $pipeline;</span>
+class CustomMiddleware implements MiddlewareInterface
+{
+    private $pipeline;
 
-<span class=x>    public function __construct(array $configuration, MiddlewarePipe $pipeline)</span>
-<span class=x>    {</span>
-<span class=x>        // do something with configuration ...</span>
+    public function __construct(array $configuration, MiddlewarePipe $pipeline)
+    {
+        // do something with configuration ...
 
-<span class=x>        // attach some middleware ...</span>
-<span class=x>        $pipeline-&gt;pipe(/* some middleware */);</span>
+        // attach some middleware ...
+        $pipeline-&gt;pipe(/* some middleware */);
 
-<span class=x>        $this-&gt;pipeline = $pipeline;</span>
-<span class=x>    }</span>
+        $this-&gt;pipeline = $pipeline;
+    }
 
-<span class=x>    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface</span>
-<span class=x>    {</span>
-<span class=x>        /* ... */</span>
-<span class=x>    }</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    {
+        /* ... */
+    }
+}</code></pre>
 <p>These approaches are particularly suited for cases where you may want to
 implement a specific workflow for an application segment using existing
 middleware, but do not necessarily want that middleware applied to all requests
@@ -571,9 +571,10 @@ in the application.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -610,7 +611,7 @@ in the application.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-stratigility//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -619,8 +620,8 @@ in the application.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-stratigility//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-stratigility/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

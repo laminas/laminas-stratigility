@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -324,25 +328,24 @@
 <h2 id="middleware">Middleware</h2>
 <p><code>Laminas\Stratigility\MiddlewarePipe</code> is the primary application interface, and
 has been discussed previously. Its API is:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>namespace Laminas\Stratigility;</span>
+<pre class=codehilite><code class=language-php>namespace Laminas\Stratigility;
 
-<span class=x>use Psr\Http\Message\ResponseInterface;</span>
-<span class=x>use Psr\Http\Message\ServerRequestInterface;</span>
-<span class=x>use Psr\Http\Server\MiddlewareInterface;</span>
-<span class=x>use Psr\Http\Server\RequestHandlerInterface;</span>
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-<span class=x>class MiddlewarePipe implements MiddlewareInterface, RequestHandlerInterface</span>
-<span class=x>{</span>
-<span class=x>    public function pipe(MiddlewareInterface $middleware);</span>
+class MiddlewarePipe implements MiddlewareInterface, RequestHandlerInterface
+{
+    public function pipe(MiddlewareInterface $middleware);
 
-<span class=x>    public function handle(ServerRequestInterface $request) : ResponseInterface;</span>
+    public function handle(ServerRequestInterface $request) : ResponseInterface;
 
-<span class=x>    public function process(</span>
-<span class=x>        ServerRequestInterface $request,</span>
-<span class=x>        DelegateInterface $delegate</span>
-<span class=x>    ) : ResponseInterface;</span>
-<span class=x>}</span>
-</pre></div></p>
+    public function process(
+        ServerRequestInterface $request,
+        DelegateInterface $delegate
+    ) : ResponseInterface;
+}</code></pre>
 <p>Middleware is executed in the order in which it is piped to the
 <code>MiddlewarePipe</code> instance.</p>
 <p>The <code>MiddlewarePipe</code> is itself middleware, and can be executed in stacks that
@@ -367,69 +370,64 @@ implemented as an PSR-15 <code>RequestHandlerInterface</code>.</p>
 handler; if the last middleware in the queue calls on its handler, <code>Next</code> will
 execute the fallback request handler to generate a response to return.</p>
 <h3>Providing an altered request:</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>function ($request, RequestHandlerInterface $handler) use ($bodyParser)</span>
-<span class=x>{</span>
-<span class=x>    $bodyParams = $bodyParser($request);</span>
+<pre class=codehilite><code class=language-php>function ($request, RequestHandlerInterface $handler) use ($bodyParser)
+{
+    $bodyParams = $bodyParser($request);
 
-<span class=x>    // Delegate will receive the new request instance:</span>
-<span class=x>    return $handler-&gt;handle(</span>
-<span class=x>        $request-&gt;withBodyParams($bodyParams)</span>
-<span class=x>    );</span>
-<span class=x>}</span>
-</pre></div></p>
+    // Delegate will receive the new request instance:
+    return $handler-&gt;handle(
+        $request-&gt;withBodyParams($bodyParams)
+    );
+}</code></pre>
 <h3>Providing an altered request and operating on the returned response:</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>function ($request, RequestHandlerInterface $handler) use ($bodyParser)</span>
-<span class=x>{</span>
-<span class=x>    $bodyParams = $bodyParser($request);</span>
+<pre class=codehilite><code class=language-php>function ($request, RequestHandlerInterface $handler) use ($bodyParser)
+{
+    $bodyParams = $bodyParser($request);
 
-<span class=x>    // Provide a new request instance to the handler:</span>
-<span class=x>    $response = return $handler-&gt;handle(</span>
-<span class=x>        $request-&gt;withBodyParams($bodyParams)</span>
-<span class=x>    );</span>
+    // Provide a new request instance to the handler:
+    $response = return $handler-&gt;handle(
+        $request-&gt;withBodyParams($bodyParams)
+    );
 
-<span class=x>    // Return a response with an additional header:</span>
-<span class=x>    return $response-&gt;withHeader(&#39;X-Completed&#39;, &#39;true&#39;);</span>
-<span class=x>}</span>
-</pre></div></p>
+    // Return a response with an additional header:
+    return $response-&gt;withHeader('X-Completed', 'true');
+}</code></pre>
 <h3>Returning a response to complete the request</h3>
 <p>If your middleware does not need to delegate to another layer, it's time to
 return a response.</p>
 <p>We recommend creating a new response, or providing your middleware with a
 response prototype; this will ensure that the response is specific for your
 context.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$prototype = new Response();</span>
+<pre class=codehilite><code class=language-php>$prototype = new Response();
 
-<span class=x>function ($request, RequestHandlerInterface $handler) use ($prototype)</span>
-<span class=x>{</span>
-<span class=x>    $response = $prototype-&gt;withAddedHeader(&#39;Cache-Control&#39;, [</span>
-<span class=x>        &#39;public&#39;,</span>
-<span class=x>        &#39;max-age=18600&#39;,</span>
-<span class=x>        &#39;s-maxage=18600&#39;,</span>
-<span class=x>    ]);</span>
-<span class=x>}</span>
-</pre></div></p>
+function ($request, RequestHandlerInterface $handler) use ($prototype)
+{
+    $response = $prototype-&gt;withAddedHeader('Cache-Control', [
+        'public',
+        'max-age=18600',
+        's-maxage=18600',
+    ]);
+}</code></pre>
 <h3>Delegation</h3>
 <p>If your middleware is not capable of returning a response, or a particular path
 in the middleware cannot return a response, return the result of executing the
 handler.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>return $handler-&gt;handle($request);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>return $handler-&gt;handle($request);</code></pre>
 <p><strong>Middleware should always return a response, and, if it cannot, return the
 result of delegating to the request handler.</strong></p>
 <h3>Raising an error condition</h3>
 <p>If your middleware cannot complete &mdash; perhaps a database error occurred, a
 service was unreachable, etc. &mdash; how can you report the error?</p>
 <p>Raise an exception!</p>
-<p> <div class=codehilite><pre><span></span><span class=x>function ($request, RequestHandlerInterface $handler) use ($service)</span>
-<span class=x>{</span>
-<span class=x>    $result = $service-&gt;fetchSomething();</span>
-<span class=x>    if (! $result-&gt;isSuccess()) {</span>
-<span class=x>        throw new RuntimeException(&#39;Error fetching something&#39;);</span>
-<span class=x>    }</span>
+<pre class=codehilite><code class=language-php>function ($request, RequestHandlerInterface $handler) use ($service)
+{
+    $result = $service-&gt;fetchSomething();
+    if (! $result-&gt;isSuccess()) {
+        throw new RuntimeException('Error fetching something');
+    }
 
-<span class=x>    /* ... otherwise, complete the request ... */</span>
-<span class=x>}</span>
-</pre></div></p>
+    /* ... otherwise, complete the request ... */
+}</code></pre>
 <p>Use the <a href="../error-handlers/#handling-php-errors-and-exceptions">ErrorHandler middleware</a>
 to handle exceptions thrown by your middleware and report the error condition to
 your users.</p>
@@ -441,9 +439,8 @@ execute middleware based on a path prefix, decorate your middleware using
 <code>Laminas\Stratigility\Middleware\PathMiddlewareDecorator</code>.</p>
 <p>Middleware decorated by <code>PathMiddlewareDecorator</code> will only execute if the
 request URI matches the path prefix provided during instantiation.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Only process $middleware if the URI path prefix matches &#39;/foo&#39;:</span>
-<span class=x>$pipeline-&gt;pipe(new PathMiddlewareDecorator(&#39;/foo&#39;, $middleware));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// Only process $middleware if the URI path prefix matches '/foo':
+$pipeline-&gt;pipe(new PathMiddlewareDecorator('/foo', $middleware));</code></pre>
 <p>When the path prefix matches, the <code>PathMiddlewareDecorator</code> will strip the path
 prefix from the request passed to the decorated middleware. For example, if you
 executed <code>$pipeline-&gt;pipe('/api', $api)</code>, and this was matched via a URI with
@@ -455,26 +452,24 @@ without changes to its own internal routing.</p>
 to decorate PHP callables that have the same signature as or a compatible
 signature to PSR-15's <code>MiddlewareInterface</code>. This allows for one-off middleware
 creation when creating your pipeline:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pipeline-&gt;pipe(new CallableMiddlewareDecorator(function ($req, $handler) {</span>
-<span class=x>    // do some work</span>
-<span class=x>    $response = $handler-&gt;handle($req);</span>
-<span class=x>    // do some work</span>
-<span class=x>    return $response;</span>
-<span class=x>});</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pipeline-&gt;pipe(new CallableMiddlewareDecorator(function ($req, $handler) {
+    // do some work
+    $response = $handler-&gt;handle($req);
+    // do some work
+    return $response;
+});</code></pre>
 <h3>DoublePassMiddlewareDecorator</h3>
 <p><code>Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator</code> provides the
 ability to decorate "double-pass", callable middleware (so-called because you
 pass the request <em>and</em> response to the delegate) within a class implementing the
 PSR-15 <code>MiddlewareInterface</code>. This allows you to adapt existing middleware with
 the double-pass interface to work with Stratigility.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pipeline-&gt;pipe(new DoublePassMiddlewareDecorator(function ($req, $res, $next) {</span>
-<span class=x>    // do some work</span>
-<span class=x>    $response = $next($req, $res);</span>
-<span class=x>    // do some work</span>
-<span class=x>    return $response;</span>
-<span class=x>});</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pipeline-&gt;pipe(new DoublePassMiddlewareDecorator(function ($req, $res, $next) {
+    // do some work
+    $response = $next($req, $res);
+    // do some work
+    return $response;
+});</code></pre>
 <p><code>$next</code> is a callable that decorates Stratigility's <code>Next</code> instance; it
 ignores the response argument.</p>
 <p>The constructor takes an optional second argument, a response prototype. This
@@ -482,11 +477,10 @@ will be used to pass to the middleware when it is executed. If no instance is
 provided, a laminas-diactoros response instance is auto-wired. If you want to use
 an alternate PSR-7 <code>ResponseInterface</code> implementation, pass it when creating the
 decorator instance:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pipeline-&gt;pipe(new DoublePassMiddlewareDecorator(</span>
-<span class=x>    $doublePassMiddleware,</span>
-<span class=x>    $response</span>
-<span class=x>));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pipeline-&gt;pipe(new DoublePassMiddlewareDecorator(
+    $doublePassMiddleware,
+    $response
+));</code></pre>
 <h3>RequestHandlerMiddleware</h3>
 <p><code>Laminas\Stratigility\Middleware\RequestHandlerMiddleware</code> allows you to decorate a
 PSR-15 <code>RequestHandlerInterface</code> for use as either a request handler or
@@ -494,9 +488,8 @@ middleware. When either its <code>handle()</code> or <code>process()</code> meth
 proxy to the composed request handler's <code>handle()</code> method and return the
 response it produces.</p>
 <p>This can be useful for piping a final handler to a pipeline.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>// Where $handler is a RequestHandlerInterface:</span>
-<span class=x>$pipeline-&gt;pipe(new RequestHandlerMiddleware($handler));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>// Where $handler is a RequestHandlerInterface:
+$pipeline-&gt;pipe(new RequestHandlerMiddleware($handler));</code></pre>
 <h3>ErrorHandler and NotFoundHandler</h3>
 <p>These two middleware allow you to provide handle PHP errors and exceptions, and
 404 conditions, respectively. You may read more about them in the
@@ -508,54 +501,45 @@ inner layers.</p>
 <h2 id="utility-functions">Utility Functions</h2>
 <p>Stratigility provides the following utility functions.</p>
 <h3>host</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>function Laminas\Stratigility\host(</span>
-<span class=x>  string $host,</span>
-<span class=x>  Psr\Http\Server\MiddlewareInterface $middleware</span>
-<span class=x>) : Laminas\Stratigility\Middleware\HostMiddlewareDecorator</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function Laminas\Stratigility\host(
+  string $host,
+  Psr\Http\Server\MiddlewareInterface $middleware
+) : Laminas\Stratigility\Middleware\HostMiddlewareDecorator</code></pre>
 <p><code>host()</code> provides a convenient way to perform host name segregation when piping your
 middleware.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pipeline-&gt;pipe(host(&#39;example.com&#39;, $middleware));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pipeline-&gt;pipe(host('example.com', $middleware));</code></pre>
 <h3>path</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>function Laminas\Stratigility\path(</span>
-<span class=x>    string $pathPrefix,</span>
-<span class=x>    Psr\Http\Server\MiddlewareInterface $middleware</span>
-<span class=x>) : Laminas\Stratigility\Middleware\PathMiddlewareDecorator</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function Laminas\Stratigility\path(
+    string $pathPrefix,
+    Psr\Http\Server\MiddlewareInterface $middleware
+) : Laminas\Stratigility\Middleware\PathMiddlewareDecorator</code></pre>
 <p><code>path()</code> provides a convenient way to perform path segregation when piping your
 middleware.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pipeline-&gt;pipe(path(&#39;/foo&#39;, $middleware));</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pipeline-&gt;pipe(path('/foo', $middleware));</code></pre>
 <h3>middleware</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>function Laminas\Stratigility\middleware(</span>
-<span class=x>    callable $middleware</span>
-<span class=x>) : Laminas\Stratigility\Middleware\CallableMiddlewareDecorator</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function Laminas\Stratigility\middleware(
+    callable $middleware
+) : Laminas\Stratigility\Middleware\CallableMiddlewareDecorator</code></pre>
 <p><code>middleware()</code> provides a convenient way to decorate callable middleware that
 implements the PSR-15 middleware signature when piping it to your application.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pipeline-&gt;pipe(middleware(function ($request, $handler) {</span>
-<span class=x>  // ...</span>
-<span class=x>});</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pipeline-&gt;pipe(middleware(function ($request, $handler) {
+  // ...
+});</code></pre>
 <h3>doublePassMiddleware</h3>
-<p> <div class=codehilite><pre><span></span><span class=x>function Laminas\Stratigility\doublePassMiddleware(</span>
-<span class=x>    callable $middleware,</span>
-<span class=x>    Psr\Http\Message\ResponseInterface $responsePrototype = null</span>
-<span class=x>) : Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>function Laminas\Stratigility\doublePassMiddleware(
+    callable $middleware,
+    Psr\Http\Message\ResponseInterface $responsePrototype = null
+) : Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator</code></pre>
 <p><code>doublePassMiddleware()</code> provides a convenient way to decorate middleware that
 implements the double pass middleware signature when piping it to your application.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pipeline-&gt;pipe(doublePassMiddleware(function ($request, $response, $next) {</span>
-<span class=x>  // ...</span>
-<span class=x>});</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pipeline-&gt;pipe(doublePassMiddleware(function ($request, $response, $next) {
+  // ...
+});</code></pre>
 <p>If you are not using laminas-diactoros as a PSR-7 implementation, you will need to
 pass a response prototype as well:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$pipeline-&gt;pipe(doublePassMiddleware(function ($request, $response, $next) {</span>
-<span class=x>  // ...</span>
-<span class=x>}, $response);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$pipeline-&gt;pipe(doublePassMiddleware(function ($request, $response, $next) {
+  // ...
+}, $response);</code></pre>
 
 
 
@@ -725,9 +709,10 @@ pass a response prototype as well:</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -764,7 +749,7 @@ pass a response prototype as well:</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-stratigility//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -773,8 +758,8 @@ pass a response prototype as well:</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-stratigility//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-stratigility/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>
