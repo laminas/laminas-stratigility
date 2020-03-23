@@ -80,6 +80,6 @@
         "license-check": "docheader check src/ test/"
     },
     "replace": {
-        "zendframework/zend-stratigility": "self.version"
+        "zendframework/zend-stratigility": "~3.0.3.0"
     }
 }
