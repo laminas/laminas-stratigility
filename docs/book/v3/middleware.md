@@ -8,9 +8,9 @@ response or pass delegation on to the next middleware in the queue.
 
 ```php
 // In public/index.php:
-use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\Stratigility\Middleware\NotFoundHandler;
@@ -51,10 +51,10 @@ $app->pipe(new NotFoundHandler(function () {
 $server = new RequestHandlerRunner(
     $app,
     new SapiEmitter(),
-    function () {
+    static function () {
         return ServerRequestFactory::fromGlobals();
     },
-    function (\Throwable $e) {
+    static function (\Throwable $e) {
         $response = (new ResponseFactory())->createResponse(500);
         $response->getBody()->write(sprintf(
             'An error occurred: %s',

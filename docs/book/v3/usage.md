@@ -7,8 +7,8 @@ Creating an application consists of 3 steps:
 - Instruct the server to listen for a request
 
 ```php
-use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\Stratigility\MiddlewarePipe;
@@ -19,10 +19,10 @@ $app    = new MiddlewarePipe();
 $server = new RequestHandlerRunner(
     $app,
     new SapiEmitter(),
-    function () {
+    static function () {
         return ServerRequestFactory::fromGlobals();
     },
-    function (\Throwable $e) {
+    static function (\Throwable $e) {
         $response = (new ResponseFactory())->createResponse(500);
         $response->getBody()->write(sprintf(
             'An error occurred: %s',
