@@ -7,24 +7,32 @@ Creating an application consists of 3 steps:
 - Instruct the server to listen for a request
 
 ```php
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Diactoros\ResponseFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\Stratigility\MiddlewarePipe;
-use Laminas\Diactoros\Server;
 
 require __DIR__ . '/../vendor/autoload.php';
 
 $app    = new MiddlewarePipe();
-$server = Server::createServer(
-  [$app, 'handle'],
-  $_SERVER,
-  $_GET,
-  $_POST,
-  $_COOKIE,
-  $_FILES
+$server = new RequestHandlerRunner(
+    $app,
+    new SapiEmitter(),
+    function () {
+        return ServerRequestFactory::fromGlobals();
+    },
+    function (\Throwable $e) {
+        $response = (new ResponseFactory())->createResponse(500);
+        $response->getBody()->write(sprintf(
+            'An error occurred: %s',
+            $e->getMessage
+        ));
+        return $response;
+    }
 );
 
-$server->listen(function ($req, $res) {
-  return $res;
-});
+$server->run();
 ```
 
 The above example is useless by itself until you pipe middleware into the application.
