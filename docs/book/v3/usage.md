@@ -1,5 +1,14 @@
 # Usage
 
+> ### Installation requirements
+>
+> The following example depends on the [laminas-httphandlerrunner](http://docs.laminas.dev/laminas-httphandlerrunner)
+> component. You can install it with the following command:
+>
+> ```bash
+> $ composer require laminas/laminas-httphandlerrunner
+> ```
+
 Creating an application consists of 3 steps:
 
 - Create middleware or a middleware pipeline
