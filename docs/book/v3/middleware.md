@@ -6,10 +6,22 @@ Middleware is code that exists between the request and response, and which can
 take the incoming request, perform actions based on it, and either complete the
 response or pass delegation on to the next middleware in the queue.
 
+> ### Installation requirements
+>
+> The following example depends on the [laminas-httphandlerrunner](http://docs.laminas.dev/laminas-httphandlerrunner)
+> component. You can install it with the following command:
+>
+> ```bash
+> $ composer require laminas/laminas-httphandlerrunner
+> ```
+
 ```php
 // In public/index.php:
 use Laminas\Diactoros\Response;
-use Laminas\Diactoros\Server;
+use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\Stratigility\Middleware\NotFoundHandler;
 use Laminas\Stratigility\MiddlewarePipe;
 
@@ -19,8 +31,6 @@ use function Laminas\Stratigility\path;
 require __DIR__ . '/../vendor/autoload.php';
 
 $app = new MiddlewarePipe();
-
-$server = Server::createServer([$app, 'handle'], $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 
 // Landing page
 $app->pipe(middleware(function ($req, $handler) {
@@ -47,9 +57,23 @@ $app->pipe(new NotFoundHandler(function () {
     return new Response();
 }));
 
-$server->listen(function ($req, $res) {
-    return $res;
-});
+$server = new RequestHandlerRunner(
+    $app,
+    new SapiEmitter(),
+    static function () {
+        return ServerRequestFactory::fromGlobals();
+    },
+    static function (\Throwable $e) {
+        $response = (new ResponseFactory())->createResponse(500);
+        $response->getBody()->write(sprintf(
+            'An error occurred: %s',
+            $e->getMessage
+        ));
+        return $response;
+    }
+);
+
+$server->run();
 ```
 
 In the above example, we have two examples of middleware. The first is a
@@ -68,6 +92,13 @@ another handler_.
 >
 > Stratigility supports only [PSR-15](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-15-request-handlers.md)
 > middleware.
+
+> ### HTTP Handler Runner
+>
+> The above example, and the one on the [usage page](usage.md), makes use of the
+> [laminas/laminas-httphandlerrunner](https://docs.laminas.dev/laminas-httphandlerrunner/)
+> package, which provides a flexible way to run applications based on PSR-15
+> request handlers.
 
 Middleware can decide more processing can be performed by calling the `$handler`
 instance passed during invocation. With this paradigm, you can build a workflow
