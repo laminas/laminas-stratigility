@@ -357,9 +357,20 @@
 <p>Middleware is code that exists between the request and response, and which can
 take the incoming request, perform actions based on it, and either complete the
 response or pass delegation on to the next middleware in the queue.</p>
+<blockquote>
+<h3>Installation requirements</h3>
+<p>The following example depends on the <a href="http://docs.laminas.dev/laminas-httphandlerrunner">laminas-httphandlerrunner</a>
+component. You can install it with the following command:</p>
+<pre class="codehilite"><code class="language-bash">
+$ composer require laminas/laminas-httphandlerrunner
+</code></pre>
+</blockquote>
 <pre class=codehilite><code class=language-php>// In public/index.php:
 use Laminas\Diactoros\Response;
-use Laminas\Diactoros\Server;
+use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use Laminas\Stratigility\Middleware\NotFoundHandler;
 use Laminas\Stratigility\MiddlewarePipe;
 
@@ -369,8 +380,6 @@ use function Laminas\Stratigility\path;
 require __DIR__ . '/../vendor/autoload.php';
 
 $app = new MiddlewarePipe();
-
-$server = Server::createServer([$app, 'handle'], $_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);
 
 // Landing page
 $app-&gt;pipe(middleware(function ($req, $handler) {
@@ -397,9 +406,23 @@ $app-&gt;pipe(new NotFoundHandler(function () {
     return new Response();
 }));
 
-$server-&gt;listen(function ($req, $res) {
-    return $res;
-});</code></pre>
+$server = new RequestHandlerRunner(
+    $app,
+    new SapiEmitter(),
+    static function () {
+        return ServerRequestFactory::fromGlobals();
+    },
+    static function (\Throwable $e) {
+        $response = (new ResponseFactory())-&gt;createResponse(500);
+        $response-&gt;getBody()-&gt;write(sprintf(
+            'An error occurred: %s',
+            $e-&gt;getMessage
+        ));
+        return $response;
+    }
+);
+
+$server-&gt;run();</code></pre>
 <p>In the above example, we have two examples of middleware. The first is a
 landing page, and listens at the root path. If the request path is empty or
 <code>/</code>, it completes the response. If it is not, it delegates to the next
@@ -414,6 +437,11 @@ another handler</em>.</p>
 <h3>PSR-15 middleware</h3>
 <p>Stratigility supports only <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-15-request-handlers.md">PSR-15</a>
 middleware.</p>
+<h3>HTTP Handler Runner</h3>
+<p>The above example, and the one on the <a href="../usage/">usage page</a>, makes use of the
+<a href="https://docs.laminas.dev/laminas-httphandlerrunner/">laminas/laminas-httphandlerrunner</a>
+package, which provides a flexible way to run applications based on PSR-15
+request handlers.</p>
 </blockquote>
 <p>Middleware can decide more processing can be performed by calling the <code>$handler</code>
 instance passed during invocation. With this paradigm, you can build a workflow
