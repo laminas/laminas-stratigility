@@ -345,7 +345,7 @@ produce or return a response.</p>
 <p>As an example, consider the following middleware which will use an external
 router to map the incoming request path to a handler; if unable to map the
 request, it returns processing to the next middleware.</p>
-<pre class=codehilite><code class=language-php>use Interop\Http\ServerMiddleware\DelegateInterface;
+<pre class="highlight"><code class="language-php">use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
 function ($req, DelegateInterface $delegate) use ($router) {
@@ -361,6 +361,7 @@ function ($req, DelegateInterface $delegate) use ($router) {
     $handler = $route-&gt;getHandler();
     return $handler-&gt;process($req, $delegate);
 }</code></pre>
+
 <p>Middleware written in this way can be any of the following:</p>
 <ul>
 <li>Closures (as shown above)</li>
@@ -371,7 +372,7 @@ function ($req, DelegateInterface $delegate) use ($router) {
 <li>Objects implementing <code>Interop\Http\ServerMiddleware\MiddlewareInterface</code></li>
 </ul>
 <p>In all cases, if you wish to implement typehinting, the signature is:</p>
-<pre class=codehilite><code class=language-php>function (
+<pre class="highlight"><code class="language-php">function (
     Psr\Http\Message\ServerRequestInterface $request,
     Interop\Http\ServerMiddleware\DelegateInterface $delegate
 ) : Psr\Http\Message\ResponseInterface</code></pre>

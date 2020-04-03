@@ -335,7 +335,7 @@
 <p>Middleware is code that exists between the request and response, and which can
 take the incoming request, perform actions based on it, and either complete the
 response or pass delegation on to the next middleware in the queue.</p>
-<pre class=codehilite><code class=language-php>use Laminas\Stratigility\MiddlewarePipe;
+<pre class="highlight"><code class="language-php">use Laminas\Stratigility\MiddlewarePipe;
 use Laminas\Diactoros\Server;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -359,6 +359,7 @@ $app-&gt;pipe('/foo', function ($req, $res, $next) {
 });
 
 $server-&gt;listen();</code></pre>
+
 <p>In the above example, we have two examples of middleware. The first is a
 landing page, and listens at the root path. If the request path is empty or
 <code>/</code>, it completes the response. If it is not, it delegates to the next
@@ -375,8 +376,7 @@ middleware, which is also widely used across other middleware frameworks
 such as Slim, Relay, Adroit, etc.</p>
 <p>http-interop is a project attempting to standardize middleware signatures.
 The signature it uses for server-side middleware is:</p>
-<pre class="codehilite"><code class="language-php">
-namespace Interop\Http\Middleware;
+<pre class="highlight"><code class="language-php">namespace Interop\Http\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -387,11 +387,10 @@ interface ServerMiddlewareInterface
         ServerRequestInterface $request,
         DelegateInterface $delegate
     ) : ResponseInterface;
-}
-</code></pre>
+}</code></pre>
+
 <p>where <code>DelegateInterface</code> is defined as:</p>
-<pre class="codehilite"><code class="language-php">
-namespace Interop\Http\Middleware;
+<pre class="highlight"><code class="language-php">namespace Interop\Http\Middleware;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -401,22 +400,20 @@ interface DelegateInterface
     public function process(
         RequestInterface $request
     ) : ResponseInterface;
-}
-</code></pre>
+}</code></pre>
+
 <p>Stratigility allows you to implement <code>ServerMiddlewareInterface</code> to provide
 middleware.  Additionally, you can define <code>callable</code> middleware with the
 following signature, and it will be dispatched as http-interop middleware:</p>
-<pre class="codehilite"><code class="language-php">
-function(
+<pre class="highlight"><code class="language-php">function(
     ServerRequestInterface $request,
     DelegateInterface $delegate
-) : ResponseInterface;
-</code></pre>
+) : ResponseInterface;</code></pre>
+
 <p>(The <code>$request</code> argument does not require a typehint when defining callable
 middleware, but we encourage its use.)</p>
 <p>As such, the above example can also be written as follows:</p>
-<pre class="codehilite"><code class="language-php">
-use Interop\Http\Middleware\DelegateInterface;
+<pre class="highlight"><code class="language-php">use Interop\Http\Middleware\DelegateInterface;
 use Laminas\Diactoros\Response\TextResponse;
 
 $app-&gt;pipe('/', function ($req, DelegateInterface $delegate) {
@@ -424,8 +421,8 @@ $app-&gt;pipe('/', function ($req, DelegateInterface $delegate) {
         return $delegate-&gt;process($req);
     }
     return new TextResponse('Hello world!');
-});
-</code></pre>
+});</code></pre>
+
 </blockquote>
 <p>Middleware can decide more processing can be performed by calling the <code>$next</code>
 callable (or, when defining http-interop middleware, <code>$delegate</code>) passed during
@@ -441,9 +438,10 @@ requests &mdash; for instance, you could have middleware perform the following:<
 allowing you to mix and match applications under a common domain. As an
 example, you could put API middleware next to middleware that serves its
 documentation, next to middleware that serves files, and segregate each by URI:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipe('/api', $apiMiddleware);
+<pre class="highlight"><code class="language-php">$app-&gt;pipe('/api', $apiMiddleware);
 $app-&gt;pipe('/docs', $apiDocMiddleware);
 $app-&gt;pipe('/files', $filesMiddleware);</code></pre>
+
 <p>The handlers in each middleware attached this way will see a URI with that path
 segment stripped, allowing them to be developed separately and re-used under
 any path you wish.</p>

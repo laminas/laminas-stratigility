@@ -361,11 +361,10 @@ response or pass delegation on to the next middleware in the queue.</p>
 <h3>Installation requirements</h3>
 <p>The following example depends on the <a href="http://docs.laminas.dev/laminas-httphandlerrunner">laminas-httphandlerrunner</a>
 component. You can install it with the following command:</p>
-<pre class="codehilite"><code class="language-bash">
-$ composer require laminas/laminas-httphandlerrunner
-</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-httphandlerrunner</code></pre>
+
 </blockquote>
-<pre class=codehilite><code class=language-php>// In public/index.php:
+<pre class="highlight"><code class="language-php">// In public/index.php:
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequestFactory;
@@ -423,6 +422,7 @@ $server = new RequestHandlerRunner(
 );
 
 $server-&gt;run();</code></pre>
+
 <p>In the above example, we have two examples of middleware. The first is a
 landing page, and listens at the root path. If the request path is empty or
 <code>/</code>, it completes the response. If it is not, it delegates to the next
@@ -459,9 +459,10 @@ demonstrated in the initial example), you can also attach middleware to specific
 paths, allowing you to mix and match applications under a common domain. As an
 example, you could put API middleware next to middleware that serves its
 documentation, next to middleware that serves files, and segregate each by URI:</p>
-<pre class=codehilite><code class=language-php>$app-&gt;pipe(path('/api', $apiMiddleware));
+<pre class="highlight"><code class="language-php">$app-&gt;pipe(path('/api', $apiMiddleware));
 $app-&gt;pipe(path('/docs', $apiDocMiddleware));
 $app-&gt;pipe(path('/files', $filesMiddleware));</code></pre>
+
 <p>The handlers in each middleware attached this way will see a URI with that path
 segment stripped, allowing them to be developed separately and re-used under
 any path you wish.</p>

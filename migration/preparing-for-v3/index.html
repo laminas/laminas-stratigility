@@ -325,9 +325,10 @@ your code to be forwards-compatible.</p>
 <p>Starting in version 3, <code>MiddlewarePipe</code> and <code>Next</code> have significantly
 different behavior.</p>
 <p>First, the signature of <code>MiddlewarePipe::pipe()</code> will change to:</p>
-<pre class=codehilite><code class=language-php>public function pipe(
+<pre class="highlight"><code class="language-php">public function pipe(
     MiddlewareInterface $middleware
 ) : void</code></pre>
+
 <p>This means the following:</p>
 <ul>
 <li>You can no longer use <code>pipe()</code> to perform path segregation.</li>
@@ -338,7 +339,7 @@ different behavior.</p>
 arguments to its constructor: a string <code>$pathPrefix</code> (previously, the <code>$path</code>
 argument to <code>MiddlewarePipe::pipe()</code>), and a middleware implementation. This
 class has been backported to version 2.2.0, with usage as follows:</p>
-<pre class=codehilite><code class=language-php>// Previously:
+<pre class="highlight"><code class="language-php">// Previously:
 $pipeline-&gt;pipe('/api', $apiMiddleware);
 
 // Version 2.2.0+:
@@ -348,6 +349,7 @@ $pipeline-&gt;pipe(new PathMiddlewareDecorator('/api', $apiMiddleware));
 // OR:
 use Laminas\Stratigility\path;
 $pipeline-&gt;pipe(path('/api', $apiMiddleware));</code></pre>
+
 <p>Path segregation using this middleware works exactly as it has in previous
 versions. (Internally, if you provide both a <code>$path</code> and <code>$middleware</code> argument,
 <code>MiddlewarePipe::pipe()</code> creates a <code>PathMiddlewareDecorator</code> instance from the
@@ -368,7 +370,7 @@ two arguments).</p>
 </li>
 </ul>
 <p>Use these classes to decorate your callable middleware when piping them:</p>
-<pre class=codehilite><code class=language-php>// Previously (interop middleware):
+<pre class="highlight"><code class="language-php">// Previously (interop middleware):
 $pipeline-&gt;pipe(function ($request, $delegate) {
     /* ... */
 });
@@ -399,6 +401,7 @@ $pipeline-&gt;pipe(new DoublePassMiddlewareDecorator(function ($request, $respon
 $pipeline-&gt;pipe(doublePassMiddleware(function ($request, $response, $next) {
     /* ... */
 }));</code></pre>
+
 <p>If you pipe callables directly, you will now trigger an <code>E_USER_DEPRECATION</code>
 error. Internally, <code>MiddlewarePipe::pipe()</code> will decorate them using the classes
 noted above.</p>

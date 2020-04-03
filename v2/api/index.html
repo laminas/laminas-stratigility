@@ -368,7 +368,7 @@
 <h2 id="middleware">Middleware</h2>
 <p><code>Laminas\Stratigility\MiddlewarePipe</code> is the primary application interface, and
 has been discussed previously. Its API is:</p>
-<pre class=codehilite><code class=language-php>namespace Laminas\Stratigility;
+<pre class="highlight"><code class="language-php">namespace Laminas\Stratigility;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
@@ -393,6 +393,7 @@ class MiddlewarePipe implements ServerMiddlewareInterface
         DelegateInterface $delegate
     ) : ResponseInterface;
 }</code></pre>
+
 <p><code>pipe()</code> takes up to two arguments. If only one argument is provided,
 <code>$middleware</code> will be assigned that value, and <code>$path</code> will be re-assigned to
 the value <code>/</code>; this is an indication that the <code>$middleware</code> should be invoked
@@ -416,13 +417,14 @@ expecting http-interop middleware signatures (via the <code>process()</code> met
 <p>When using <code>__invoke()</code>, the callable <code>$out</code> argument should either implement
 delegator/request handler interface from <code>http-interop/http-middleware</code>
 (depends on version you are using), or use the signature:</p>
-<pre class=codehilite><code class=language-php>use Psr\Http\Message\ResponseInterface;
+<pre class="highlight"><code class="language-php">use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 function (
     ServerRequestInterface $request,
     ResponseInterface $response
 ) : ResponseInterface</code></pre>
+
 <p>Most often, you can pass an instance of <code>Laminas\Stratigility\NoopFinalHandler</code> for
 <code>$out</code> if invoking a middleware pipeline manually; otherwise, a suitable
 callback will be provided for you (typically an instance of
@@ -447,8 +449,9 @@ any callable middleware piped to the instance will be wrapped in a decorator
 (see the <a href="#middleware-decorators">section on middleware decorators</a>, below) such
 that it will now conform to http-interop middleware interfaces.</p>
 <p>To use this functionality, inject the prototype before piping middleware:</p>
-<pre class=codehilite><code class=language-php>$pipeline = new MiddlewarePipe();
+<pre class="highlight"><code class="language-php">$pipeline = new MiddlewarePipe();
 $pipeline-&gt;setResponsePrototype(new Response());</code></pre>
+
 <h2 id="next">Next</h2>
 <p><code>Laminas\Stratigility\Next</code> is primarily an implementation detail of middleware,
 and exists to allow delegating to middleware registered later in the stack. It
@@ -459,13 +462,14 @@ is implemented both as a functor and as an http-interop/http-middleware
 your Request and/or Response instances, you will have new instances, and will
 need to make these known to the next middleware in the chain. <code>Next</code> expects
 these arguments for every invocation.</p>
-<pre class=codehilite><code class=language-php>class Next
+<pre class="highlight"><code class="language-php">class Next
 {
     public function __invoke(
         Psr\Http\Message\ServerRequestInterface $request,
         Psr\Http\Message\ResponseInterface $response
     ) : Psr\Http\Message\ResponseInterface;
 }</code></pre>
+
 <p>You should <strong>always</strong> either capture or return the return value of <code>$next()</code>
 when calling it in your application, or return a response yourself.</p>
 <blockquote>
@@ -483,10 +487,9 @@ following:</p>
 <li>For middleware delegating to another layer, operate on the <em>returned</em>
   response instead:</li>
 </ul>
-<pre class="codehilite"><code class="language-php">
-$response = $next($request, $response);
-return $response-&gt;withHeader('X-Foo', 'Bar');
-</code></pre>
+<pre class="highlight"><code class="language-php">$response = $next($request, $response);
+return $response-&gt;withHeader('X-Foo', 'Bar');</code></pre>
+
 </blockquote>
 <h3>Delegate invocation</h3>
 <p>When invoked as a <code>DelegateInterface</code>, the <code>process()</code> method will be invoked, and
@@ -499,7 +502,7 @@ you will need to:</p>
 <li>Operate on a response returned by invoking the delegate.</li>
 </ul>
 <h3>Providing an altered request:</h3>
-<pre class=codehilite><code class=language-php>// Standard invokable:
+<pre class="highlight"><code class="language-php">// Standard invokable:
 function ($request, $response, $next) use ($bodyParser)
 {
     $bodyParams = $bodyParser($request);
@@ -519,8 +522,9 @@ function ($request, DelegateInterface $delegate) use ($bodyParser)
         $request-&gt;withBodyParams($bodyParams)
     );
 }</code></pre>
+
 <h3>Providing an altered request and operating on the returned response:</h3>
-<pre class=codehilite><code class=language-php>function ($request, $response, $next) use ($bodyParser)
+<pre class="highlight"><code class="language-php">function ($request, $response, $next) use ($bodyParser)
 {
     $response = $next(
         $request-&gt;withBodyParams($bodyParser($request)),
@@ -540,13 +544,14 @@ function ($request, DelegateInterface $delegate) use ($bodyParser)
         $request-&gt;withBodyParams($bodyParams)
     );
 }</code></pre>
+
 <h3>Returning a response to complete the request</h3>
 <p>If your middleware does not need to delegate to another layer, it's time to
 return a response.</p>
 <p>While we pass a response when using <code>Next</code> as a functor, we recommend creating
 a new response, or providing your middleware with a response prototype; this
 will ensure that the response is specific for your context.</p>
-<pre class=codehilite><code class=language-php>$prototype = new Response();
+<pre class="highlight"><code class="language-php">$prototype = new Response();
 
 // Standard invokable signature:
 function ($request, $response, $next) use ($prototype)
@@ -569,21 +574,24 @@ function ($request, DelegateInterface $delegate) use ($prototype)
         's-maxage=18600',
     ]);
 }</code></pre>
+
 <h3>Delegation</h3>
 <p>If your middleware is not capable of returning a response, or a particular path
 in the middleware cannot return a response, return the result of executing the
 delegate.</p>
 <p>If using the legacy middleware signature, invoke the <code>$next</code> argument:</p>
-<pre class=codehilite><code class=language-php>return $next($request, $response);</code></pre>
+<pre class="highlight"><code class="language-php">return $next($request, $response);</code></pre>
+
 <p>If using a <code>DelegateInterface</code>, invoke its <code>process()</code> method:</p>
-<pre class=codehilite><code class=language-php>return $delegate-&gt;process($request);</code></pre>
+<pre class="highlight"><code class="language-php">return $delegate-&gt;process($request);</code></pre>
+
 <p><strong>Middleware should always return a response, and, if it cannot, return the
 result of delegation.</strong></p>
 <h3>Raising an error condition</h3>
 <p>If your middleware cannot complete &mdash; perhaps a database error occurred, a
 service was unreachable, etc. &mdash; how can you report the error?</p>
 <p>Raise an exception!</p>
-<pre class=codehilite><code class=language-php>function ($request, $response, $next) use ($service)
+<pre class="highlight"><code class="language-php">function ($request, $response, $next) use ($service)
 {
     $result = $service-&gt;fetchSomething();
     if (! $result-&gt;isSuccess()) {
@@ -592,6 +600,7 @@ service was unreachable, etc. &mdash; how can you report the error?</p>
 
     /* ... otherwise, complete the request ... */
 }</code></pre>
+
 <p>Use the <a href="../error-handlers/#handling-php-errors-and-exceptions">ErrorHandler middleware</a>
 to handle exceptions thrown by your middleware and report the error condition to
 your users.</p>
@@ -614,19 +623,19 @@ middleware piped to the instance will be wrapped in a decorator.</p>
 <li><code>Laminas\Stratigility\Middleware\CallableMiddlewareWrapper</code> will wrap a callable
   using the legacy interface; as such, it also requires a response instance:</li>
 </ul>
-<p><code>php
-  $middleware = new CallableMiddlewareWrapper($middleware, $response);</code></p>
+<pre class="highlight"><code class="language-php">$middleware = new CallableMiddlewareWrapper($middleware, $response);</code></pre>
+
 <ul>
 <li><code>Laminas\Stratigility\Middleware\CallableMiddlewareWrapper</code> will wrap a callable
   that defines exactly two arguments, with the second type-hinting on the
   http-interop/http-middleware <code>DelegateInterface</code>:</li>
 </ul>
-<p><code>php
-  $middleware = new CallableMiddlewareWrapper(
-    function ($request, DelegateInterface $delegate) {
-        // ...
-    }
-  );</code></p>
+<pre class="highlight"><code class="language-php">$middleware = new CallableMiddlewareWrapper(
+  function ($request, DelegateInterface $delegate) {
+      // ...
+  }
+);</code></pre>
+
 <p>You can manually decorate callable middleware using these decorators, or simply
 let <code>MiddlewarePipe</code> do the work for you. To let <code>MiddlewarePipe</code> handle this,
 however, you <em>must</em> compose a response prototype prior to piping middleware
@@ -640,7 +649,7 @@ an http-interop/http-middleware middleware interface <code>process()</code> meth
 delegate; the primary use case is adapting functor middleware to work as
 http-interop middleware.</p>
 <p>As an example:</p>
-<pre class=codehilite><code class=language-php>// http-interop/http-middleware 0.2:
+<pre class="highlight"><code class="language-php">// http-interop/http-middleware 0.2:
 use Interop\Http\Middleware\DelegateInterface;
 use Interop\Http\Middleware\ServerMiddlewareInterface;
 

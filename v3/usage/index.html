@@ -357,9 +357,8 @@
 <h3>Installation requirements</h3>
 <p>The following example depends on the <a href="http://docs.laminas.dev/laminas-httphandlerrunner">laminas-httphandlerrunner</a>
 component. You can install it with the following command:</p>
-<pre class="codehilite"><code class="language-bash">
-$ composer require laminas/laminas-httphandlerrunner
-</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-httphandlerrunner</code></pre>
+
 </blockquote>
 <p>Creating an application consists of 3 steps:</p>
 <ul>
@@ -367,7 +366,7 @@ $ composer require laminas/laminas-httphandlerrunner
 <li>Create a server, using the middleware</li>
 <li>Instruct the server to listen for a request</li>
 </ul>
-<pre class=codehilite><code class=language-php>use Laminas\Diactoros\ResponseFactory;
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
@@ -393,6 +392,7 @@ $server = new RequestHandlerRunner(
 );
 
 $server-&gt;run();</code></pre>
+
 <p>The above example is useless by itself until you pipe middleware into the application.</p>
 
 
