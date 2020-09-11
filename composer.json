@@ -22,10 +22,6 @@
         "sort-packages": true
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "3.2.x-dev",
-            "dev-develop": "3.3.x-dev"
-        }
     },
     "require": {
         "php": "^7.1",
