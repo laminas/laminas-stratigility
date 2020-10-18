@@ -15,11 +15,13 @@ use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\ErrorResponseGenerator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use ReflectionObject;
 use RuntimeException;
 
 use function error_reporting;
@@ -29,13 +31,15 @@ use const E_USER_DEPRECATED;
 
 class ErrorHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     /** @var ResponseInterface|ObjectProphecy */
     private $response;
 
     /** @var callable */
     private $responseFactory;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->response = $this->prophesize(ResponseInterface::class);
         $this->responseFactory = function () {
@@ -47,7 +51,7 @@ class ErrorHandlerTest extends TestCase
         $this->errorReporting = error_reporting();
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         error_reporting($this->errorReporting);
     }
@@ -235,6 +239,12 @@ class ErrorHandlerTest extends TestCase
         $middleware->attachListener($listener);
         $middleware->attachListener($listener);
 
-        self::assertAttributeCount(1, 'listeners', $middleware);
+        $ref = new ReflectionObject($middleware);
+        $prop = $ref->getProperty('listeners');
+        $prop->setAccessible(true);
+
+        $listeners = $prop->getValue($middleware);
+
+        self::assertCount(1, $listeners);
     }
 }

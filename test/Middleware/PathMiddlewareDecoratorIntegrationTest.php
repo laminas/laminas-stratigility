@@ -18,12 +18,15 @@ use Laminas\Stratigility\MiddlewarePipe;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class PathMiddlewareDecoratorIntegrationTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testPipelineComposingPathDecoratedMiddlewareExecutesAsExpected()
     {
         $uri = (new Uri)->withPath('/foo/bar/baz');

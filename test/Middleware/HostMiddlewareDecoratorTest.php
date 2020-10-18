@@ -14,6 +14,7 @@ use Generator;
 use Laminas\Stratigility\Middleware\HostMiddlewareDecorator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -25,6 +26,8 @@ use function Laminas\Stratigility\host;
 
 class HostMiddlewareDecoratorTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var UriInterface|ObjectProphecy
      */
@@ -63,19 +66,6 @@ class HostMiddlewareDecoratorTest extends TestCase
     {
         $middleware = new HostMiddlewareDecorator('host.test', $this->toDecorate->reveal());
         self::assertInstanceOf(MiddlewareInterface::class, $middleware);
-    }
-
-    public function testComposesMiddlewarePassedToConstructor()
-    {
-        $toDecorate = $this->toDecorate->reveal();
-        $middleware = new HostMiddlewareDecorator('host.test', $toDecorate);
-        self::assertAttributeSame($toDecorate, 'middleware', $middleware);
-    }
-
-    public function testComposesHostNamePassedToConstructor()
-    {
-        $middleware = new HostMiddlewareDecorator('host.test', $this->toDecorate->reveal());
-        self::assertAttributeSame('host.test', 'host', $middleware);
     }
 
     public function testDelegatesOriginalRequestToHandlerIfRequestHostDoesNotMatchDecoratorHostName()
@@ -125,7 +115,6 @@ class HostMiddlewareDecoratorTest extends TestCase
 
         $middleware = host('foo.bar', $toDecorate);
         self::assertInstanceOf(HostMiddlewareDecorator::class, $middleware);
-        self::assertAttributeSame('foo.bar', 'host', $middleware);
-        self::assertAttributeSame($toDecorate, 'middleware', $middleware);
+        self::assertEquals(new HostMiddlewareDecorator('foo.bar', $toDecorate), $middleware);
     }
 }

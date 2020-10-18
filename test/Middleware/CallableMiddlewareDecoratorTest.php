@@ -13,6 +13,7 @@ namespace LaminasTest\Stratigility\Middleware;
 use Laminas\Stratigility\Exception;
 use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -21,6 +22,8 @@ use function Laminas\Stratigility\middleware;
 
 class CallableMiddlewareDecoratorTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException()
     {
         $request = $this->prophesize(ServerRequestInterface::class)->reveal();
@@ -60,6 +63,6 @@ class CallableMiddlewareDecoratorTest extends TestCase
 
         $middleware = middleware($toDecorate);
         self::assertInstanceOf(CallableMiddlewareDecorator::class, $middleware);
-        self::assertAttributeSame($toDecorate, 'middleware', $middleware);
+        self::assertEquals(new CallableMiddlewareDecorator($toDecorate), $middleware);
     }
 }

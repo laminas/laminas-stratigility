@@ -13,6 +13,7 @@ namespace LaminasTest\Stratigility\Middleware;
 use Laminas\Stratigility\Middleware\OriginalMessages;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
@@ -20,7 +21,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class OriginalMessagesTest extends TestCase
 {
-    public function setUp()
+    use ProphecyTrait;
+
+    protected function setUp(): void
     {
         $this->uri = $this->prophesize(UriInterface::class);
         $this->request = $this->prophesize(ServerRequestInterface::class);

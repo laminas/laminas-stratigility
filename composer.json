@@ -24,7 +24,7 @@
     "extra": {
     },
     "require": {
-        "php": "^7.1",
+        "php": "^7.3 || ~8.0.0",
         "fig/http-message-util": "^1.1",
         "laminas/laminas-escaper": "^2.3",
         "laminas/laminas-zendframework-bridge": "^1.0",
@@ -35,7 +35,9 @@
         "laminas/laminas-coding-standard": "~1.0.0",
         "laminas/laminas-diactoros": "^1.7.1",
         "malukenho/docheader": "^0.1.6",
-        "phpunit/phpunit": "^7.0.1"
+        "phpspec/prophecy": "^1.12",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.3"
     },
     "conflict": {
         "laminas/laminas-diactoros": "<1.7.1"

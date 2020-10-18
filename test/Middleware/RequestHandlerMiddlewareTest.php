@@ -13,13 +13,16 @@ namespace LaminasTest\Stratigility\Middleware;
 use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class RequestHandlerMiddlewareTest extends TestCase
 {
-    public function setUp()
+    use ProphecyTrait;
+
+    protected function setUp(): void
     {
         $this->request = $this->prophesize(ServerRequestInterface::class)->reveal();
         $this->response = $this->prophesize(ResponseInterface::class)->reveal();
