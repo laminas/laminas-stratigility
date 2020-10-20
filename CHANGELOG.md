@@ -14,11 +14,11 @@ details.
 
 ### Changed
 
-- Nothing.
+- [#8](https://github.com/laminas/laminas-stratigility/pull/8) As the `NotFoundHandler` is technically a request handler, we are moving it to the `Handler` namespace with only implementing the `RequestHandlerInterface` instead of the `MiddlewareInterface`.
 
 ### Deprecated
 
-- Nothing.
+- [#8](https://github.com/laminas/laminas-stratigility/pull/8) Marking `NotFoundHandler` in the `Middleware` namespace as deprecated in favor of the new `NotFoundHandler` in the `Handler` namespace.
 
 ### Removed
 
