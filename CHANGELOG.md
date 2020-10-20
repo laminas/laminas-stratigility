@@ -6,7 +6,7 @@ Versions prior to 1.0 were originally released as `phly/conduit`; please visit
 its [CHANGELOG](https://github.com/phly/conduit/blob/master/CHANGELOG.md) for
 details.
 
-## 3.3.0 - TBD
+## 3.3.0 - 2020-10-20
 
 ### Added
 
@@ -20,13 +20,26 @@ details.
 
 - [#8](https://github.com/laminas/laminas-stratigility/pull/8) Marking `NotFoundHandler` in the `Middleware` namespace as deprecated in favor of the new `NotFoundHandler` in the `Handler` namespace.
 
-### Removed
 
-- Nothing.
+-----
 
-### Fixed
+### Release Notes for [3.3.0](https://github.com/laminas/laminas-stratigility/milestone/1)
 
-- Nothing.
+
+
+### 3.3.0
+
+- Total issues resolved: **0**
+- Total pull requests resolved: **2**
+- Total contributors: **2**
+
+#### Enhancement,hacktoberfest-accepted
+
+ - [13: feat: add PHP 8 support](https://github.com/laminas/laminas-stratigility/pull/13) thanks to @alexraputa
+
+#### Enhancement
+
+ - [8: Moving NotFoundHandler to Handler namespace](https://github.com/laminas/laminas-stratigility/pull/8) thanks to @boesing
 
 ## 3.2.2 - 2020-03-29
 
