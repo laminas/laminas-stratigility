@@ -245,17 +245,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v3
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../intro/" class="dropdown-item active">
@@ -358,7 +358,6 @@
 <p>The following example depends on the <a href="http://docs.laminas.dev/laminas-httphandlerrunner">laminas-httphandlerrunner</a>
 component. You can install it with the following command:</p>
 <pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-httphandlerrunner</code></pre>
-
 </blockquote>
 <p>Creating an application consists of 3 steps:</p>
 <ul>
@@ -392,7 +391,6 @@ $server = new RequestHandlerRunner(
 );
 
 $server-&gt;run();</code></pre>
-
 <p>The above example is useless by itself until you pipe middleware into the application.</p>
 
 

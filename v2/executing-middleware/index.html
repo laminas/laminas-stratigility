@@ -230,17 +230,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v2
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../v3/intro/" class="dropdown-item">
@@ -361,7 +361,6 @@ $api-&gt;pipe(/* ... */);        // repeat as necessary
 
 $app = new MiddlewarePipe();  // Middleware representing the application
 $app-&gt;pipe('/api', $api);     // API middleware attached to the path "/api"</code></pre>
-
 <blockquote>
 <h3>Request path changes when path matched</h3>
 <p>When you pipe middleware using a path (other than '' or '/'), the middleware
@@ -380,7 +379,6 @@ use Laminas\Stratigility\Middleware\ErrorHandler;
 
 $app-&gt;pipe(new ErrorHandler(new Response());
 // Add more middleware...</code></pre>
-
 <p>You can learn how to customize the error handler to your needs in the
 <a href="../error-handlers/">chapter on error handlers</a>.</p>
 <h2 id="extending-the-middlewarepipe">Extending the MiddlewarePipe</h2>
@@ -401,7 +399,6 @@ order to iterate through your stack of middleware:</p>
         // maybe do more work?
     }
 }</code></pre>
-
 <p>Another approach using this method would be to override the constructor to add
 in specific middleware, perhaps using configuration provided. In this case,
 make sure to also call <code>parent::__construct()</code> to ensure the middleware queue
@@ -421,7 +418,6 @@ class CustomMiddleware extends MiddlewarePipe
         $this-&gt;pipe(/* some middleware */);
     }
 }</code></pre>
-
 <p>These approaches are particularly suited for cases where you may want to
 implement a specific workflow for an application segment using existing
 middleware, but do not necessarily want that middleware applied to all requests

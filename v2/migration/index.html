@@ -230,17 +230,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v2
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../v3/intro/" class="dropdown-item">
@@ -407,7 +407,6 @@ recommend the following:</p>
 <pre class="highlight"><code class="language-php">$originalRequest = $request-&gt;getAttribute('originalRequest');
 $originalResponse = $request-&gt;getAttribute('originalResponse');
 $originalUri = $request-&gt;getAttribute('originalUri');</code></pre>
-
 <p>Internally, starting with 1.3.0, we have updated the request decorator to add
 the <code>originalRequest</code> attribute, and the <code>FinalHandler</code> to check for this,
 instead of the decorated instance.</p>
@@ -440,7 +439,6 @@ middleware, instead of having the dispatcher catch them and then invoke
 middleware. Do this via the <code>MiddlewarePipe::raiseThrowables()</code> method:</p>
 <pre class="highlight"><code class="language-php">$pipeline = new MiddlewarePipe();
 $pipeline-&gt;raiseThrowables();</code></pre>
-
 <p>Once you have done that you may start using some of the new functionality, as
 well as augmented existing functionality:</p>
 <ul>
@@ -470,13 +468,11 @@ it in your application in one of two ways:</p>
 <p>If you are not using <code>Laminas\Diactoros\Server</code> to execute your application, but
 instead invoking your pipeline manually, use the following:</p>
 <pre class="highlight"><code class="language-php">$response = $app($request, $response, new NoopFinalHandler());</code></pre>
-
 <p>If you are using <code>Laminas\Diactoros\Server</code>, you will need to pass the final
 handler you wish to use as an argument to the <code>listen()</code> method; that method
 will then pass that value as the third argument to <code>MiddlewarePipe</code> as shown
 above:</p>
 <pre class="highlight"><code class="language-php">$server-&gt;listen(new NoopFinalHandler());</code></pre>
-
 <p>Both approaches above are fully forwards compatible with version 2, and will
 work in all version 1 releases as well.</p>
 <p>(You can also compose your own custom final handler; it only needs to accept a
@@ -518,7 +514,6 @@ interface ServerMiddlewareInterface
 {
     public function process(ServerRequestInterface $request, DelegateInterface $delegate) : ResponseInterface;
 }</code></pre>
-
 <p>The support in version 1.3.0 consists of the following:</p>
 <ul>
 <li><code>MiddlewarePipe</code> now also implements <code>ServerMiddlewareInterface</code>, and allows
@@ -586,7 +581,6 @@ $pipeline-&gt;pipe(function ($request, $response, $next) {
 $pipeline-&gt;pipe(function ($request, $response, $next) {
     return new JsonResponse(['ack' =&gt; time()]);
 });</code></pre>
-
 <p>The first, outer layer of middleware sets a response header. However, the
 second, inner middleware, <em>creates and returns an entirely new response</em>,
 making the new header disappear.</p>
@@ -602,7 +596,6 @@ $pipeline-&gt;pipe(function ($request, $response, $next) {
 $pipeline-&gt;pipe(function ($request, $response, $next) {
     return new JsonResponse(['ack' =&gt; time()]);
 });</code></pre>
-
 <p>The above will have the expected result for whatever middleware is nested
 beneath it, as it will operate on the returned response, and have consistent
 results.</p>
@@ -618,7 +611,6 @@ $pipeline-&gt;pipe(new CallableMiddlewareWrapper($middleware, $response));
 // Auto-decorate middleware by providing a response prototype:
 $pipeline-&gt;setResponsePrototype($response);
 $pipeline-&gt;pipe($middleware);</code></pre>
-
 <blockquote>
 <h3>CallableMiddlewareWrapper and Stratigility 2.0</h3>
 <p>As noted above, version 2 of Stratigility is incompatible with version 1.3 due
@@ -642,13 +634,11 @@ your callable middleware:</p>
     $response = $delegate-&gt;process($request);
     return $response-&gt;withHeader('X-Foo', 'Bar');
 }</code></pre>
-
 <p>As an example of adopting both practices:</p>
 <pre class="highlight"><code class="language-php">function ($request, DelegateInterface $delegate) {
     $response = $delegate-&gt;process($request);
     return $response-&gt;withHeader('X-Foo', 'Bar');
 }</code></pre>
-
 <p>At this point, you have essentially implemented <code>Interop\Http\Middleware\ServerMiddlewareInterface</code>
 (with the notable exception of not type-hinting the <code>$request</code> argument).
 When you pipe such callable middleware to <code>MiddlewarePipeline</code>, it will be
@@ -682,7 +672,6 @@ class PingMiddleware
         return new JsonResponse(['ack' =&gt; time()]);
     }
 }</code></pre>
-
 <p>This could be rewritten as follows:</p>
 <pre class="highlight"><code class="language-php">use Interop\Http\Middleware\DelegateInterface;
 use Interop\Http\Middleware\ServerMiddlewareInterface;
@@ -696,14 +685,12 @@ class PingMiddleware implements ServerMiddlewareInterface
         return new JsonResponse(['ack' =&gt; time()]);
     }
 }</code></pre>
-
 <p>If we were dealing with callable middleware instead:</p>
 <pre class="highlight"><code class="language-php">use Laminas\Diactoros\Response\JsonResponse;
 
 $pipeline-&gt;pipe(function ($request, $response, $next) {
     return new JsonResponse(['ack' =&gt; time()]);
 });</code></pre>
-
 <p>we could wrap this in an anonymous class instead:</p>
 <pre class="highlight"><code class="language-php">use Interop\Http\Middleware\DelegateInterface;
 use Interop\Http\Middleware\ServerMiddlewareInterface;
@@ -716,7 +703,6 @@ $pipeline-&gt;pipe(new class implements ServerMiddlewareInterface {
         return new JsonResponse(['ack' =&gt; time()]);
     }
 });</code></pre>
-
 <blockquote>
 <p>Using anonymous classes is likely overkill, as both v1.3.0 and v2.0.0 support
 piping closures.</p>
@@ -748,7 +734,6 @@ class PingMiddleware implements ServerMiddlewareInterface
         return new JsonResponse(['ack' =&gt; time()]);
     }
 }</code></pre>
-
 <blockquote>
 <h3>Implementing http-interop between Stratigility 1.3 and 2.0</h3>
 <p>While you <em>can</em> write your middleware to implement the
@@ -759,11 +744,9 @@ within your class file. As an example, if you have the following in your
 Stratigility 1.3-based project:</p>
 <pre class="highlight"><code class="language-php">use Interop\Http\Middleware\DelegateInterface;
 use Interop\Http\Middleware\ServerMiddlewareInterface;</code></pre>
-
 <p>The imports would become:</p>
 <pre class="highlight"><code class="language-php">use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;</code></pre>
-
 </blockquote>
 <p>To summarize:</p>
 <ul>
@@ -808,21 +791,18 @@ pipeline, you must do one of the following:</p>
   response when creating <code>CallableMiddlewareWrapper</code> instances.</p>
 <pre class="highlight"><code class="language-php">$factory = new CallableMiddlewareWrapperFactory(new Response());
 $pipeline-&gt;setCallableMiddlewareDecorator($factory);</code></pre>
-
 </li>
 <li>
 <p>Pass a response prototype before piping the callable middleware. If no
   <code>CallableMiddlewareWrapperFactory</code> is present, this prototype will be
   used to seed one for use with decorating callable middleware.</p>
 <pre class="highlight"><code class="language-php">$pipeline-&gt;setResponsePrototype(new Response());</code></pre>
-
 </li>
 <li>
 <p>Manually decorate your middleware prior to passing it to the pipeline:</p>
 <pre class="highlight"><code class="language-php">$pipeline-&gt;pipe(new CallableMiddlewareWrapper($middleware, $response));
 // or CallableInteropMiddlewareWrapper, if your middleware implements
 // the http-middleware signature already.</code></pre>
-
 </li>
 </ul>
 <h3>Invoking MiddlewarePipe instances in version 2.0.0</h3>
@@ -851,7 +831,6 @@ $response = $pipeline-&gt;process($request, new CallableDelegateDecorator(
     new NoopFinalHandler(),
     $response
 ));</code></pre>
-
 <p>Once you have done so, you can process the returned request via an
 <a href="https://docs.laminas.dev/laminas-diactoros/emitting-responses/">emitter</a>.</p>
 <h2 id="deprecated-functionality">Deprecated functionality</h2>

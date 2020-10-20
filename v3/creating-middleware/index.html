@@ -245,17 +245,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v3
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../intro/" class="dropdown-item active">
@@ -390,7 +390,6 @@ class MyMiddleware implements MiddlewareInterface
         // return $handler-&gt;handle($request);
     }
 }</code></pre>
-
 <h2 id="anonymous-middleware">Anonymous middleware</h2>
 <p>For one-off middleware, particularly when debugging, you can use an anonymous
 class to implement <code>MiddlewareInterface</code>:</p>
@@ -401,7 +400,6 @@ class to implement <code>MiddlewareInterface</code>:</p>
         return $response-&gt;withHeader('X-Clacks-Overhead', 'GNU Terry Pratchett');
     }
 });</code></pre>
-
 <h2 id="callable-middleware">Callable middleware</h2>
 <p>Sometimes it's easier to eschew the <code>MiddlewareInterface</code>, particularly when
 creating a one-off middleware for debugging purposes. In those cases, you can
@@ -414,7 +412,6 @@ create a PHP callable that follows the same signature of
     // do some work
     return $response;
 });</code></pre>
-
 <p>The typehints for the arguments are optional, but such callable middleware will
 receive <code>ServerRequestInterface</code> and <code>RequestHandlerInterface</code> instances,
 in that order.</p>
@@ -428,13 +425,11 @@ middleware definition:</p>
     ResponseInterface $response,
     callable $next
 ) : ResponseInterface</code></pre>
-
 <p>where <code>$next</code> had the signature:</p>
 <pre class="highlight"><code class="language-php">function (
     ServerRequestInterface $request,
     ResponseInterface $response
 ) : ResponseInterface</code></pre>
-
 <p>The latter interface is the origin of the term "double-pass", as the
 implementation passes not a single argument, but two. (The <code>$response</code> argument
 was often used as a response prototype for middleware that needed to return a
@@ -447,7 +442,6 @@ it to be used in your Stratigility application.</p>
 <p>To use the decorator, pass it the double-pass middleware to decorate via the
 constructor:</p>
 <pre class="highlight"><code class="language-php">$pipeline-&gt;pipe(new DoublePassMiddlewareDecorator($middleware));</code></pre>
-
 <p>If you are not using laminas-diactoros for your PSR-7 implementation, the decorator
 also accepts a second argument, a PSR-7 <code>ResponseInterface</code> prototype instance
 to pass to the double-pass middleware:</p>
@@ -455,7 +449,6 @@ to pass to the double-pass middleware:</p>
     $middleware,
     $responsePrototype
 ));</code></pre>
-
 <p>You may also use the <code>doublePassMiddleware()</code> utility function in place of <code>new
 DoublePassMiddlewareDecorator()</code>.</p>
 <blockquote>

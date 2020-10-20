@@ -224,17 +224,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v1
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../v3/intro/" class="dropdown-item">
@@ -359,7 +359,6 @@ $app-&gt;pipe('/foo', function ($req, $res, $next) {
 });
 
 $server-&gt;listen();</code></pre>
-
 <p>In the above example, we have two examples of middleware. The first is a
 landing page, and listens at the root path. If the request path is empty or
 <code>/</code>, it completes the response. If it is not, it delegates to the next
@@ -388,7 +387,6 @@ interface ServerMiddlewareInterface
         DelegateInterface $delegate
     ) : ResponseInterface;
 }</code></pre>
-
 <p>where <code>DelegateInterface</code> is defined as:</p>
 <pre class="highlight"><code class="language-php">namespace Interop\Http\Middleware;
 
@@ -401,7 +399,6 @@ interface DelegateInterface
         RequestInterface $request
     ) : ResponseInterface;
 }</code></pre>
-
 <p>Stratigility allows you to implement <code>ServerMiddlewareInterface</code> to provide
 middleware.  Additionally, you can define <code>callable</code> middleware with the
 following signature, and it will be dispatched as http-interop middleware:</p>
@@ -409,7 +406,6 @@ following signature, and it will be dispatched as http-interop middleware:</p>
     ServerRequestInterface $request,
     DelegateInterface $delegate
 ) : ResponseInterface;</code></pre>
-
 <p>(The <code>$request</code> argument does not require a typehint when defining callable
 middleware, but we encourage its use.)</p>
 <p>As such, the above example can also be written as follows:</p>
@@ -422,7 +418,6 @@ $app-&gt;pipe('/', function ($req, DelegateInterface $delegate) {
     }
     return new TextResponse('Hello world!');
 });</code></pre>
-
 </blockquote>
 <p>Middleware can decide more processing can be performed by calling the <code>$next</code>
 callable (or, when defining http-interop middleware, <code>$delegate</code>) passed during
@@ -441,7 +436,6 @@ documentation, next to middleware that serves files, and segregate each by URI:<
 <pre class="highlight"><code class="language-php">$app-&gt;pipe('/api', $apiMiddleware);
 $app-&gt;pipe('/docs', $apiDocMiddleware);
 $app-&gt;pipe('/files', $filesMiddleware);</code></pre>
-
 <p>The handlers in each middleware attached this way will see a URI with that path
 segment stripped, allowing them to be developed separately and re-used under
 any path you wish.</p>

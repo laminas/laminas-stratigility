@@ -224,17 +224,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v1
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../v3/intro/" class="dropdown-item">
@@ -352,7 +352,6 @@ request, it returns processing to the next middleware.</p>
     $handler = $route-&gt;getHandler();
     return $handler($req, $res, $next);
 }</code></pre>
-
 <p>Middleware written in this way can be any of the following:</p>
 <ul>
 <li>Closures (as shown above)</li>
@@ -369,7 +368,6 @@ request, it returns processing to the next middleware.</p>
     Psr\Http\Message\ResponseInterface $response,
     callable $next
 ) : Psr\Http\Message\ResponseInterface</code></pre>
-
 <h3>Legacy error middleware</h3>
 <ul>
 <li>Deprecated since 1.3.0; to be removed in version 2.0.0. Please use the the

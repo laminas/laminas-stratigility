@@ -184,17 +184,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v3
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../v3/intro/" class="dropdown-item">
@@ -328,7 +328,6 @@ different behavior.</p>
 <pre class="highlight"><code class="language-php">public function pipe(
     MiddlewareInterface $middleware
 ) : void</code></pre>
-
 <p>This means the following:</p>
 <ul>
 <li>You can no longer use <code>pipe()</code> to perform path segregation.</li>
@@ -349,7 +348,6 @@ $pipeline-&gt;pipe(new PathMiddlewareDecorator('/api', $apiMiddleware));
 // OR:
 use Laminas\Stratigility\path;
 $pipeline-&gt;pipe(path('/api', $apiMiddleware));</code></pre>
-
 <p>Path segregation using this middleware works exactly as it has in previous
 versions. (Internally, if you provide both a <code>$path</code> and <code>$middleware</code> argument,
 <code>MiddlewarePipe::pipe()</code> creates a <code>PathMiddlewareDecorator</code> instance from the
@@ -401,7 +399,6 @@ $pipeline-&gt;pipe(new DoublePassMiddlewareDecorator(function ($request, $respon
 $pipeline-&gt;pipe(doublePassMiddleware(function ($request, $response, $next) {
     /* ... */
 }));</code></pre>
-
 <p>If you pipe callables directly, you will now trigger an <code>E_USER_DEPRECATION</code>
 error. Internally, <code>MiddlewarePipe::pipe()</code> will decorate them using the classes
 noted above.</p>

@@ -245,17 +245,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v3
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../intro/" class="dropdown-item active">
@@ -362,7 +362,6 @@ response or pass delegation on to the next middleware in the queue.</p>
 <p>The following example depends on the <a href="http://docs.laminas.dev/laminas-httphandlerrunner">laminas-httphandlerrunner</a>
 component. You can install it with the following command:</p>
 <pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-httphandlerrunner</code></pre>
-
 </blockquote>
 <pre class="highlight"><code class="language-php">// In public/index.php:
 use Laminas\Diactoros\Response;
@@ -422,7 +421,6 @@ $server = new RequestHandlerRunner(
 );
 
 $server-&gt;run();</code></pre>
-
 <p>In the above example, we have two examples of middleware. The first is a
 landing page, and listens at the root path. If the request path is empty or
 <code>/</code>, it completes the response. If it is not, it delegates to the next
@@ -462,7 +460,6 @@ documentation, next to middleware that serves files, and segregate each by URI:<
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(path('/api', $apiMiddleware));
 $app-&gt;pipe(path('/docs', $apiDocMiddleware));
 $app-&gt;pipe(path('/files', $filesMiddleware));</code></pre>
-
 <p>The handlers in each middleware attached this way will see a URI with that path
 segment stripped, allowing them to be developed separately and re-used under
 any path you wish.</p>

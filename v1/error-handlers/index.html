@@ -224,17 +224,17 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 <div class="version-selector">
     <div class="btn-group">
-        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
                 v1
             
         </button>
-        <div class="dropdown-menu" aria-labelledby="version-selector-dropdown">
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
                     <a href="../../v3/intro/" class="dropdown-item">
@@ -374,7 +374,6 @@ $app-&gt;pipe(/* ... */);
 $app-&gt;pipe(new NotFoundHandler(new Response());
 
 // execute application</code></pre>
-
 <p>Note that it is the last middleware piped into the application! Since it returns
 a response, no deeper nested layers will execute once it has been invoked.</p>
 <p>If you would like a templated response, you will need to write your own
@@ -405,7 +404,6 @@ class NotFoundMiddleware implements ServerMiddlewareInterface
         return $response;
     }
 }</code></pre>
-
 <h2 id="handling-php-errors-and-exceptions">Handling PHP errors and exceptions</h2>
 <ul>
 <li>Since 1.3.0</li>
@@ -420,7 +418,6 @@ dispatching wraps all middleware in <code>try/catch</code> blocks.</p>
 middleware pipeline:</strong></p>
 <pre class="highlight"><code class="language-php">$pipeline = new MiddlewarePipe();
 $pipeline-&gt;raiseThrowables();</code></pre>
-
 <p>(Starting in 2.0.0, this will no longer be necessary, but until then, this is
 how you opt-in to the system described below.)</p>
 </blockquote>
@@ -445,7 +442,6 @@ function (
     ServerRequestInterface $request,
     ResponseInterface $response
 ) : ResponseInterface</code></pre>
-
 <p>We provide a default implementation, <code>Laminas\Stratigility\Middleware\ErrorResponseGenerator</code>,
 which generates an error response with a <code>5XX</code> series status code and a message
 derived from the reason phrase, if any is present. You may pass a boolean flag
@@ -460,7 +456,6 @@ $app-&gt;pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDev
 // setup layers
 $app-&gt;pipe(/* ... */);
 $app-&gt;pipe(/* ... */);</code></pre>
-
 <p>As a full example, you can combine the two middleware into the same application
 as separate layers:</p>
 <pre class="highlight"><code class="language-php">// setup error handling
@@ -474,7 +469,6 @@ $app-&gt;pipe(/* ... */);
 $app-&gt;pipe(new NotFoundHandler(new Response());
 
 // execute application</code></pre>
-
 <p>The <code>ErrorResponseGenerator</code> provides no templating facilities, and only
 responds as <code>text/html</code>. If you want to provide a templated response, or a
 different serialization and/or markup format, you will need to write your own
@@ -510,13 +504,11 @@ class TemplatedErrorResponseGenerator
         return $response;
     }
 }</code></pre>
-
 <p>You would then pass this to the <code>ErrorHandler</code>:</p>
 <pre class="highlight"><code class="language-php">$app-&gt;pipe(new ErrorHandler(
     new Response(),
     new TemplatedErrorResponseGenerator($renderer, $isDevelopmentMode)
 ));</code></pre>
-
 <h3>ErrorHandler Listeners</h3>
 <p><code>Laminas\Stratigility\Middleware\ErrorHandler</code> provides the ability to attach
 <em>listeners</em>; these are triggered when an error or exception is caught, and
@@ -532,7 +524,6 @@ function (
     ServerRequestInterface $request,
     ResponseInterface $response
 ) : void</code></pre>
-
 <p>Attach listeners using <code>ErrorHandler::attachListener()</code>:</p>
 <pre class="highlight"><code class="language-php">$errorHandler-&gt;attachListener(function ($throwable, $request, $response) use ($logger) {
     $message = sprintf(
@@ -544,7 +535,6 @@ function (
     );
     $logger-&gt;error($message);
 });</code></pre>
-
 <h2 id="legacy-error-middleware">Legacy error middleware</h2>
 <ul>
 <li>Deprecated starting in 1.3.0, to be removed in 2.0.0. Please see the
@@ -553,7 +543,6 @@ function (
 </ul>
 <p>To handle errors, you can write middleware that accepts <strong>exactly</strong> four arguments:</p>
 <pre class="highlight"><code class="language-php">function ($error, $request, $response, $next) { }</code></pre>
-
 <p>Alternately, you can implement <code>Laminas\Stratigility\ErrorMiddlewareInterface</code>.</p>
 <p>When using <code>MiddlewarePipe</code>, as the queue is executed, if <code>$next()</code> is called with an argument, or
 if an exception is thrown, middleware will iterate through the queue until the first such error
