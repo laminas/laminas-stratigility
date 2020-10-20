@@ -10,7 +10,7 @@ details.
 
 ### Added
 
-- Nothing.
+- [#13](https://github.com/laminas/laminas-stratigility/pull/13) Adds support for PHP 8
 
 ### Changed
 
