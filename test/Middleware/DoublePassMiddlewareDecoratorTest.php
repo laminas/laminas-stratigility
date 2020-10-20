@@ -15,6 +15,7 @@ use Laminas\Stratigility\Exception;
 use Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -23,6 +24,8 @@ use function Laminas\Stratigility\doublePassMiddleware;
 
 class DoublePassMiddlewareDecoratorTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException()
     {
         $response = $this->prophesize(ResponseInterface::class)->reveal();
@@ -103,7 +106,6 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
 
         $middleware = doublePassMiddleware($toDecorate, $response);
         self::assertInstanceOf(DoublePassMiddlewareDecorator::class, $middleware);
-        self::assertAttributeSame($toDecorate, 'middleware', $middleware);
-        self::assertAttributeSame($response, 'responsePrototype', $middleware);
+        self::assertEquals(new DoublePassMiddlewareDecorator($toDecorate, $response), $middleware);
     }
 }

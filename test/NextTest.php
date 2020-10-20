@@ -20,6 +20,7 @@ use LaminasTest\Stratigility\TestAsset\ShortCircuitingMiddleware;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,6 +31,7 @@ use SplQueue;
 class NextTest extends TestCase
 {
     use MiddlewareTrait;
+    use ProphecyTrait;
 
     /**
      * @var SplQueue
@@ -46,7 +48,7 @@ class NextTest extends TestCase
      */
     protected $errorHandler;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->queue   = new SplQueue();
         $this->request = new Request([], [], 'http://example.com/', 'GET', 'php://memory');
@@ -85,22 +87,6 @@ class NextTest extends TestCase
     {
         $next = new Next($this->queue, $this->fallbackHandler);
         $this->assertInstanceOf(RequestHandlerInterface::class, $next);
-    }
-
-    /**
-     * @group 25
-     */
-    public function testNextShouldCloneQueueOnInstantiation()
-    {
-        $next = new Next($this->queue, $this->fallbackHandler);
-        $this->assertAttributeNotSame($this->queue, 'queue', $next);
-        $this->assertAttributeEquals($this->queue, 'queue', $next);
-    }
-
-    public function testNextComposesAFallbackHandler()
-    {
-        $next = new Next($this->queue, $this->fallbackHandler);
-        $this->assertAttributeSame($this->fallbackHandler, 'fallbackHandler', $next);
     }
 
     public function testMiddlewareCallingNextWithRequestPassesRequestToNextMiddleware()

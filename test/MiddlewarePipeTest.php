@@ -17,6 +17,7 @@ use Laminas\Stratigility\MiddlewarePipe;
 use Laminas\Stratigility\MiddlewarePipeInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -24,6 +25,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionObject;
+use SplQueue;
 
 use function get_class;
 use function sort;
@@ -34,6 +36,7 @@ use function var_export;
 class MiddlewarePipeTest extends TestCase
 {
     use MiddlewareTrait;
+    use ProphecyTrait;
 
     /**
      * @var Request
@@ -45,7 +48,7 @@ class MiddlewarePipeTest extends TestCase
      */
     private $pipeline;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->request  = new Request([], [], 'http://example.com/', 'GET', 'php://memory');
         $this->pipeline = new MiddlewarePipe();
@@ -113,9 +116,9 @@ class MiddlewarePipeTest extends TestCase
         $request = new Request([], [], 'http://local.example.com/foo', 'GET', 'php://memory');
         $response = $this->pipeline->process($request, $this->createFinalHandler());
         $body = (string) $response->getBody();
-        $this->assertContains('First', $body);
-        $this->assertContains('Second', $body);
-        $this->assertContains('Third', $body);
+        $this->assertStringContainsString('First', $body);
+        $this->assertStringContainsString('Second', $body);
+        $this->assertStringContainsString('Third', $body);
     }
 
     public function testInvokesHandlerWhenQueueIsExhausted()

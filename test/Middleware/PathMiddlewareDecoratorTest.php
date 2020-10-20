@@ -17,6 +17,7 @@ use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -31,6 +32,8 @@ use function var_export;
 
 class PathMiddlewareDecoratorTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var UriInterface|ObjectProphecy
      */
@@ -56,7 +59,7 @@ class PathMiddlewareDecoratorTest extends TestCase
      */
     private $toDecorate;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->uri = $this->prophesize(UriInterface::class);
         $this->request = $this->prophesize(ServerRequestInterface::class);
@@ -69,37 +72,6 @@ class PathMiddlewareDecoratorTest extends TestCase
     {
         $middleware = new PathMiddlewareDecorator('/foo', $this->toDecorate->reveal());
         $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
-    }
-
-    public function testComposesMiddlewarePassedToConstructor()
-    {
-        $toDecorate = $this->prophesize(MiddlewareInterface::class)->reveal();
-        $middleware = new PathMiddlewareDecorator('/foo', $toDecorate);
-        $this->assertAttributeSame($toDecorate, 'middleware', $middleware);
-    }
-
-    public function testComposesPathPrefixPassedToConstructor()
-    {
-        $middleware = new PathMiddlewareDecorator('/foo', $this->toDecorate->reveal());
-        $this->assertAttributeSame('/foo', 'prefix', $middleware);
-    }
-
-    public function testEmptyPathPrefixBecomesSingleSlash()
-    {
-        $middleware = new PathMiddlewareDecorator('', $this->toDecorate->reveal());
-        $this->assertAttributeSame('/', 'prefix', $middleware);
-    }
-
-    public function testTrailingSlashIsStrippedFromPathPrefix()
-    {
-        $middleware = new PathMiddlewareDecorator('/foo/', $this->toDecorate->reveal());
-        $this->assertAttributeSame('/foo', 'prefix', $middleware);
-    }
-
-    public function testAddsLeadingSlashWhenMissingFromPathPrefix()
-    {
-        $middleware = new PathMiddlewareDecorator('foo', $this->toDecorate->reveal());
-        $this->assertAttributeSame('/foo', 'prefix', $middleware);
     }
 
     public function testDelegatesOriginalRequestToHandlerIfRequestPathIsShorterThanDecoratorPrefix()
@@ -433,9 +405,7 @@ class PathMiddlewareDecoratorTest extends TestCase
     {
         $toDecorate = $this->toDecorate->reveal();
         $middleware = path('/foo', $toDecorate);
-        self::assertInstanceOf(PathMiddlewareDecorator::class, $middleware);
-        self::assertAttributeSame('/foo', 'prefix', $middleware);
-        self::assertAttributeSame($toDecorate, 'middleware', $middleware);
+        self::assertEquals(new PathMiddlewareDecorator('/foo', $toDecorate), $middleware);
     }
 
     public function testUpdatesInPathInsideNestedMiddlewareAreRespected()

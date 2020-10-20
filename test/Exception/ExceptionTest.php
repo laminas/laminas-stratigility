@@ -39,7 +39,7 @@ class ExceptionTest extends TestCase
      */
     public function testExceptionIsInstanceOfExceptionInterface(string $exception) : void
     {
-        self::assertContains('Exception', $exception);
+        self::assertStringContainsString('Exception', $exception);
         self::assertTrue(is_a($exception, ExceptionInterface::class, true));
     }
 }
