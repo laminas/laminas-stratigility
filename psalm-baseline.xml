@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.7.3@38c452ae584467e939d55377aaf83b5a26f19dd1">
+  <file src="src/Handler/NotFoundHandler.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>ResponseInterface</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="1">
+      <code>withStatus</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="1">
+      <code>$responseFactory()</code>
+    </MixedReturnStatement>
+  </file>
+  <file src="src/Middleware/DoublePassMiddlewareDecorator.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$request</code>
+      <code>$response</code>
+    </MissingClosureParamType>
+    <MixedArgument occurrences="1">
+      <code>$request</code>
+    </MixedArgument>
+    <UnusedClosureParam occurrences="1">
+      <code>$response</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="src/Middleware/ErrorHandler.php">
+    <MixedArgument occurrences="1">
+      <code>$response</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$this-&gt;createErrorHandler()</code>
+    </MixedArgumentTypeCoercion>
+    <MixedAssignment occurrences="1">
+      <code>$response</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>ResponseInterface</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$responseFactory()</code>
+    </MixedReturnStatement>
+  </file>
+  <file src="src/Next.php">
+    <MixedAssignment occurrences="1">
+      <code>$middleware</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>ResponseInterface</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="1">
+      <code>process</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="1">
+      <code>$middleware-&gt;process($request, $next)</code>
+    </MixedReturnStatement>
+  </file>
+  <file src="src/Utils.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>$errorCode</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>int</code>
+    </InvalidReturnType>
+  </file>
+  <file src="src/functions/double-pass-middleware.legacy.php">
+    <MixedArgument occurrences="1">
+      <code>func_get_args()</code>
+    </MixedArgument>
+  </file>
+  <file src="src/functions/host.legacy.php">
+    <MixedArgument occurrences="1">
+      <code>func_get_args()</code>
+    </MixedArgument>
+  </file>
+  <file src="src/functions/middleware.legacy.php">
+    <MixedArgument occurrences="1">
+      <code>func_get_args()</code>
+    </MixedArgument>
+  </file>
+  <file src="src/functions/path.legacy.php">
+    <MixedArgument occurrences="1">
+      <code>func_get_args()</code>
+    </MixedArgument>
+  </file>
+  <file src="test/Exception/ExceptionTest.php">
+    <InvalidLiteralArgument occurrences="1">
+      <code>ExceptionInterface::class</code>
+    </InvalidLiteralArgument>
+    <MixedInferredReturnType occurrences="1">
+      <code>Generator</code>
+    </MixedInferredReturnType>
+    <PossiblyFalseOperand occurrences="1">
+      <code>strrpos(ExceptionInterface::class, '\\')</code>
+    </PossiblyFalseOperand>
+  </file>
+  <file src="test/Handler/NotFoundHandlerTest.php">
+    <MissingClosureReturnType occurrences="1">
+      <code>function () use ($response) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="1">
+      <code>testReturnsResponseWith404StatusAndErrorMessageInBody</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/Middleware/CallableMiddlewareDecoratorTest.php">
+    <MissingClosureParamType occurrences="6">
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="3">
+      <code>function ($request, $handler) use ($response) {</code>
+      <code>function ($request, $handler) {</code>
+      <code>function ($request, $handler) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="3">
+      <code>testCallableMiddlewareReturningAResponseSucceedsProcessCall</code>
+      <code>testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException</code>
+      <code>testMiddlewareFunction</code>
+    </MissingReturnType>
+    <UnusedClosureParam occurrences="6">
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$handler</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="test/Middleware/DoublePassMiddlewareDecoratorExceptionTest.php">
+    <MissingClosureParamType occurrences="3">
+      <code>$next</code>
+      <code>$request</code>
+      <code>$response</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>function ($request, $response, $next) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="1">
+      <code>testDiactorosIsNotAvailableAndResponsePrototypeIsNotSet</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="1">
+      <code>$autoloader</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="2">
+      <code>$autoloader</code>
+      <code>$func</code>
+    </MixedAssignment>
+    <UnusedClosureParam occurrences="2">
+      <code>$next</code>
+      <code>$request</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="test/Middleware/DoublePassMiddlewareDecoratorTest.php">
+    <MissingClosureParamType occurrences="15">
+      <code>$next</code>
+      <code>$next</code>
+      <code>$next</code>
+      <code>$next</code>
+      <code>$next</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$response</code>
+      <code>$response</code>
+      <code>$response</code>
+      <code>$response</code>
+      <code>$response</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="5">
+      <code>function ($request, $response, $next) {</code>
+      <code>function ($request, $response, $next) {</code>
+      <code>function ($request, $response, $next) {</code>
+      <code>function ($request, $response, $next) {</code>
+      <code>function ($request, $response, $next) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="5">
+      <code>testCallableMiddlewareCanDelegateViaHandler</code>
+      <code>testCallableMiddlewareReturningAResponseSucceedsProcessCall</code>
+      <code>testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException</code>
+      <code>testDecoratorCreatesAResponsePrototypeIfNoneIsProvided</code>
+      <code>testDoublePassMiddlewareFunction</code>
+    </MissingReturnType>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>[$request, 'reveal']</code>
+    </MixedArgumentTypeCoercion>
+    <MixedFunctionCall occurrences="1">
+      <code>$next($request, $response)</code>
+    </MixedFunctionCall>
+    <UnusedClosureParam occurrences="10">
+      <code>$next</code>
+      <code>$next</code>
+      <code>$next</code>
+      <code>$next</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$response</code>
+      <code>$response</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="test/Middleware/ErrorHandlerTest.php">
+    <InvalidArgument occurrences="2">
+      <code>Argument::any()</code>
+      <code>Argument::any()</code>
+    </InvalidArgument>
+    <MissingClosureParamType occurrences="6">
+      <code>$e</code>
+      <code>$error</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$response</code>
+      <code>$response</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="4">
+      <code>function ($e, $request, $response) {</code>
+      <code>function ($error, $request, $response) use ($exception) {</code>
+      <code>function () {</code>
+      <code>function () {</code>
+    </MissingClosureReturnType>
+    <MissingParamType occurrences="1">
+      <code>$isDevelopmentMode</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="10">
+      <code>createMiddleware</code>
+      <code>testCanProvideAlternateErrorResponseGenerator</code>
+      <code>testErrorHandlingTriggersListeners</code>
+      <code>testResponseErrorMessageIncludesStackTraceIfDevelopmentModeIsEnabled</code>
+      <code>testReturnsErrorResponseIfHandlerDoesNotReturnAResponse</code>
+      <code>testReturnsErrorResponseIfHandlerRaisesAnErrorInTheErrorMask</code>
+      <code>testReturnsErrorResponseIfHandlerRaisesAnException</code>
+      <code>testReturnsResponseFromHandlerWhenErrorRaisedIsNotInTheErrorMask</code>
+      <code>testReturnsResponseFromHandlerWhenNoProblemsOccur</code>
+      <code>testTheSameListenerIsAttachedOnlyOnce</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="14">
+      <code>$isDevelopmentMode</code>
+      <code>$listeners</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$this-&gt;errorReporting</code>
+      <code>$this-&gt;handler-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="10">
+      <code>$listeners</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$middleware</code>
+      <code>$response</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="61">
+      <code>attachListener</code>
+      <code>attachListener</code>
+      <code>attachListener</code>
+      <code>attachListener</code>
+      <code>getBody</code>
+      <code>handle</code>
+      <code>handle</code>
+      <code>handle</code>
+      <code>handle</code>
+      <code>handle</code>
+      <code>handle</code>
+      <code>handle</code>
+      <code>handle</code>
+      <code>process</code>
+      <code>process</code>
+      <code>process</code>
+      <code>process</code>
+      <code>process</code>
+      <code>process</code>
+      <code>process</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>will</code>
+      <code>will</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willThrow</code>
+      <code>willThrow</code>
+      <code>willThrow</code>
+      <code>willThrow</code>
+      <code>withStatus</code>
+      <code>write</code>
+      <code>write</code>
+      <code>write</code>
+      <code>write</code>
+      <code>write</code>
+      <code>write</code>
+      <code>write</code>
+      <code>write</code>
+    </MixedMethodCall>
+    <PossiblyInvalidMethodCall occurrences="11">
+      <code>shouldNotBeCalled</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="22">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+    </PossiblyUndefinedMethod>
+    <UndefinedMethod occurrences="6">
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+    </UndefinedMethod>
+    <UndefinedThisPropertyAssignment occurrences="4">
+      <code>$this-&gt;body</code>
+      <code>$this-&gt;errorReporting</code>
+      <code>$this-&gt;handler</code>
+      <code>$this-&gt;request</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="25">
+      <code>$this-&gt;body</code>
+      <code>$this-&gt;body</code>
+      <code>$this-&gt;body</code>
+      <code>$this-&gt;body</code>
+      <code>$this-&gt;body</code>
+      <code>$this-&gt;body</code>
+      <code>$this-&gt;body</code>
+      <code>$this-&gt;errorReporting</code>
+      <code>$this-&gt;handler</code>
+      <code>$this-&gt;handler</code>
+      <code>$this-&gt;handler</code>
+      <code>$this-&gt;handler</code>
+      <code>$this-&gt;handler</code>
+      <code>$this-&gt;handler</code>
+      <code>$this-&gt;handler</code>
+      <code>$this-&gt;handler</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;request</code>
+    </UndefinedThisPropertyFetch>
+    <UnusedClosureParam occurrences="2">
+      <code>$e</code>
+      <code>$request</code>
+    </UnusedClosureParam>
+  </file>
+  <file src="test/Middleware/HostMiddlewareDecoratorTest.php">
+    <InvalidArgument occurrences="5">
+      <code>Argument::any()</code>
+      <code>Argument::any()</code>
+      <code>Argument::that([$this-&gt;handler, 'reveal'])</code>
+      <code>Argument::that([$this-&gt;request, 'reveal'])</code>
+      <code>Argument::that([$this-&gt;request, 'reveal'])</code>
+    </InvalidArgument>
+    <MissingReturnType occurrences="4">
+      <code>testDelegatesOriginalRequestToDecoratedMiddleware</code>
+      <code>testDelegatesOriginalRequestToHandlerIfRequestHostDoesNotMatchDecoratorHostName</code>
+      <code>testHostFunction</code>
+      <code>testImplementsMiddlewareInterface</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="8">
+      <code>$this-&gt;handler-&gt;reveal()</code>
+      <code>$this-&gt;handler-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;toDecorate-&gt;reveal()</code>
+      <code>$this-&gt;toDecorate-&gt;reveal()</code>
+      <code>$this-&gt;toDecorate-&gt;reveal()</code>
+      <code>$toDecorate</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$toDecorate</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>Generator</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="1">
+      <code>shouldBeCalledTimes</code>
+    </MixedMethodCall>
+    <PossiblyInvalidMethodCall occurrences="2">
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="14">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+    </PossiblyUndefinedMethod>
+    <TooFewArguments occurrences="1">
+      <code>process</code>
+    </TooFewArguments>
+    <UndefinedMethod occurrences="7">
+      <code>[$this-&gt;handler, 'reveal']</code>
+      <code>[$this-&gt;request, 'reveal']</code>
+      <code>[$this-&gt;request, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;uri, 'reveal']</code>
+      <code>[$this-&gt;uri, 'reveal']</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/Middleware/NotFoundHandlerTest.php">
+    <DeprecatedClass occurrences="1">
+      <code>new NotFoundHandler($responseFactory)</code>
+    </DeprecatedClass>
+    <MissingClosureReturnType occurrences="1">
+      <code>function () use ($response) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="1">
+      <code>testReturnsResponseWith404StatusAndErrorMessageInBody</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/Middleware/OriginalMessagesTest.php">
+    <MissingClosureParamType occurrences="2">
+      <code>$arg</code>
+      <code>$arg</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="2">
+      <code>function ($arg) {</code>
+      <code>function ($arg) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="1">
+      <code>testNextReceivesRequestWithNewAttributes</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="1">
+      <code>$this-&gt;request-&gt;reveal()</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="2"/>
+    <MixedMethodCall occurrences="10">
+      <code>getUri</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>withAttribute</code>
+      <code>withAttribute</code>
+    </MixedMethodCall>
+    <UndefinedThisPropertyAssignment occurrences="2">
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;uri</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="2">
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;uri</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="test/Middleware/PathMiddlewareDecoratorIntegrationTest.php">
+    <MissingClosureParamType occurrences="7">
+      <code>$args</code>
+      <code>$args</code>
+      <code>$args</code>
+      <code>$received</code>
+      <code>$received</code>
+      <code>$request</code>
+      <code>$request</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="5">
+      <code>function ($args) {</code>
+      <code>function ($args) {</code>
+      <code>function ($args) {</code>
+      <code>function ($request) use ($originalRequest) {</code>
+      <code>function ($request) use ($originalRequest) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="1">
+      <code>testPipelineComposingPathDecoratedMiddlewareExecutesAsExpected</code>
+    </MissingReturnType>
+    <MixedArgumentTypeCoercion occurrences="3">
+      <code>$requestAssertion</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess occurrences="6">
+      <code>$args[0]</code>
+      <code>$args[0]</code>
+      <code>$args[0]</code>
+      <code>$args[1]</code>
+      <code>$args[1]</code>
+      <code>$args[1]</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="7">
+      <code>$next</code>
+      <code>$next</code>
+      <code>$next</code>
+      <code>$receivedUri</code>
+      <code>$request</code>
+      <code>$request</code>
+      <code>$request</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="9">
+      <code>getPath</code>
+      <code>getPath</code>
+      <code>getPath</code>
+      <code>getUri</code>
+      <code>getUri</code>
+      <code>getUri</code>
+      <code>handle</code>
+      <code>handle</code>
+      <code>handle</code>
+    </MixedMethodCall>
+    <MixedOperand occurrences="2">
+      <code>$path</code>
+      <code>$path</code>
+    </MixedOperand>
+  </file>
+  <file src="test/Middleware/PathMiddlewareDecoratorTest.php">
+    <InvalidArgument occurrences="5">
+      <code>Argument::any()</code>
+      <code>Argument::any()</code>
+      <code>Argument::that([$this-&gt;request, 'reveal'])</code>
+      <code>Argument::that([$this-&gt;request, 'reveal'])</code>
+    </InvalidArgument>
+    <MissingClosureParamType occurrences="3">
+      <code>$args</code>
+      <code>$received</code>
+      <code>$received</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="3">
+      <code>function ($args) {</code>
+      <code>function ($received) use ($request) {</code>
+      <code>function ($received) use ($request) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="13">
+      <code>nestedPathCombinations</code>
+      <code>rootPathsProvider</code>
+      <code>testDelegatesOriginalRequestToHandlerIfRequestPathIsDoesNotMatchDecoratorPath</code>
+      <code>testDelegatesOriginalRequestToHandlerIfRequestPathIsShorterThanDecoratorPrefix</code>
+      <code>testDelegatesOrignalRequestToHandlerIfRequestDoesNotMatchPrefixAtABoundary</code>
+      <code>testImplementsMiddlewareInterface</code>
+      <code>testInvocationOfHandlerByDecoratedMiddlewareWillInvokeWithOriginalRequestPath</code>
+      <code>testNestedMiddlewareOnlyMatchesAtPathBoundaries</code>
+      <code>testPathFunction</code>
+      <code>testProcessesMatchedPathsWithoutCaseSensitivity</code>
+      <code>testRequestPathPassedToDecoratedMiddlewareTrimsPathPrefix</code>
+      <code>testTreatsBothSlashAndEmptyPathAsTheRootPath</code>
+      <code>testUpdatesInPathInsideNestedMiddlewareAreRespected</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="9">
+      <code>$this-&gt;handler-&gt;reveal()</code>
+      <code>$this-&gt;handler-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;request-&gt;reveal()</code>
+      <code>$this-&gt;response-&gt;reveal()</code>
+      <code>$this-&gt;toDecorate-&gt;reveal()</code>
+      <code>$this-&gt;toDecorate-&gt;reveal()</code>
+      <code>$this-&gt;toDecorate-&gt;reveal()</code>
+      <code>$toDecorate</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="2"/>
+    <MixedArrayAccess occurrences="2">
+      <code>$args[0]</code>
+      <code>$args[1]</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="3">
+      <code>$next</code>
+      <code>$request</code>
+      <code>$toDecorate</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="3">
+      <code>getPath</code>
+      <code>getUri</code>
+      <code>handle</code>
+    </MixedMethodCall>
+    <ParamNameMismatch occurrences="1">
+      <code>$req</code>
+    </ParamNameMismatch>
+    <PossiblyInvalidMethodCall occurrences="2">
+      <code>willReturn</code>
+      <code>willReturn</code>
+    </PossiblyInvalidMethodCall>
+    <PossiblyUndefinedMethod occurrences="15">
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>reveal</code>
+      <code>shouldNotBeCalled</code>
+      <code>shouldNotBeCalled</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+      <code>will</code>
+    </PossiblyUndefinedMethod>
+    <TooFewArguments occurrences="2">
+      <code>process</code>
+      <code>process</code>
+    </TooFewArguments>
+    <UndefinedMethod occurrences="6">
+      <code>[$this-&gt;request, 'reveal']</code>
+      <code>[$this-&gt;request, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;response, 'reveal']</code>
+      <code>[$this-&gt;uri, 'reveal']</code>
+      <code>[$this-&gt;uri, 'reveal']</code>
+    </UndefinedMethod>
+  </file>
+  <file src="test/Middleware/RequestHandlerMiddlewareTest.php">
+    <MissingReturnType occurrences="2">
+      <code>testDecoratesHandlerAsHandler</code>
+      <code>testDecoratesHandlerAsMiddleware</code>
+    </MissingReturnType>
+    <MixedMethodCall occurrences="2">
+      <code>handle</code>
+      <code>process</code>
+    </MixedMethodCall>
+    <UndefinedThisPropertyAssignment occurrences="4">
+      <code>$this-&gt;handler</code>
+      <code>$this-&gt;middleware</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;response</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="6">
+      <code>$this-&gt;middleware</code>
+      <code>$this-&gt;middleware</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;request</code>
+      <code>$this-&gt;response</code>
+      <code>$this-&gt;response</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="test/MiddlewarePipeTest.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$args</code>
+    </MissingClosureParamType>
+    <MissingClosureReturnType occurrences="1">
+      <code>function ($args) {</code>
+    </MissingClosureReturnType>
+    <MissingReturnType occurrences="7">
+      <code>testCanPipeInteropMiddleware</code>
+      <code>testHandleProcessesEnqueuedMiddleware</code>
+      <code>testHandleRaisesExceptionIfQueueIsEmpty</code>
+      <code>testInvokesHandlerWhenQueueIsExhausted</code>
+      <code>testMiddlewarePipeOnlyImplementsMiddlewarePipeInterfaceApi</code>
+      <code>testProcessInvokesUntilFirstHandlerThatDoesNotCallNext</code>
+      <code>testReturnsResponseReturnedByQueue</code>
+    </MissingReturnType>
+    <MixedArrayAccess occurrences="2">
+      <code>$args[0]</code>
+      <code>$args[1]</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="2">
+      <code>$handler</code>
+      <code>$request</code>
+    </MixedAssignment>
+    <MixedMethodCall occurrences="1">
+      <code>handle</code>
+    </MixedMethodCall>
+    <ParamNameMismatch occurrences="2">
+      <code>$req</code>
+      <code>$req</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="test/MiddlewareTrait.php">
+    <MissingClosureReturnType occurrences="1">
+      <code>function (array $args) {</code>
+    </MissingClosureReturnType>
+    <MixedMethodCall occurrences="1">
+      <code>handle</code>
+    </MixedMethodCall>
+  </file>
+  <file src="test/NextTest.php">
+    <MissingParamType occurrences="2">
+      <code>$cannedRequest</code>
+      <code>$cannedRequest</code>
+    </MissingParamType>
+    <MissingPropertyType occurrences="3">
+      <code>$cannedRequest</code>
+      <code>$cannedRequest</code>
+      <code>$errorHandler</code>
+    </MissingPropertyType>
+    <MissingReturnType occurrences="10">
+      <code>testMiddlewareCallingNextWithRequestPassesRequestToNextMiddleware</code>
+      <code>testMiddlewareReturningResponseShortCircuitsProcess</code>
+      <code>testNextDelegatesToFallbackHandlerWhenQueueIsEmpty</code>
+      <code>testNextHandlerCannotBeInvokedTwice</code>
+      <code>testNextImplementsRequestHandlerInterface</code>
+      <code>testNextProcessesEnqueuedMiddleware</code>
+      <code>testSecondInvocationAttemptDoesNotInvokeFinalHandler</code>
+      <code>testSecondInvocationAttemptDoesNotInvokeMiddleware</code>
+      <code>testSecondInvocationAttemptWithEmptyQueueDoesNotInvokeFinalHandler</code>
+      <code>testShortCircuitingMiddlewareDoesNotEnableSecondInvocation</code>
+    </MissingReturnType>
+    <MixedArgument occurrences="3">
+      <code>$this-&gt;cannedRequest</code>
+      <code>$this-&gt;fallbackHandler</code>
+      <code>$this-&gt;fallbackHandler</code>
+    </MixedArgument>
+    <MixedInferredReturnType occurrences="1">
+      <code>ResponseInterface</code>
+    </MixedInferredReturnType>
+    <MixedMethodCall occurrences="2">
+      <code>getMethod</code>
+      <code>handle</code>
+    </MixedMethodCall>
+    <MixedReturnStatement occurrences="1">
+      <code>$args[1]-&gt;handle($args[0])</code>
+    </MixedReturnStatement>
+    <ParamNameMismatch occurrences="2">
+      <code>$req</code>
+      <code>$req</code>
+    </ParamNameMismatch>
+    <UndefinedThisPropertyAssignment occurrences="2">
+      <code>$this-&gt;fallbackHandler</code>
+      <code>$this-&gt;response</code>
+    </UndefinedThisPropertyAssignment>
+    <UndefinedThisPropertyFetch occurrences="3">
+      <code>$this-&gt;fallbackHandler</code>
+      <code>$this-&gt;fallbackHandler</code>
+      <code>$this-&gt;response</code>
+    </UndefinedThisPropertyFetch>
+  </file>
+  <file src="test/TestAsset/DelegatingMiddleware.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$req</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="test/TestAsset/ErrorHandler.php">
+    <MissingParamType occurrences="4">
+      <code>$err</code>
+      <code>$next</code>
+      <code>$req</code>
+      <code>$res</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="1">
+      <code>handle</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/TestAsset/NormalHandler.php">
+    <MissingParamType occurrences="3">
+      <code>$next</code>
+      <code>$req</code>
+      <code>$res</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="1">
+      <code>handle</code>
+    </MissingReturnType>
+  </file>
+  <file src="test/TestAsset/ShortCircuitingMiddleware.php">
+    <ParamNameMismatch occurrences="1">
+      <code>$req</code>
+    </ParamNameMismatch>
+  </file>
+  <file src="test/TestAsset/StaticHandler.php">
+    <MissingParamType occurrences="3">
+      <code>$next</code>
+      <code>$req</code>
+      <code>$res</code>
+    </MissingParamType>
+    <MissingReturnType occurrences="1">
+      <code>handle</code>
+    </MissingReturnType>
+  </file>
+</files>
