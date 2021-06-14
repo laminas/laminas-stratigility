@@ -38,6 +38,7 @@
         "phpspec/prophecy": "^1.12",
         "phpspec/prophecy-phpunit": "^2.0",
         "phpunit/phpunit": "^9.3",
+        "psalm/plugin-phpunit": "^0.16.0",
         "vimeo/psalm": "^4.7"
     },
     "conflict": {
