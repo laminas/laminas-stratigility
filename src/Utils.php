@@ -8,6 +8,8 @@ namespace Laminas\Stratigility;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
+use function is_int;
+
 /**
  * Utility methods
  */
