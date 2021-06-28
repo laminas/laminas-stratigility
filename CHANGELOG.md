@@ -6,27 +6,32 @@ Versions prior to 1.0 were originally released as `phly/conduit`; please visit
 its [CHANGELOG](https://github.com/phly/conduit/blob/master/CHANGELOG.md) for
 details.
 
-## 3.4.0 - TBD
+## 3.4.0 - 2021-06-28
 
-### Added
 
-- Nothing.
+-----
 
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
+### Release Notes for [3.4.0](https://github.com/laminas/laminas-stratigility/milestone/3)
 
 ### Fixed
 
-- Nothing.
+- Fixes `Utils::getStatusCode()` to verify that the code returned from a `Throwable` is actually an integer before attempting to see if it falls in the HTTP response status code range. If not, it will return the status from the provided response instance.
+
+### 3.4.0
+
+- Total issues resolved: **0**
+- Total pull requests resolved: **4**
+- Total contributors: **2**
+
+#### Enhancement
+
+ - [20: Psalm integration](https://github.com/laminas/laminas-stratigility/pull/20) thanks to @ghostwriter
+ - [19: Add GitHub CI](https://github.com/laminas/laminas-stratigility/pull/19) thanks to @ghostwriter
+ - [16: Remove file headers](https://github.com/laminas/laminas-stratigility/pull/16) thanks to @ghostwriter
+
+#### Bug
+
+ - [15: Proposed fix for #14](https://github.com/laminas/laminas-stratigility/pull/15) thanks to @timdev
 
 ## 3.3.0 - 2020-10-20
 
