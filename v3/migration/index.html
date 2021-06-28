@@ -430,7 +430,7 @@ extended. Decorate an instance if you wish to provide alternate behavior, or
 create your own <code>MiddlewareInterface</code> implementation to provide alternate
 internal logic.</p>
 <h2 id="changes-in-public-interfaces">Changes in public interfaces</h2>
-<h3>Signature changes</h3>
+<h3 id="signature-changes">Signature changes</h3>
 <ul>
 <li>
 <p><code>Next::__construct()</code>: the second parameter now typehints against the
@@ -468,7 +468,7 @@ internal logic.</p>
   mutability of the response body).</p>
 </li>
 </ul>
-<h3>Class additions</h3>
+<h3 id="class-additions">Class additions</h3>
 <ul>
 <li>
 <p><code>Laminas\Stratigility\MiddlewarePipeInterface</code> extends
@@ -537,7 +537,7 @@ $pipeline-&gt;pipe(new PathMiddlewareDecorator('/foo', $middleware));</code></pr
 <li><code>Laminas\Stratigility\Exception\ExceptionInterface</code> - marker for
   package-specific exceptions.</li>
 </ul>
-<h3>Removed classes and exceptions</h3>
+<h3 id="removed-classes-and-exceptions">Removed classes and exceptions</h3>
 <p>The following classes have been removed:</p>
 <ul>
 <li><code>Laminas\Stratigility\Delegate\CallableDelegateDecorator</code></li>
@@ -556,7 +556,7 @@ $pipeline-&gt;pipe(new PathMiddlewareDecorator('/foo', $middleware));</code></pr
   thrown by <code>MiddlewarePipe</code>, and thus no longer necessary).</li>
 <li><code>Laminas\Stratigility\Exception\InvalidRequestTypeException</code></li>
 </ul>
-<h3>Removed methods</h3>
+<h3 id="removed-methods">Removed methods</h3>
 <ul>
 <li>
 <p><code>MiddlewarePipe::__invoke()</code>: the class is no longer invokable.
@@ -605,9 +605,9 @@ $pipeline-&gt;pipe(new PathMiddlewareDecorator('/foo', $middleware));</code></pr
   slated for removal with this version.</p>
 </li>
 </ul>
-<h3>Function additions</h3>
+<h3 id="function-additions">Function additions</h3>
 <p>Release 3.0 adds the following utility functions:</p>
-<h4>host</h4>
+<h4 id="host">host</h4>
 <pre class="highlight"><code class="language-php">function Laminas\Stratigility\host(
   string $host,
   Psr\Http\Server\MiddlewareInterface $middleware
@@ -615,7 +615,7 @@ $pipeline-&gt;pipe(new PathMiddlewareDecorator('/foo', $middleware));</code></pr
 <p>This is a convenience wrapper around instantiation of a
 <code>Laminas\Stratigility\Middleware\HostMiddlewareDecorator</code> instance:</p>
 <pre class="highlight"><code class="language-php">$pipeline-&gt;pipe(host('example.com', $middleware));</code></pre>
-<h4>path</h4>
+<h4 id="path">path</h4>
 <pre class="highlight"><code class="language-php">function Laminas\Stratigility\path(
   string $pathPrefix,
   Psr\Http\Server\MiddlewareInterface $middleware
@@ -623,7 +623,7 @@ $pipeline-&gt;pipe(new PathMiddlewareDecorator('/foo', $middleware));</code></pr
 <p>This is a convenience wrapper around instantiation of a
 <code>Laminas\Stratigility\Middleware\PathMiddlewareDecorator</code> instance:</p>
 <pre class="highlight"><code class="language-php">$pipeline-&gt;pipe(path('/foo', $middleware));</code></pre>
-<h4>middleware</h4>
+<h4 id="middleware">middleware</h4>
 <pre class="highlight"><code class="language-php">function Laminas\Stratigility\middleware(
     callable $middleware
 ) : Laminas\Stratigility\Middleware\CallableMiddlewareDecorator</code></pre>
@@ -632,7 +632,7 @@ implements the PSR-15 middleware signature when piping it to your application.</
 <pre class="highlight"><code class="language-php">$pipeline-&gt;pipe(middleware(function ($request, $handler) {
   // ...
 });</code></pre>
-<h4>doublePassMiddleware</h4>
+<h4 id="doublepassmiddleware">doublePassMiddleware</h4>
 <pre class="highlight"><code class="language-php">function Laminas\Stratigility\doublePassMiddleware(
     callable $middleware,
     Psr\Http\Message\ResponseInterface $responsePrototype = null
@@ -675,16 +675,6 @@ pass a response prototype as well:</p>
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-stratigility/edit/master/docs/book/v3/migration.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
@@ -804,6 +794,7 @@ pass a response prototype as well:</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -876,7 +867,7 @@ pass a response prototype as well:</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-stratigility/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

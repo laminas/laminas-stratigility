@@ -452,7 +452,7 @@ to pass to the double-pass middleware:</p>
 <p>You may also use the <code>doublePassMiddleware()</code> utility function in place of <code>new
 DoublePassMiddlewareDecorator()</code>.</p>
 <blockquote>
-<h3>Beware of operating on the response</h3>
+<h3 id="beware-of-operating-on-the-response">Beware of operating on the response</h3>
 <p>In many cases, poorly written double-pass middleware will manipulate the
 response provided to them and pass the manipulated version to <code>$next</code>.</p>
 <p>This is problematic if you mix standard PSR-15 and double-pass middleware, as
@@ -490,16 +490,6 @@ returned response.</p>
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-stratigility/edit/master/docs/book/v3/creating-middleware.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
@@ -619,6 +609,7 @@ returned response.</p>
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -691,7 +682,7 @@ returned response.</p>
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-stratigility/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>

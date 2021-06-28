@@ -409,7 +409,7 @@ class NotFoundMiddleware implements ServerMiddlewareInterface
 <li>Since 1.3.0</li>
 </ul>
 <blockquote>
-<h3>Opting in to error middleware</h3>
+<h3 id="opting-in-to-error-middleware">Opting in to error middleware</h3>
 <p>If you have upgraded from Mezzio 1.0.0, you will have been using the
 <code>FinalHandler</code> implementation, and relying on the fact that, internally,
 dispatching wraps all middleware in <code>try/catch</code> blocks.</p>
@@ -509,7 +509,7 @@ class TemplatedErrorResponseGenerator
     new Response(),
     new TemplatedErrorResponseGenerator($renderer, $isDevelopmentMode)
 ));</code></pre>
-<h3>ErrorHandler Listeners</h3>
+<h3 id="errorhandler-listeners">ErrorHandler Listeners</h3>
 <p><code>Laminas\Stratigility\Middleware\ErrorHandler</code> provides the ability to attach
 <em>listeners</em>; these are triggered when an error or exception is caught, and
 provided with the exception/throwable raised, the original request, and the
@@ -579,16 +579,6 @@ non-error-handling middleware, and to ensure they can intercept errors from any 
 </nav>
 
 
-
-
-    <div class="help-wanted">
-        <p>
-            Found a mistake or want to contribute to the documentation?
-            <a href="https://github.com/laminas/laminas-stratigility/edit/master/docs/book/v1/error-handlers.md" target="_blank" class="help-wanted__link">
-                Edit this page on GitHub!
-            </a>
-        </p>
-    </div>
 
                 
             </div>
@@ -687,6 +677,7 @@ non-error-handling middleware, and to ensure they can intercept errors from any 
         </ul>
     </div>
 
+                    
                 
             </div>
         </div>
@@ -759,7 +750,7 @@ non-error-handling middleware, and to ensure they can intercept errors from any 
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-stratigility/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2020 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
