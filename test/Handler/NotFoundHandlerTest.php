@@ -6,12 +6,15 @@ namespace LaminasTest\Stratigility\Handler;
 
 use Laminas\Stratigility\Handler\NotFoundHandler;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 
 class NotFoundHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testReturnsResponseWith404StatusAndErrorMessageInBody()
     {
         $stream = $this->prophesize(StreamInterface::class);
