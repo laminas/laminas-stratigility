@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
@@ -33,29 +31,20 @@ class NextTest extends TestCase
     use MiddlewareTrait;
     use ProphecyTrait;
 
-    /**
-     * @var SplQueue
-     */
+    /** @var SplQueue */
     private $queue;
 
-    /**
-     * @var Request
-     */
+    /** @var Request */
     private $request;
-
-    /**
-     * @todo: do we need it?
-     */
-    protected $errorHandler;
 
     protected function setUp(): void
     {
-        $this->queue   = new SplQueue();
-        $this->request = new Request([], [], 'http://example.com/', 'GET', 'php://memory');
+        $this->queue           = new SplQueue();
+        $this->request         = new Request([], [], 'http://example.com/', 'GET', 'php://memory');
         $this->fallbackHandler = $this->createFallbackHandler();
     }
 
-    public function createFallbackHandler(ResponseInterface $response = null) : RequestHandlerInterface
+    public function createFallbackHandler(?ResponseInterface $response = null): RequestHandlerInterface
     {
         $response = $response ?: $this->createDefaultResponse();
         return new class ($response) implements RequestHandlerInterface {
@@ -67,14 +56,14 @@ class NextTest extends TestCase
                 $this->response = $response;
             }
 
-            public function handle(ServerRequestInterface $request) : ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 return $this->response;
             }
         };
     }
 
-    public function createDefaultResponse() : ResponseInterface
+    public function createDefaultResponse(): ResponseInterface
     {
         $this->response = $this->prophesize(ResponseInterface::class);
         return $this->response->reveal();
@@ -95,31 +84,33 @@ class NextTest extends TestCase
         $cannedRequest = clone $request;
         $cannedRequest = $cannedRequest->withMethod('POST');
 
-        $middleware1 = new class($cannedRequest) implements MiddlewareInterface
+        $middleware1 = new class ($cannedRequest) implements MiddlewareInterface
         {
+            /** @var ServerRequestInterface */
             private $cannedRequest;
 
-            public function __construct($cannedRequest)
+            public function __construct(ServerRequestInterface $cannedRequest)
             {
                 $this->cannedRequest = $cannedRequest;
             }
 
-            public function process(ServerRequestInterface $req, RequestHandlerInterface $handler) : ResponseInterface
+            public function process(ServerRequestInterface $req, RequestHandlerInterface $handler): ResponseInterface
             {
                 return $handler->handle($this->cannedRequest);
             }
         };
 
-        $middleware2 = new class($cannedRequest) implements MiddlewareInterface
+        $middleware2 = new class ($cannedRequest) implements MiddlewareInterface
         {
+            /** @var ServerRequestInterface */
             private $cannedRequest;
 
-            public function __construct($cannedRequest)
+            public function __construct(ServerRequestInterface $cannedRequest)
             {
                 $this->cannedRequest = $cannedRequest;
             }
 
-            public function process(ServerRequestInterface $req, RequestHandlerInterface $handler) : ResponseInterface
+            public function process(ServerRequestInterface $req, RequestHandlerInterface $handler): ResponseInterface
             {
                 Assert::assertEquals($this->cannedRequest->getMethod(), $req->getMethod());
                 return new Response();
@@ -129,7 +120,7 @@ class NextTest extends TestCase
         $this->queue->enqueue($middleware1);
         $this->queue->enqueue($middleware2);
 
-        $next = new Next($this->queue, $this->fallbackHandler);
+        $next     = new Next($this->queue, $this->fallbackHandler);
         $response = $next->handle($request);
         $this->assertNotSame($this->response, $response);
     }
@@ -140,7 +131,7 @@ class NextTest extends TestCase
     public function testNextDelegatesToFallbackHandlerWhenQueueIsEmpty()
     {
         $expectedResponse = $this->prophesize(ResponseInterface::class)->reveal();
-        $fallbackHandler = $this->prophesize(RequestHandlerInterface::class);
+        $fallbackHandler  = $this->prophesize(RequestHandlerInterface::class);
         $fallbackHandler
             ->handle($this->request)
             ->willReturn($expectedResponse)->shouldBeCalled();

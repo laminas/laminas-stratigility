@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
@@ -24,7 +22,7 @@ class RequestHandlerMiddlewareTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->request = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $this->request  = $this->prophesize(ServerRequestInterface::class)->reveal();
         $this->response = $this->prophesize(ResponseInterface::class)->reveal();
 
         $this->handler = $this->prophesize(RequestHandlerInterface::class);

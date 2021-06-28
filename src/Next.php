@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
@@ -21,14 +19,10 @@ use SplQueue;
  */
 final class Next implements RequestHandlerInterface
 {
-    /**
-     * @var RequestHandlerInterface
-     */
+    /** @var RequestHandlerInterface */
     private $fallbackHandler;
 
-    /**
-     * @var null|SplQueue
-     */
+    /** @var null|SplQueue */
     private $queue;
 
     /**
@@ -43,7 +37,7 @@ final class Next implements RequestHandlerInterface
         $this->fallbackHandler = $fallbackHandler;
     }
 
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         if ($this->queue === null) {
             throw MiddlewarePipeNextHandlerAlreadyCalledException::create();
@@ -54,8 +48,8 @@ final class Next implements RequestHandlerInterface
             return $this->fallbackHandler->handle($request);
         }
 
-        $middleware = $this->queue->dequeue();
-        $next = clone $this; // deep clone is not used intentionally
+        $middleware  = $this->queue->dequeue();
+        $next        = clone $this; // deep clone is not used intentionally
         $this->queue = null; // mark queue as processed at this nesting level
 
         return $middleware->process($request, $next);

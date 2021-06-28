@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
@@ -34,37 +32,27 @@ class PathMiddlewareDecoratorTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var UriInterface|ObjectProphecy
-     */
+    /** @var UriInterface&ObjectProphecy */
     private $uri;
 
-    /**
-     * @var ServerRequestInterface|ObjectProphecy
-     */
+    /** @var ServerRequestInterface&ObjectProphecy */
     private $request;
 
-    /**
-     * @var ResponseInterface|ObjectProphecy
-     */
+    /** @var ResponseInterface&ObjectProphecy */
     private $response;
 
-    /**
-     * @var RequestHandlerInterface|ObjectProphecy
-     */
+    /** @var RequestHandlerInterface&ObjectProphecy */
     private $handler;
 
-    /**
-     * @var MiddlewareInterface|ObjectProphecy
-     */
+    /** @var MiddlewareInterface&ObjectProphecy */
     private $toDecorate;
 
     protected function setUp(): void
     {
-        $this->uri = $this->prophesize(UriInterface::class);
-        $this->request = $this->prophesize(ServerRequestInterface::class);
-        $this->response = $this->prophesize(ResponseInterface::class);
-        $this->handler = $this->prophesize(RequestHandlerInterface::class);
+        $this->uri        = $this->prophesize(UriInterface::class);
+        $this->request    = $this->prophesize(ServerRequestInterface::class);
+        $this->response   = $this->prophesize(ResponseInterface::class);
+        $this->handler    = $this->prophesize(RequestHandlerInterface::class);
         $this->toDecorate = $this->prophesize(MiddlewareInterface::class);
     }
 
@@ -117,8 +105,8 @@ class PathMiddlewareDecoratorTest extends TestCase
     public function testDelegatesOrignalRequestToHandlerIfRequestDoesNotMatchPrefixAtABoundary()
     {
         // e.g., if route is "/foo", but path is "/foobar", no match
-        $uri = (new Uri())->withPath('/foobar');
-        $request = (new ServerRequest())->withUri($uri);
+        $uri      = (new Uri())->withPath('/foobar');
+        $request  = (new ServerRequest())->withUri($uri);
         $response = new Response();
 
         $middleware = $this->prophesize(MiddlewareInterface::class);
@@ -135,7 +123,15 @@ class PathMiddlewareDecoratorTest extends TestCase
         );
     }
 
-    public function nestedPathCombinations()
+    /**
+     * @psalm-return array<string, array{
+     *     0: string,
+     *     1: string,
+     *     2: string,
+     *     3: bool
+     * }>
+     */
+    public function nestedPathCombinations(): array
     {
         return [
             // name                      => [$prefix, $nestPrefix, $uriPath,      $expectsHeader ]
@@ -254,12 +250,13 @@ class PathMiddlewareDecoratorTest extends TestCase
             public function process(
                 ServerRequestInterface $request,
                 RequestHandlerInterface $handler
-            ) : ResponseInterface {
+            ): ResponseInterface {
                 return (new Response())->withHeader('X-Found', 'true');
             }
         });
 
         $topLevel = new PathMiddlewareDecorator($prefix, new class ($nested) implements MiddlewareInterface {
+            /** @var MiddlewareInterface */
             private $middleware;
 
             public function __construct(MiddlewareInterface $middleware)
@@ -270,12 +267,12 @@ class PathMiddlewareDecoratorTest extends TestCase
             public function process(
                 ServerRequestInterface $request,
                 RequestHandlerInterface $handler
-            ) : ResponseInterface {
+            ): ResponseInterface {
                 return $this->middleware->process($request, $handler);
             }
         });
 
-        $uri = (new Uri())->withPath($uriPath);
+        $uri     = (new Uri())->withPath($uriPath);
         $request = (new ServerRequest())->withUri($uri);
 
         $response = $topLevel->process($request, $finalHandler->reveal());
@@ -293,7 +290,8 @@ class PathMiddlewareDecoratorTest extends TestCase
         );
     }
 
-    public function rootPathsProvider()
+    /** @psalm-return array<array-key, array{0: string}> */
+    public function rootPathsProvider(): array
     {
         return [
             'empty' => [''],
@@ -304,23 +302,21 @@ class PathMiddlewareDecoratorTest extends TestCase
     /**
      * @group matching
      * @dataProvider rootPathsProvider
-     *
-     * @param string $path
      */
-    public function testTreatsBothSlashAndEmptyPathAsTheRootPath($path)
+    public function testTreatsBothSlashAndEmptyPathAsTheRootPath(string $path)
     {
         $finalHandler = $this->prophesize(RequestHandlerInterface::class);
         $finalHandler->handle(Argument::any())->willReturn(new Response());
 
         $middleware = new PathMiddlewareDecorator($path, new class () implements MiddlewareInterface {
-            public function process(ServerRequestInterface $req, RequestHandlerInterface $handler) : ResponseInterface
+            public function process(ServerRequestInterface $req, RequestHandlerInterface $handler): ResponseInterface
             {
                 $res = new Response();
                 return $res->withHeader('X-Found', 'true');
             }
         });
-        $uri     = (new Uri())->withPath($path);
-        $request = (new ServerRequest)->withUri($uri);
+        $uri        = (new Uri())->withPath($path);
+        $request    = (new ServerRequest())->withUri($uri);
 
         $response = $middleware->process($request, $finalHandler->reveal());
         $this->assertTrue($response->hasHeader('x-found'));
@@ -331,7 +327,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         $finalHandler = $this->prophesize(RequestHandlerInterface::class);
         $finalHandler->handle(Argument::any())->willReturn(new Response());
 
-        $request  = new ServerRequest([], [], 'http://local.example.com/foo/bar', 'GET', 'php://memory');
+        $request = new ServerRequest([], [], 'http://local.example.com/foo/bar', 'GET', 'php://memory');
 
         $middleware = $this->prophesize(MiddlewareInterface::class);
         $middleware
@@ -352,7 +348,7 @@ class PathMiddlewareDecoratorTest extends TestCase
 
     public function testInvocationOfHandlerByDecoratedMiddlewareWillInvokeWithOriginalRequestPath()
     {
-        $request = new ServerRequest([], [], 'http://local.example.com/test', 'GET', 'php://memory');
+        $request          = new ServerRequest([], [], 'http://local.example.com/test', 'GET', 'php://memory');
         $expectedResponse = new Response();
 
         $finalHandler = $this->prophesize(RequestHandlerInterface::class);
@@ -389,7 +385,7 @@ class PathMiddlewareDecoratorTest extends TestCase
             )
             ->will(function ($args) {
                 $request = $args[0];
-                $next = $args[1];
+                $next    = $args[1];
                 return $next->handle($request);
             });
 
@@ -410,14 +406,14 @@ class PathMiddlewareDecoratorTest extends TestCase
 
     public function testUpdatesInPathInsideNestedMiddlewareAreRespected()
     {
-        $request = new ServerRequest([], [], 'http://local.example.com/foo/bar', 'GET', 'php://memory');
+        $request             = new ServerRequest([], [], 'http://local.example.com/foo/bar', 'GET', 'php://memory');
         $decoratedMiddleware = middleware(function (
             ServerRequestInterface $request,
             RequestHandlerInterface $handler
         ) {
             return $handler->handle($request->withUri(new Uri('/changed/path')));
         });
-        $middleware = new PathMiddlewareDecorator('/foo', $decoratedMiddleware);
+        $middleware          = new PathMiddlewareDecorator('/foo', $decoratedMiddleware);
 
         $handler = $this->prophesize(RequestHandlerInterface::class);
         $handler->handle(Argument::that(function (ServerRequestInterface $received) {
@@ -435,7 +431,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         $finalHandler->handle(Argument::any())->willReturn(new Response());
 
         // Note that the path requested is ALL CAPS:
-        $request  = new ServerRequest([], [], 'http://local.example.com/MYADMIN', 'GET', 'php://memory');
+        $request = new ServerRequest([], [], 'http://local.example.com/MYADMIN', 'GET', 'php://memory');
 
         $middleware = $this->prophesize(MiddlewareInterface::class);
         $middleware

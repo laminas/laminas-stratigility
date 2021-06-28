@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Stratigility;
@@ -32,9 +26,7 @@ use SplQueue;
  */
 final class MiddlewarePipe implements MiddlewarePipeInterface
 {
-    /**
-     * @var SplQueue
-     */
+    /** @var SplQueue */
     private $pipeline;
 
     /**
@@ -65,12 +57,12 @@ final class MiddlewarePipe implements MiddlewarePipeInterface
      * If the pipeline is empty at the time this method is invoked, it will
      * raise an exception.
      *
-     * @throws Exception\EmptyPipelineException if no middleware is present in
+     * @throws Exception\EmptyPipelineException If no middleware is present in
      *     the instance in order to process the request.
      */
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->process($request, new EmptyPipelineHandler(__CLASS__));
+        return $this->process($request, new EmptyPipelineHandler(self::class));
     }
 
     /**
@@ -79,7 +71,7 @@ final class MiddlewarePipe implements MiddlewarePipeInterface
      * Executes the internal pipeline, passing $handler as the "final
      * handler" in cases when the pipeline exhausts itself.
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return (new Next($this->pipeline, $handler))->handle($request);
     }
@@ -87,7 +79,7 @@ final class MiddlewarePipe implements MiddlewarePipeInterface
     /**
      * Attach middleware to the pipeline.
      */
-    public function pipe(MiddlewareInterface $middleware) : void
+    public function pipe(MiddlewareInterface $middleware): void
     {
         $this->pipeline->enqueue($middleware);
     }

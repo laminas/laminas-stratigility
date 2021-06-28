@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Stratigility\Middleware;
@@ -35,9 +29,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 final class CallableMiddlewareDecorator implements MiddlewareInterface
 {
-    /**
-     * @var callable
-     */
+    /** @var callable */
     private $middleware;
 
     public function __construct(callable $middleware)
@@ -47,10 +39,11 @@ final class CallableMiddlewareDecorator implements MiddlewareInterface
 
     /**
      * {@inheritDoc}
-     * @throws Exception\MissingResponseException if the decorated middleware
+     *
+     * @throws Exception\MissingResponseException If the decorated middleware
      *     fails to produce a response.
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = ($this->middleware)($request, $handler);
         if (! $response instanceof ResponseInterface) {

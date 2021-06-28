@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
@@ -36,7 +34,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 function doublePassMiddleware(
     callable $middleware,
-    ResponseInterface $response = null
-) : Middleware\DoublePassMiddlewareDecorator {
+    ?ResponseInterface $response = null
+): Middleware\DoublePassMiddlewareDecorator {
     return new Middleware\DoublePassMiddlewareDecorator($middleware, $response);
 }

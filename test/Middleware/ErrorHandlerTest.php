@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
@@ -41,14 +39,14 @@ class ErrorHandlerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->response = $this->prophesize(ResponseInterface::class);
+        $this->response        = $this->prophesize(ResponseInterface::class);
         $this->responseFactory = function () {
             return $this->response->reveal();
         };
-        $this->request = $this->prophesize(ServerRequestInterface::class);
-        $this->body = $this->prophesize(StreamInterface::class);
-        $this->handler = $this->prophesize(RequestHandlerInterface::class);
-        $this->errorReporting = error_reporting();
+        $this->request         = $this->prophesize(ServerRequestInterface::class);
+        $this->body            = $this->prophesize(StreamInterface::class);
+        $this->handler         = $this->prophesize(RequestHandlerInterface::class);
+        $this->errorReporting  = error_reporting();
     }
 
     protected function tearDown(): void
@@ -56,7 +54,7 @@ class ErrorHandlerTest extends TestCase
         error_reporting($this->errorReporting);
     }
 
-    public function createMiddleware($isDevelopmentMode = false)
+    public function createMiddleware(bool $isDevelopmentMode = false): ErrorHandler
     {
         $generator = new ErrorResponseGenerator($isDevelopmentMode);
         return new ErrorHandler($this->responseFactory, $generator);
@@ -73,7 +71,7 @@ class ErrorHandlerTest extends TestCase
         $this->response->withStatus(Argument::any())->shouldNotBeCalled();
 
         $middleware = $this->createMiddleware();
-        $result = $middleware->process($this->request->reveal(), $this->handler->reveal());
+        $result     = $middleware->process($this->request->reveal(), $this->handler->reveal());
 
         $this->assertSame($expectedResponse, $result);
     }
@@ -91,7 +89,7 @@ class ErrorHandlerTest extends TestCase
         $this->response->getBody()->will([$this->body, 'reveal']);
 
         $middleware = $this->createMiddleware();
-        $result = $middleware->process($this->request->reveal(), $this->handler->reveal());
+        $result     = $middleware->process($this->request->reveal(), $this->handler->reveal());
 
         $this->assertSame($this->response->reveal(), $result);
     }
@@ -112,7 +110,7 @@ class ErrorHandlerTest extends TestCase
         $this->response->getBody()->will([$this->body, 'reveal']);
 
         $middleware = $this->createMiddleware();
-        $result = $middleware->process($this->request->reveal(), $this->handler->reveal());
+        $result     = $middleware->process($this->request->reveal(), $this->handler->reveal());
 
         $this->assertSame($this->response->reveal(), $result);
     }
@@ -135,7 +133,7 @@ class ErrorHandlerTest extends TestCase
         $this->response->withStatus(Argument::any())->shouldNotBeCalled();
 
         $middleware = $this->createMiddleware();
-        $result = $middleware->process($this->request->reveal(), $this->handler->reveal());
+        $result     = $middleware->process($this->request->reveal(), $this->handler->reveal());
 
         $this->assertSame($expectedResponse, $result);
     }
@@ -153,7 +151,7 @@ class ErrorHandlerTest extends TestCase
         $this->response->getBody()->will([$this->body, 'reveal']);
 
         $middleware = $this->createMiddleware();
-        $result = $middleware->process($this->request->reveal(), $this->handler->reveal());
+        $result     = $middleware->process($this->request->reveal(), $this->handler->reveal());
 
         $this->assertSame($this->response->reveal(), $result);
     }
@@ -174,7 +172,7 @@ class ErrorHandlerTest extends TestCase
         $this->response->getBody()->will([$this->body, 'reveal']);
 
         $middleware = $this->createMiddleware(true);
-        $result = $middleware->process($this->request->reveal(), $this->handler->reveal());
+        $result     = $middleware->process($this->request->reveal(), $this->handler->reveal());
 
         $this->assertSame($this->response->reveal(), $result);
     }
@@ -192,7 +190,7 @@ class ErrorHandlerTest extends TestCase
         $this->response->getReasonPhrase()->willReturn('');
         $this->response->getBody()->will([$this->body, 'reveal']);
 
-        $listener = function ($error, $request, $response) use ($exception) {
+        $listener  = function ($error, $request, $response) use ($exception) {
             $this->assertSame($exception, $error, 'Listener did not receive same exception as was raised');
             $this->assertSame($this->request->reveal(), $request, 'Listener did not receive same request');
             $this->assertSame($this->response->reveal(), $response, 'Listener did not receive same response');
@@ -225,7 +223,7 @@ class ErrorHandlerTest extends TestCase
         $this->body->write('The client messed up')->shouldBeCalled();
 
         $middleware = new ErrorHandler($this->responseFactory, $generator);
-        $result = $middleware->process($this->request->reveal(), $this->handler->reveal());
+        $result     = $middleware->process($this->request->reveal(), $this->handler->reveal());
 
         $this->assertSame($this->response->reveal(), $result);
     }
@@ -233,13 +231,13 @@ class ErrorHandlerTest extends TestCase
     public function testTheSameListenerIsAttachedOnlyOnce()
     {
         $middleware = $this->createMiddleware();
-        $listener = function () {
+        $listener   = function () {
         };
 
         $middleware->attachListener($listener);
         $middleware->attachListener($listener);
 
-        $ref = new ReflectionObject($middleware);
+        $ref  = new ReflectionObject($middleware);
         $prop = $ref->getProperty('listeners');
         $prop->setAccessible(true);
 

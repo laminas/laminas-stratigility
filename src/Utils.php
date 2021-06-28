@@ -1,10 +1,5 @@
-<?php
+<?php // phpcs:disable WebimpressCodingStandard.NamingConventions.AbstractClass.Prefix
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
 
 declare(strict_types=1);
 
@@ -27,7 +22,7 @@ abstract class Utils
      * Otherwise, retrieves the code from the response; if not present, or
      * less than 400 or greater than 599, returns 500; otherwise, returns it.
      */
-    public static function getStatusCode(Throwable $error, ResponseInterface $response) : int
+    public static function getStatusCode(Throwable $error, ResponseInterface $response): int
     {
         $errorCode = $error->getCode();
         if ($errorCode >= 400 && $errorCode < 600) {

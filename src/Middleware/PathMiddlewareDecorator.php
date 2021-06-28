@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
@@ -16,8 +14,9 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 use function rtrim;
+use function stripos;
 use function strlen;
-use function strtolower;
+use function strpos;
 use function substr;
 
 final class PathMiddlewareDecorator implements MiddlewareInterface
@@ -30,11 +29,11 @@ final class PathMiddlewareDecorator implements MiddlewareInterface
 
     public function __construct(string $prefix, MiddlewareInterface $middleware)
     {
-        $this->prefix = $this->normalizePrefix($prefix);
+        $this->prefix     = $this->normalizePrefix($prefix);
         $this->middleware = $middleware;
     }
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $path = $request->getUri()->getPath() ?: '/';
 
@@ -69,7 +68,7 @@ final class PathMiddlewareDecorator implements MiddlewareInterface
         );
     }
 
-    private function getBorder(string $path) : string
+    private function getBorder(string $path): string
     {
         if ($this->prefix === '/') {
             return '/';
@@ -79,7 +78,7 @@ final class PathMiddlewareDecorator implements MiddlewareInterface
         return strlen($path) > $length ? $path[$length] : '';
     }
 
-    private function prepareRequestWithTruncatedPrefix(ServerRequestInterface $request) : ServerRequestInterface
+    private function prepareRequestWithTruncatedPrefix(ServerRequestInterface $request): ServerRequestInterface
     {
         $uri  = $request->getUri();
         $path = $this->getTruncatedPath($this->prefix, $uri->getPath());
@@ -87,7 +86,7 @@ final class PathMiddlewareDecorator implements MiddlewareInterface
         return $request->withUri($new);
     }
 
-    private function getTruncatedPath(string $segment, string $path) : string
+    private function getTruncatedPath(string $segment, string $path): string
     {
         if ($segment === $path) {
             // Decorated path and current path are the same; return empty string
@@ -98,7 +97,7 @@ final class PathMiddlewareDecorator implements MiddlewareInterface
         return substr($path, strlen($segment));
     }
 
-    private function prepareHandlerForOriginalRequest(RequestHandlerInterface $handler) : RequestHandlerInterface
+    private function prepareHandlerForOriginalRequest(RequestHandlerInterface $handler): RequestHandlerInterface
     {
         return new class ($handler, $this->prefix) implements RequestHandlerInterface {
             /** @var RequestHandlerInterface */
@@ -110,7 +109,7 @@ final class PathMiddlewareDecorator implements MiddlewareInterface
             public function __construct(RequestHandlerInterface $handler, string $prefix)
             {
                 $this->handler = $handler;
-                $this->prefix = $prefix;
+                $this->prefix  = $prefix;
             }
 
             /**
@@ -123,7 +122,7 @@ final class PathMiddlewareDecorator implements MiddlewareInterface
              *
              * {@inheritDoc}
              */
-            public function handle(ServerRequestInterface $request) : ResponseInterface
+            public function handle(ServerRequestInterface $request): ResponseInterface
             {
                 $uri = $request->getUri();
                 $uri = $uri->withPath($this->prefix . $uri->getPath());
@@ -136,7 +135,7 @@ final class PathMiddlewareDecorator implements MiddlewareInterface
      * Ensures that the right-most slash is trimmed for prefixes of more than
      * one character, and that the prefix begins with a slash.
      */
-    private function normalizePrefix(string $prefix) : string
+    private function normalizePrefix(string $prefix): string
     {
         $prefix = strlen($prefix) > 1 ? rtrim($prefix, '/') : $prefix;
         if (0 !== strpos($prefix, '/')) {
