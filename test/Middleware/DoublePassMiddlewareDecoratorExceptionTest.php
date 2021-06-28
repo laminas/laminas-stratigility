@@ -36,7 +36,7 @@ class DoublePassMiddlewareDecoratorExceptionTest extends TestCase
         }
     }
 
-    public function testDiactorosIsNotAvailableAndResponsePrototypeIsNotSet()
+    public function testDiactorosIsNotAvailableAndResponsePrototypeIsNotSet(): void
     {
         $middleware = function ($request, $response, $next) {
             return $response;

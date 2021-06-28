@@ -28,19 +28,19 @@ class PathMiddlewareDecoratorTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @var UriInterface&ObjectProphecy */
+    /** @var ObjectProphecy<UriInterface> */
     private $uri;
 
-    /** @var ServerRequestInterface&ObjectProphecy */
+    /** @var ObjectProphecy<ServerRequestInterface> */
     private $request;
 
-    /** @var ResponseInterface&ObjectProphecy */
+    /** @var ObjectProphecy<ResponseInterface> */
     private $response;
 
-    /** @var RequestHandlerInterface&ObjectProphecy */
+    /** @var ObjectProphecy<RequestHandlerInterface> */
     private $handler;
 
-    /** @var MiddlewareInterface&ObjectProphecy */
+    /** @var ObjectProphecy<MiddlewareInterface> */
     private $toDecorate;
 
     protected function setUp(): void
@@ -52,13 +52,13 @@ class PathMiddlewareDecoratorTest extends TestCase
         $this->toDecorate = $this->prophesize(MiddlewareInterface::class);
     }
 
-    public function testImplementsMiddlewareInterface()
+    public function testImplementsMiddlewareInterface(): void
     {
         $middleware = new PathMiddlewareDecorator('/foo', $this->toDecorate->reveal());
         $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
     }
 
-    public function testDelegatesOriginalRequestToHandlerIfRequestPathIsShorterThanDecoratorPrefix()
+    public function testDelegatesOriginalRequestToHandlerIfRequestPathIsShorterThanDecoratorPrefix(): void
     {
         $this->uri
             ->getPath()
@@ -80,7 +80,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         );
     }
 
-    public function testDelegatesOriginalRequestToHandlerIfRequestPathIsDoesNotMatchDecoratorPath()
+    public function testDelegatesOriginalRequestToHandlerIfRequestPathIsDoesNotMatchDecoratorPath(): void
     {
         $this->uri
             ->getPath()
@@ -98,7 +98,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         $middleware->process($this->request->reveal(), $this->handler->reveal());
     }
 
-    public function testDelegatesOrignalRequestToHandlerIfRequestDoesNotMatchPrefixAtABoundary()
+    public function testDelegatesOrignalRequestToHandlerIfRequestDoesNotMatchPrefixAtABoundary(): void
     {
         // e.g., if route is "/foo", but path is "/foobar", no match
         $uri      = (new Uri())->withPath('/foobar');
@@ -238,7 +238,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         string $nestPrefix,
         string $uriPath,
         bool $expectsHeader
-    ) {
+    ): void {
         $finalHandler = $this->prophesize(RequestHandlerInterface::class);
         $finalHandler->handle(Argument::any())->willReturn(new Response());
 
@@ -299,7 +299,7 @@ class PathMiddlewareDecoratorTest extends TestCase
      * @group matching
      * @dataProvider rootPathsProvider
      */
-    public function testTreatsBothSlashAndEmptyPathAsTheRootPath(string $path)
+    public function testTreatsBothSlashAndEmptyPathAsTheRootPath(string $path): void
     {
         $finalHandler = $this->prophesize(RequestHandlerInterface::class);
         $finalHandler->handle(Argument::any())->willReturn(new Response());
@@ -318,7 +318,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         $this->assertTrue($response->hasHeader('x-found'));
     }
 
-    public function testRequestPathPassedToDecoratedMiddlewareTrimsPathPrefix()
+    public function testRequestPathPassedToDecoratedMiddlewareTrimsPathPrefix(): void
     {
         $finalHandler = $this->prophesize(RequestHandlerInterface::class);
         $finalHandler->handle(Argument::any())->willReturn(new Response());
@@ -342,7 +342,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         $decorator->process($request, $finalHandler->reveal());
     }
 
-    public function testInvocationOfHandlerByDecoratedMiddlewareWillInvokeWithOriginalRequestPath()
+    public function testInvocationOfHandlerByDecoratedMiddlewareWillInvokeWithOriginalRequestPath(): void
     {
         $request          = new ServerRequest([], [], 'http://local.example.com/test', 'GET', 'php://memory');
         $expectedResponse = new Response();
@@ -393,14 +393,14 @@ class PathMiddlewareDecoratorTest extends TestCase
         );
     }
 
-    public function testPathFunction()
+    public function testPathFunction(): void
     {
         $toDecorate = $this->toDecorate->reveal();
         $middleware = path('/foo', $toDecorate);
         self::assertEquals(new PathMiddlewareDecorator('/foo', $toDecorate), $middleware);
     }
 
-    public function testUpdatesInPathInsideNestedMiddlewareAreRespected()
+    public function testUpdatesInPathInsideNestedMiddlewareAreRespected(): void
     {
         $request             = new ServerRequest([], [], 'http://local.example.com/foo/bar', 'GET', 'php://memory');
         $decoratedMiddleware = middleware(function (
@@ -421,7 +421,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         $middleware->process($request, $handler->reveal());
     }
 
-    public function testProcessesMatchedPathsWithoutCaseSensitivity()
+    public function testProcessesMatchedPathsWithoutCaseSensitivity(): void
     {
         $finalHandler = $this->prophesize(RequestHandlerInterface::class);
         $finalHandler->handle(Argument::any())->willReturn(new Response());

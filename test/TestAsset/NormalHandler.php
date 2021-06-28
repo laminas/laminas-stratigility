@@ -14,7 +14,7 @@ class NormalHandler
      * @param ResponseInterface $res
      * @param callable $next
      */
-    public function handle($req, $res, $next)
+    public function handle($req, $res, $next): void
     {
     }
 }

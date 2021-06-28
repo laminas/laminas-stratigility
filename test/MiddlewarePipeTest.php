@@ -54,7 +54,7 @@ class MiddlewarePipeTest extends TestCase
     /**
      * @group http-interop
      */
-    public function testCanPipeInteropMiddleware()
+    public function testCanPipeInteropMiddleware(): void
     {
         $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
 
@@ -73,7 +73,7 @@ class MiddlewarePipeTest extends TestCase
         $this->assertSame($response, $pipeline->process($this->request, $handler));
     }
 
-    public function testProcessInvokesUntilFirstHandlerThatDoesNotCallNext()
+    public function testProcessInvokesUntilFirstHandlerThatDoesNotCallNext(): void
     {
         $this->pipeline->pipe(new class () implements MiddlewareInterface
         {
@@ -110,7 +110,7 @@ class MiddlewarePipeTest extends TestCase
         $this->assertStringContainsString('Third', $body);
     }
 
-    public function testInvokesHandlerWhenQueueIsExhausted()
+    public function testInvokesHandlerWhenQueueIsExhausted(): void
     {
         $expected = $this->prophesize(ResponseInterface::class)->reveal();
 
@@ -128,7 +128,7 @@ class MiddlewarePipeTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
-    public function testReturnsResponseReturnedByQueue()
+    public function testReturnsResponseReturnedByQueue(): void
     {
         $return = new Response();
 
@@ -146,7 +146,7 @@ class MiddlewarePipeTest extends TestCase
         ], true));
     }
 
-    public function testHandleRaisesExceptionIfQueueIsEmpty()
+    public function testHandleRaisesExceptionIfQueueIsEmpty(): void
     {
         $request = $this->prophesize(ServerRequestInterface::class)->reveal();
 
@@ -155,7 +155,7 @@ class MiddlewarePipeTest extends TestCase
         $this->pipeline->handle($request);
     }
 
-    public function testHandleProcessesEnqueuedMiddleware()
+    public function testHandleProcessesEnqueuedMiddleware(): void
     {
         $response    = $this->prophesize(ResponseInterface::class)->reveal();
         $middleware1 = $this->prophesize(MiddlewareInterface::class);
@@ -184,7 +184,7 @@ class MiddlewarePipeTest extends TestCase
         $this->assertSame($response, $pipeline->handle($this->request));
     }
 
-    public function testMiddlewarePipeOnlyImplementsMiddlewarePipeInterfaceApi()
+    public function testMiddlewarePipeOnlyImplementsMiddlewarePipeInterfaceApi(): void
     {
         $pipeline = new MiddlewarePipe();
 

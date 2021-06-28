@@ -14,7 +14,7 @@ class StaticHandler
      * @param ResponseInterface $res
      * @param callable $next
      */
-    public static function handle($req, $res, $next)
+    public static function handle($req, $res, $next): void
     {
     }
 }

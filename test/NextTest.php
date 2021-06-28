@@ -68,13 +68,13 @@ class NextTest extends TestCase
     /**
      * @group http-interop
      */
-    public function testNextImplementsRequestHandlerInterface()
+    public function testNextImplementsRequestHandlerInterface(): void
     {
         $next = new Next($this->queue, $this->fallbackHandler);
         $this->assertInstanceOf(RequestHandlerInterface::class, $next);
     }
 
-    public function testMiddlewareCallingNextWithRequestPassesRequestToNextMiddleware()
+    public function testMiddlewareCallingNextWithRequestPassesRequestToNextMiddleware(): void
     {
         $request       = $this->request->withUri(new Uri('http://example.com/foo/bar/baz'));
         $cannedRequest = clone $request;
@@ -124,7 +124,7 @@ class NextTest extends TestCase
     /**
      * @group http-interop
      */
-    public function testNextDelegatesToFallbackHandlerWhenQueueIsEmpty()
+    public function testNextDelegatesToFallbackHandlerWhenQueueIsEmpty(): void
     {
         $expectedResponse = $this->prophesize(ResponseInterface::class)->reveal();
         $fallbackHandler  = $this->prophesize(RequestHandlerInterface::class);
@@ -138,7 +138,7 @@ class NextTest extends TestCase
     /**
      * @group http-interop
      */
-    public function testNextProcessesEnqueuedMiddleware()
+    public function testNextProcessesEnqueuedMiddleware(): void
     {
         $fallbackHandler = $this->prophesize(RequestHandlerInterface::class);
         $fallbackHandler
@@ -164,7 +164,7 @@ class NextTest extends TestCase
     /**
      * @group http-interop
      */
-    public function testMiddlewareReturningResponseShortCircuitsProcess()
+    public function testMiddlewareReturningResponseShortCircuitsProcess(): void
     {
         $fallbackHandler = $this->prophesize(RequestHandlerInterface::class);
         $fallbackHandler
@@ -192,7 +192,7 @@ class NextTest extends TestCase
         $this->assertSame($response, $next->handle($this->request));
     }
 
-    public function testNextHandlerCannotBeInvokedTwice()
+    public function testNextHandlerCannotBeInvokedTwice(): void
     {
         $fallbackHandler = $this->prophesize(RequestHandlerInterface::class);
         $fallbackHandler
@@ -208,7 +208,7 @@ class NextTest extends TestCase
         $next->handle($this->request);
     }
 
-    public function testSecondInvocationAttemptDoesNotInvokeFinalHandler()
+    public function testSecondInvocationAttemptDoesNotInvokeFinalHandler(): void
     {
         $fallBackHandler = $this->prophesize(RequestHandlerInterface::class);
         $fallBackHandler
@@ -225,7 +225,7 @@ class NextTest extends TestCase
         $next->handle($this->request);
     }
 
-    public function testSecondInvocationAttemptDoesNotInvokeMiddleware()
+    public function testSecondInvocationAttemptDoesNotInvokeMiddleware(): void
     {
         $fallBackHandler = $this->prophesize(RequestHandlerInterface::class);
         $fallBackHandler
@@ -252,7 +252,7 @@ class NextTest extends TestCase
         $next->handle($this->request);
     }
 
-    public function testShortCircuitingMiddlewareDoesNotEnableSecondInvocation()
+    public function testShortCircuitingMiddlewareDoesNotEnableSecondInvocation(): void
     {
         $fallBackHandler = $this->prophesize(RequestHandlerInterface::class);
         $fallBackHandler
@@ -273,7 +273,7 @@ class NextTest extends TestCase
         $next->handle($this->request);
     }
 
-    public function testSecondInvocationAttemptWithEmptyQueueDoesNotInvokeFinalHandler()
+    public function testSecondInvocationAttemptWithEmptyQueueDoesNotInvokeFinalHandler(): void
     {
         $fallBackHandler = $this->prophesize(RequestHandlerInterface::class);
         $fallBackHandler

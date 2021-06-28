@@ -16,7 +16,7 @@ class NotFoundHandlerTest extends TestCase
 {
     use ProphecyTrait;
 
-    public function testReturnsResponseWith404StatusAndErrorMessageInBody()
+    public function testReturnsResponseWith404StatusAndErrorMessageInBody(): void
     {
         $stream = $this->prophesize(StreamInterface::class);
         $stream->write('Cannot POST https://example.com/foo');
@@ -29,7 +29,7 @@ class NotFoundHandlerTest extends TestCase
         $request->getMethod()->willReturn('POST');
         $request->getUri()->willReturn('https://example.com/foo');
 
-        $responseFactory = function () use ($response) {
+        $responseFactory = function () use ($response): ResponseInterface {
             return $response->reveal();
         };
 

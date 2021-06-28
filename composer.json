@@ -37,7 +37,9 @@
         "malukenho/docheader": "^0.1.6",
         "phpspec/prophecy": "^1.12",
         "phpspec/prophecy-phpunit": "^2.0",
-        "phpunit/phpunit": "^9.3"
+        "phpunit/phpunit": "^9.3",
+        "psalm/plugin-phpunit": "^0.16.0",
+        "vimeo/psalm": "^4.7"
     },
     "conflict": {
         "laminas/laminas-diactoros": "<1.7.1"
@@ -75,7 +77,8 @@
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
-        "license-check": "docheader check src/ test/"
+        "license-check": "docheader check src/ test/",
+        "static-analysis": "psalm --shepherd --stats"
     },
     "replace": {
         "zendframework/zend-stratigility": "^3.2.0"

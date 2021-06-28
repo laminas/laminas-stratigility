@@ -21,7 +21,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
 {
     use ProphecyTrait;
 
-    public function testPipelineComposingPathDecoratedMiddlewareExecutesAsExpected()
+    public function testPipelineComposingPathDecoratedMiddlewareExecutesAsExpected(): void
     {
         $uri      = (new Uri())->withPath('/foo/bar/baz');
         $request  = (new ServerRequest())->withUri($uri);

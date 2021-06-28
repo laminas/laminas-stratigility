@@ -46,13 +46,13 @@ class HostMiddlewareDecoratorTest extends TestCase
         $this->toDecorate = $this->prophesize(MiddlewareInterface::class);
     }
 
-    public function testImplementsMiddlewareInterface()
+    public function testImplementsMiddlewareInterface(): void
     {
         $middleware = new HostMiddlewareDecorator('host.test', $this->toDecorate->reveal());
         self::assertInstanceOf(MiddlewareInterface::class, $middleware);
     }
 
-    public function testDelegatesOriginalRequestToHandlerIfRequestHostDoesNotMatchDecoratorHostName()
+    public function testDelegatesOriginalRequestToHandlerIfRequestHostDoesNotMatchDecoratorHostName(): void
     {
         $this->uri->getHost()->willReturn('host.foo');
         $this->request->getUri()->will([$this->uri, 'reveal']);
@@ -76,7 +76,7 @@ class HostMiddlewareDecoratorTest extends TestCase
     /**
      * @dataProvider matchingHost
      */
-    public function testDelegatesOriginalRequestToDecoratedMiddleware(string $requestHost, string $decoratorHost)
+    public function testDelegatesOriginalRequestToDecoratedMiddleware(string $requestHost, string $decoratorHost): void
     {
         $this->uri->getHost()->willReturn($requestHost);
         $this->request->getUri()->will([$this->uri, 'reveal']);
@@ -93,7 +93,7 @@ class HostMiddlewareDecoratorTest extends TestCase
         $decorator->process($this->request->reveal(), $this->handler->reveal());
     }
 
-    public function testHostFunction()
+    public function testHostFunction(): void
     {
         $toDecorate = $this->toDecorate->reveal();
 
