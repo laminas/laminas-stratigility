@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Stratigility\Exception;
@@ -21,7 +15,7 @@ use function sprintf;
  */
 class MissingResponsePrototypeException extends UnexpectedValueException implements ExceptionInterface
 {
-    public static function create() : self
+    public static function create(): self
     {
         return new self(sprintf(
             'Unable to create a %s instance; no response prototype provided,'

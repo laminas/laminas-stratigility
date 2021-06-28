@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\Stratigility\Middleware;
@@ -25,7 +19,7 @@ class OriginalMessagesTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->uri = $this->prophesize(UriInterface::class);
+        $this->uri     = $this->prophesize(UriInterface::class);
         $this->request = $this->prophesize(ServerRequestInterface::class);
     }
 

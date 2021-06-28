@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\Stratigility;
@@ -25,7 +19,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionObject;
-use SplQueue;
 
 use function get_class;
 use function sort;
@@ -38,14 +31,10 @@ class MiddlewarePipeTest extends TestCase
     use MiddlewareTrait;
     use ProphecyTrait;
 
-    /**
-     * @var Request
-     */
+    /** @var Request */
     private $request;
 
-    /**
-     * @var MiddlewarePipe
-     */
+    /** @var MiddlewarePipe */
     private $pipeline;
 
     protected function setUp(): void
@@ -54,7 +43,7 @@ class MiddlewarePipeTest extends TestCase
         $this->pipeline = new MiddlewarePipe();
     }
 
-    private function createFinalHandler() : RequestHandlerInterface
+    private function createFinalHandler(): RequestHandlerInterface
     {
         $handler = $this->prophesize(RequestHandlerInterface::class);
         $handler->handle(Argument::any())->willReturn(new Response());
@@ -69,7 +58,7 @@ class MiddlewarePipeTest extends TestCase
     {
         $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
 
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $response   = $this->prophesize(ResponseInterface::class)->reveal();
         $middleware = $this->prophesize(MiddlewareInterface::class);
         $middleware
             ->process(
@@ -88,7 +77,7 @@ class MiddlewarePipeTest extends TestCase
     {
         $this->pipeline->pipe(new class () implements MiddlewareInterface
         {
-            public function process(ServerRequestInterface $req, RequestHandlerInterface $handler) : ResponseInterface
+            public function process(ServerRequestInterface $req, RequestHandlerInterface $handler): ResponseInterface
             {
                 $res = $handler->handle($req);
                 $res->getBody()->write("First\n");
@@ -98,7 +87,7 @@ class MiddlewarePipeTest extends TestCase
         });
         $this->pipeline->pipe(new class () implements MiddlewareInterface
         {
-            public function process(ServerRequestInterface $req, RequestHandlerInterface $handler) : ResponseInterface
+            public function process(ServerRequestInterface $req, RequestHandlerInterface $handler): ResponseInterface
             {
                 $res = $handler->handle($req);
                 $res->getBody()->write("Second\n");
@@ -113,9 +102,9 @@ class MiddlewarePipeTest extends TestCase
 
         $this->pipeline->pipe($this->getNotCalledMiddleware());
 
-        $request = new Request([], [], 'http://local.example.com/foo', 'GET', 'php://memory');
+        $request  = new Request([], [], 'http://local.example.com/foo', 'GET', 'php://memory');
         $response = $this->pipeline->process($request, $this->createFinalHandler());
-        $body = (string) $response->getBody();
+        $body     = (string) $response->getBody();
         $this->assertStringContainsString('First', $body);
         $this->assertStringContainsString('Second', $body);
         $this->assertStringContainsString('Third', $body);
@@ -168,7 +157,7 @@ class MiddlewarePipeTest extends TestCase
 
     public function testHandleProcessesEnqueuedMiddleware()
     {
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $response    = $this->prophesize(ResponseInterface::class)->reveal();
         $middleware1 = $this->prophesize(MiddlewareInterface::class);
         $middleware1
             ->process(
@@ -199,9 +188,9 @@ class MiddlewarePipeTest extends TestCase
     {
         $pipeline = new MiddlewarePipe();
 
-        $r = new ReflectionObject($pipeline);
+        $r       = new ReflectionObject($pipeline);
         $methods = $r->getMethods(ReflectionMethod::IS_PUBLIC);
-        $actual = [];
+        $actual  = [];
         foreach ($methods as $method) {
             if (strpos($method->getName(), '__') !== 0) {
                 $actual[] = $method->getName();
@@ -210,8 +199,8 @@ class MiddlewarePipeTest extends TestCase
         sort($actual);
 
         $interfaceReflection = new ReflectionClass(MiddlewarePipeInterface::class);
-        $interfaceMethods = $interfaceReflection->getMethods(ReflectionMethod::IS_PUBLIC);
-        $expected = [];
+        $interfaceMethods    = $interfaceReflection->getMethods(ReflectionMethod::IS_PUBLIC);
+        $expected            = [];
         foreach ($interfaceMethods as $method) {
             $expected[] = $method->getName();
         }

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\Stratigility\Middleware;
@@ -24,7 +18,7 @@ class DoublePassMiddlewareDecoratorExceptionTest extends TestCase
     /** @var array */
     private $autoloadFunctions = [];
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         class_exists(MissingResponsePrototypeException::class);
         class_exists(DoublePassMiddlewareDecorator::class);
@@ -35,7 +29,7 @@ class DoublePassMiddlewareDecoratorExceptionTest extends TestCase
         }
     }
 
-    private function reloadAutoloaders() : void
+    private function reloadAutoloaders(): void
     {
         foreach ($this->autoloadFunctions as $autoloader) {
             spl_autoload_register($autoloader);

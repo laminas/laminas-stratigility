@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\Stratigility\Middleware;
@@ -29,8 +23,8 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
     public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException()
     {
         $response = $this->prophesize(ResponseInterface::class)->reveal();
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $handler  = $this->prophesize(RequestHandlerInterface::class)->reveal();
 
         $middleware = function ($request, $response, $next) {
             return 'foo';
@@ -82,8 +76,8 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
 
     public function testDecoratorCreatesAResponsePrototypeIfNoneIsProvided()
     {
-        $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $handler  = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
 
         $middleware = function ($request, $response, $next) {
             return $response;

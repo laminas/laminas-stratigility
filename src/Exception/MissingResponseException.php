@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Stratigility\Exception;
@@ -23,7 +17,7 @@ use function sprintf;
  */
 class MissingResponseException extends OutOfBoundsException implements ExceptionInterface
 {
-    public static function forCallableMiddleware(callable $middleware) : self
+    public static function forCallableMiddleware(callable $middleware): self
     {
         $type = is_object($middleware)
             ? get_class($middleware)

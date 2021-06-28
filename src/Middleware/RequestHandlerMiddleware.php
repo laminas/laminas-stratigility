@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Stratigility\Middleware;
@@ -28,9 +22,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 final class RequestHandlerMiddleware implements MiddlewareInterface, RequestHandlerInterface
 {
-    /**
-     * @var RequestHandlerInterface Decorated handler to invoke.
-     */
+    /** @var RequestHandlerInterface Decorated handler to invoke. */
     private $handler;
 
     public function __construct(RequestHandlerInterface $handler)
@@ -41,7 +33,7 @@ final class RequestHandlerMiddleware implements MiddlewareInterface, RequestHand
     /**
      * Proxies to decorated handler to handle the request.
      */
-    public function handle(ServerRequestInterface $request) : ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         return $this->handler->handle($request);
     }
@@ -49,7 +41,7 @@ final class RequestHandlerMiddleware implements MiddlewareInterface, RequestHand
     /**
      * Proxies to decorated handler to handle the request.
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         return $this->handler->handle($request);
     }

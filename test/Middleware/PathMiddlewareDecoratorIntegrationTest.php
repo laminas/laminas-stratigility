@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\Stratigility\Middleware;
@@ -29,13 +23,13 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
 
     public function testPipelineComposingPathDecoratedMiddlewareExecutesAsExpected()
     {
-        $uri = (new Uri)->withPath('/foo/bar/baz');
-        $request = (new ServerRequest())->withUri($uri);
+        $uri      = (new Uri())->withPath('/foo/bar/baz');
+        $request  = (new ServerRequest())->withUri($uri);
         $response = new Response();
 
         $pipeline = new MiddlewarePipe();
 
-        $first = $this->createPassThroughMiddleware(function ($received) use ($request) {
+        $first  = $this->createPassThroughMiddleware(function ($received) use ($request) {
             Assert::assertSame(
                 $request,
                 $received,
@@ -44,7 +38,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
             return $request;
         });
         $second = new PathMiddlewareDecorator('/foo', $this->createNestedPipeline($request));
-        $last = $this->createPassThroughMiddleware(function ($received) use ($request) {
+        $last   = $this->createPassThroughMiddleware(function ($received) use ($request) {
             Assert::assertNotSame(
                 $request,
                 $received,
@@ -84,7 +78,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
         );
     }
 
-    public function createPassThroughMiddleware(callable $requestAssertion) : MiddlewareInterface
+    public function createPassThroughMiddleware(callable $requestAssertion): MiddlewareInterface
     {
         $middleware = $this->prophesize(MiddlewareInterface::class);
         $middleware
@@ -94,13 +88,13 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
             )
             ->will(function ($args) {
                 $request = $args[0];
-                $next = $args[1];
+                $next    = $args[1];
                 return $next->handle($request);
             });
         return $middleware->reveal();
     }
 
-    public function createNestedPipeline(ServerRequestInterface $originalRequest) : MiddlewareInterface
+    public function createNestedPipeline(ServerRequestInterface $originalRequest): MiddlewareInterface
     {
         $pipeline = new MiddlewarePipe();
 
@@ -125,7 +119,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
             )
             ->will(function ($args) {
                 $request = $args[0];
-                $next = $args[1];
+                $next    = $args[1];
                 return $next->handle($request);
             });
         $decorated = new PathMiddlewareDecorator('/bar', $barMiddleware->reveal());
@@ -151,7 +145,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
             )
             ->will(function ($args) {
                 $request = $args[0];
-                $next = $args[1];
+                $next    = $args[1];
                 return $next->handle($request);
             });
 

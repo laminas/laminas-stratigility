@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\Stratigility\Middleware;
@@ -28,37 +22,27 @@ class HostMiddlewareDecoratorTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var UriInterface|ObjectProphecy
-     */
+    /** @var UriInterface|ObjectProphecy */
     private $uri;
 
-    /**
-     * @var ServerRequestInterface|ObjectProphecy
-     */
+    /** @var ServerRequestInterface|ObjectProphecy */
     private $request;
 
-    /**
-     * @var ResponseInterface|ObjectProphecy
-     */
+    /** @var ResponseInterface|ObjectProphecy */
     private $response;
 
-    /**
-     * @var RequestHandlerInterface|ObjectProphecy
-     */
+    /** @var RequestHandlerInterface|ObjectProphecy */
     private $handler;
 
-    /**
-     * @var MiddlewareInterface|ObjectProphecy
-     */
+    /** @var MiddlewareInterface|ObjectProphecy */
     private $toDecorate;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
-        $this->uri = $this->prophesize(UriInterface::class);
-        $this->request = $this->prophesize(ServerRequestInterface::class);
-        $this->response = $this->prophesize(ResponseInterface::class);
-        $this->handler = $this->prophesize(RequestHandlerInterface::class);
+        $this->uri        = $this->prophesize(UriInterface::class);
+        $this->request    = $this->prophesize(ServerRequestInterface::class);
+        $this->response   = $this->prophesize(ResponseInterface::class);
+        $this->handler    = $this->prophesize(RequestHandlerInterface::class);
         $this->toDecorate = $this->prophesize(MiddlewareInterface::class);
     }
 
@@ -82,7 +66,7 @@ class HostMiddlewareDecoratorTest extends TestCase
         $decorator->process($this->request->reveal(), $this->handler->reveal());
     }
 
-    public function matchingHost() : Generator
+    public function matchingHost(): Generator
     {
         yield ['host.foo', 'host.foo'];
         yield ['host.foo', 'HOST.FOO'];

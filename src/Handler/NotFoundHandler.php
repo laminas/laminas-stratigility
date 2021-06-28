@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Stratigility\Handler;
@@ -19,9 +13,7 @@ use function sprintf;
 
 final class NotFoundHandler implements RequestHandlerInterface
 {
-    /**
-     * @var callable
-     */
+    /** @var callable */
     private $responseFactory;
 
     /**
@@ -31,7 +23,7 @@ final class NotFoundHandler implements RequestHandlerInterface
      */
     public function __construct(callable $responseFactory)
     {
-        $this->responseFactory = function () use ($responseFactory) : ResponseInterface {
+        $this->responseFactory = function () use ($responseFactory): ResponseInterface {
             return $responseFactory();
         };
     }

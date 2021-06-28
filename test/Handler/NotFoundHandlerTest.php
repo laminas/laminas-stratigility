@@ -1,22 +1,20 @@
 <?php
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
 
 declare(strict_types=1);
 
 namespace LaminasTest\Stratigility\Handler;
 
+use Laminas\Stratigility\Handler\NotFoundHandler;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
-use Laminas\Stratigility\Handler\NotFoundHandler;
 
 class NotFoundHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testReturnsResponseWith404StatusAndErrorMessageInBody()
     {
         $stream = $this->prophesize(StreamInterface::class);

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\Stratigility;
@@ -16,7 +10,7 @@ use Psr\Http\Server\MiddlewareInterface;
 
 trait MiddlewareTrait
 {
-    private function getNotCalledMiddleware() : MiddlewareInterface
+    private function getNotCalledMiddleware(): MiddlewareInterface
     {
         $middleware = $this->prophesize(MiddlewareInterface::class);
         $middleware->process(Argument::any(), Argument::any())
@@ -25,7 +19,7 @@ trait MiddlewareTrait
         return $middleware->reveal();
     }
 
-    private function getPassToHandlerMiddleware() : MiddlewareInterface
+    private function getPassToHandlerMiddleware(): MiddlewareInterface
     {
         $middleware = $this->prophesize(MiddlewareInterface::class);
         $middleware->process(Argument::any(), Argument::any())
@@ -37,7 +31,7 @@ trait MiddlewareTrait
         return $middleware->reveal();
     }
 
-    private function getMiddlewareWhichReturnsResponse(ResponseInterface $response) : MiddlewareInterface
+    private function getMiddlewareWhichReturnsResponse(ResponseInterface $response): MiddlewareInterface
     {
         $middleware = $this->prophesize(MiddlewareInterface::class);
         $middleware->process(Argument::any(), Argument::any())

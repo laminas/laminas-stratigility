@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Stratigility\Middleware;
@@ -27,11 +21,11 @@ final class HostMiddlewareDecorator implements MiddlewareInterface
 
     public function __construct(string $host, MiddlewareInterface $middleware)
     {
-        $this->host = $host;
+        $this->host       = $host;
         $this->middleware = $middleware;
     }
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $host = $request->getUri()->getHost();
 

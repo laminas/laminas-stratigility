@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Stratigility\Middleware;
@@ -39,21 +33,17 @@ use function class_exists;
  */
 final class DoublePassMiddlewareDecorator implements MiddlewareInterface
 {
-    /**
-     * @var callable
-     */
+    /** @var callable */
     private $middleware;
 
-    /**
-     * @var ResponseInterface
-     */
+    /** @var ResponseInterface */
     private $responsePrototype;
 
     /**
-     * @throws Exception\MissingResponsePrototypeException if no response
+     * @throws Exception\MissingResponsePrototypeException If no response
      *     prototype is present, and laminas-diactoros is not installed.
      */
-    public function __construct(callable $middleware, ResponseInterface $responsePrototype = null)
+    public function __construct(callable $middleware, ?ResponseInterface $responsePrototype = null)
     {
         $this->middleware = $middleware;
 
@@ -66,10 +56,11 @@ final class DoublePassMiddlewareDecorator implements MiddlewareInterface
 
     /**
      * {@inheritDoc}
-     * @throws Exception\MissingResponseException if the decorated middleware
+     *
+     * @throws Exception\MissingResponseException If the decorated middleware
      *     fails to produce a response.
      */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $response = ($this->middleware)(
             $request,
@@ -84,7 +75,7 @@ final class DoublePassMiddlewareDecorator implements MiddlewareInterface
         return $response;
     }
 
-    private function decorateHandler(RequestHandlerInterface $handler) : callable
+    private function decorateHandler(RequestHandlerInterface $handler): callable
     {
         return function ($request, $response) use ($handler) {
             return $handler->handle($request);

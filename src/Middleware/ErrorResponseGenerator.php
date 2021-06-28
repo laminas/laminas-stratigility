@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-stratigility for the canonical source repository
- * @copyright https://github.com/laminas/laminas-stratigility/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\Stratigility\Middleware;
@@ -18,9 +12,7 @@ use Throwable;
 
 final class ErrorResponseGenerator
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $isDevelopmentMode;
 
     public function __construct(bool $isDevelopmentMode = false)
@@ -35,9 +27,9 @@ final class ErrorResponseGenerator
         Throwable $e,
         ServerRequestInterface $request,
         ResponseInterface $response
-    ) : ResponseInterface {
+    ): ResponseInterface {
         $response = $response->withStatus(Utils::getStatusCode($e, $response));
-        $body = $response->getBody();
+        $body     = $response->getBody();
 
         if ($this->isDevelopmentMode) {
             $escaper = new Escaper();
