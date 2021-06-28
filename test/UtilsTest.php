@@ -17,7 +17,7 @@ use ReflectionClass;
 
 class UtilsTest extends TestCase
 {
-    public function testGetStatusCodeNotFooledBySneakyStringsWithLeadingDigits()
+    public function testGetStatusCodeNotFooledBySneakyStringsWithLeadingDigits(): void
     {
         // PDO can throw exceptions with codes like this:
         $naughtyCode = '42S02';

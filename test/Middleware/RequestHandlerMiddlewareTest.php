@@ -27,7 +27,7 @@ class RequestHandlerMiddlewareTest extends TestCase
         $this->middleware = new RequestHandlerMiddleware($this->handler->reveal());
     }
 
-    public function testDecoratesHandlerAsMiddleware()
+    public function testDecoratesHandlerAsMiddleware(): void
     {
         $handler = $this->prophesize(RequestHandlerInterface::class);
         $handler->handle(Argument::any())->shouldNotBeCalled();
@@ -38,7 +38,7 @@ class RequestHandlerMiddlewareTest extends TestCase
         );
     }
 
-    public function testDecoratesHandlerAsHandler()
+    public function testDecoratesHandlerAsHandler(): void
     {
         $this->assertSame(
             $this->response,

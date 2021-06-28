@@ -23,7 +23,7 @@ class OriginalMessagesTest extends TestCase
         $this->request = $this->prophesize(ServerRequestInterface::class);
     }
 
-    public function testNextReceivesRequestWithNewAttributes()
+    public function testNextReceivesRequestWithNewAttributes(): void
     {
         $middleware = new OriginalMessages();
         $expected   = $this->prophesize(ResponseInterface::class)->reveal();

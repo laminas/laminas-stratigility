@@ -27,7 +27,16 @@ class ErrorHandlerTest extends TestCase
 {
     use ProphecyTrait;
 
-    /** @var ResponseInterface|ObjectProphecy */
+    /** @var ObjectProphecy<StreamInterface> */
+    private $body;
+
+    /** @var ObjectProphecy<RequestHandlerInterface> */
+    private $handler;
+
+    /** @var ObjectProphecy<ServerRequestInterface> */
+    private $request;
+
+    /** @var ObjectProphecy<ResponseInterface> */
     private $response;
 
     /** @var callable */
@@ -56,7 +65,7 @@ class ErrorHandlerTest extends TestCase
         return new ErrorHandler($this->responseFactory, $generator);
     }
 
-    public function testReturnsResponseFromHandlerWhenNoProblemsOccur()
+    public function testReturnsResponseFromHandlerWhenNoProblemsOccur(): void
     {
         $expectedResponse = $this->prophesize(ResponseInterface::class)->reveal();
 
@@ -72,7 +81,7 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame($expectedResponse, $result);
     }
 
-    public function testReturnsErrorResponseIfHandlerDoesNotReturnAResponse()
+    public function testReturnsErrorResponseIfHandlerDoesNotReturnAResponse(): void
     {
         $this->handler
             ->handle(Argument::type(ServerRequestInterface::class))
@@ -90,7 +99,7 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame($this->response->reveal(), $result);
     }
 
-    public function testReturnsErrorResponseIfHandlerRaisesAnErrorInTheErrorMask()
+    public function testReturnsErrorResponseIfHandlerRaisesAnErrorInTheErrorMask(): void
     {
         error_reporting(E_USER_DEPRECATED);
         $this->handler
@@ -111,7 +120,7 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame($this->response->reveal(), $result);
     }
 
-    public function testReturnsResponseFromHandlerWhenErrorRaisedIsNotInTheErrorMask()
+    public function testReturnsResponseFromHandlerWhenErrorRaisedIsNotInTheErrorMask(): void
     {
         $originalMask = error_reporting();
         error_reporting($originalMask & ~E_USER_DEPRECATED);
@@ -134,7 +143,7 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame($expectedResponse, $result);
     }
 
-    public function testReturnsErrorResponseIfHandlerRaisesAnException()
+    public function testReturnsErrorResponseIfHandlerRaisesAnException(): void
     {
         $this->handler
             ->handle(Argument::type(ServerRequestInterface::class))
@@ -152,7 +161,7 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame($this->response->reveal(), $result);
     }
 
-    public function testResponseErrorMessageIncludesStackTraceIfDevelopmentModeIsEnabled()
+    public function testResponseErrorMessageIncludesStackTraceIfDevelopmentModeIsEnabled(): void
     {
         $exception = new RuntimeException('Exception raised', 503);
         $this->handler
@@ -173,7 +182,7 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame($this->response->reveal(), $result);
     }
 
-    public function testErrorHandlingTriggersListeners()
+    public function testErrorHandlingTriggersListeners(): void
     {
         $exception = new RuntimeException('Exception raised', 503);
         $this->handler
@@ -186,7 +195,7 @@ class ErrorHandlerTest extends TestCase
         $this->response->getReasonPhrase()->willReturn('');
         $this->response->getBody()->will([$this->body, 'reveal']);
 
-        $listener  = function ($error, $request, $response) use ($exception) {
+        $listener  = function ($error, $request, $response) use ($exception): void {
             $this->assertSame($exception, $error, 'Listener did not receive same exception as was raised');
             $this->assertSame($this->request->reveal(), $request, 'Listener did not receive same request');
             $this->assertSame($this->response->reveal(), $response, 'Listener did not receive same response');
@@ -202,7 +211,7 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame($this->response->reveal(), $result);
     }
 
-    public function testCanProvideAlternateErrorResponseGenerator()
+    public function testCanProvideAlternateErrorResponseGenerator(): void
     {
         $generator = function ($e, $request, $response) {
             $response = $response->withStatus(400);
@@ -224,10 +233,10 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame($this->response->reveal(), $result);
     }
 
-    public function testTheSameListenerIsAttachedOnlyOnce()
+    public function testTheSameListenerIsAttachedOnlyOnce(): void
     {
         $middleware = $this->createMiddleware();
-        $listener   = function () {
+        $listener   = function (): void {
         };
 
         $middleware->attachListener($listener);

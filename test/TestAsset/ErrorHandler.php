@@ -16,7 +16,7 @@ class ErrorHandler
      * @param ResponseInterface $res
      * @param callable $next
      */
-    public function handle($err, $req, $res, $next)
+    public function handle($err, $req, $res, $next): void
     {
     }
 }

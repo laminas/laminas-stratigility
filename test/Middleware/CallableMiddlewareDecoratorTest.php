@@ -18,12 +18,12 @@ class CallableMiddlewareDecoratorTest extends TestCase
 {
     use ProphecyTrait;
 
-    public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException()
+    public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException(): void
     {
         $request = $this->prophesize(ServerRequestInterface::class)->reveal();
         $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
 
-        $middleware = function ($request, $handler) {
+        $middleware = function ($request, $handler): string {
             return 'foo';
         };
 
@@ -34,13 +34,13 @@ class CallableMiddlewareDecoratorTest extends TestCase
         $decorator->process($request, $handler);
     }
 
-    public function testCallableMiddlewareReturningAResponseSucceedsProcessCall()
+    public function testCallableMiddlewareReturningAResponseSucceedsProcessCall(): void
     {
         $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
         $handler  = $this->prophesize(RequestHandlerInterface::class)->reveal();
         $response = $this->prophesize(ResponseInterface::class)->reveal();
 
-        $middleware = function ($request, $handler) use ($response) {
+        $middleware = function ($request, $handler) use ($response): ResponseInterface {
             return $response;
         };
 
@@ -49,9 +49,9 @@ class CallableMiddlewareDecoratorTest extends TestCase
         $this->assertSame($response, $decorator->process($request, $handler));
     }
 
-    public function testMiddlewareFunction()
+    public function testMiddlewareFunction(): void
     {
-        $toDecorate = function ($request, $handler) {
+        $toDecorate = function ($request, $handler): string {
             return 'foo';
         };
 

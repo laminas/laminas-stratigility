@@ -20,13 +20,13 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
 {
     use ProphecyTrait;
 
-    public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException()
+    public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException(): void
     {
         $response = $this->prophesize(ResponseInterface::class)->reveal();
         $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
         $handler  = $this->prophesize(RequestHandlerInterface::class)->reveal();
 
-        $middleware = function ($request, $response, $next) {
+        $middleware = function ($request, $response, $next): string {
             return 'foo';
         };
 
@@ -37,7 +37,7 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
         $decorator->process($request, $handler);
     }
 
-    public function testCallableMiddlewareReturningAResponseSucceedsProcessCall()
+    public function testCallableMiddlewareReturningAResponseSucceedsProcessCall(): void
     {
         $response = $this->prophesize(ResponseInterface::class)->reveal();
         $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
@@ -52,7 +52,7 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
         $this->assertSame($response, $decorator->process($request, $handler));
     }
 
-    public function testCallableMiddlewareCanDelegateViaHandler()
+    public function testCallableMiddlewareCanDelegateViaHandler(): void
     {
         $response = $this->prophesize(ResponseInterface::class);
         $request  = $this->prophesize(ServerRequestInterface::class);
@@ -74,7 +74,7 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
         );
     }
 
-    public function testDecoratorCreatesAResponsePrototypeIfNoneIsProvided()
+    public function testDecoratorCreatesAResponsePrototypeIfNoneIsProvided(): void
     {
         $request = $this->prophesize(ServerRequestInterface::class)->reveal();
         $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
@@ -90,9 +90,9 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
         $this->assertInstanceOf(Response::class, $response);
     }
 
-    public function testDoublePassMiddlewareFunction()
+    public function testDoublePassMiddlewareFunction(): void
     {
-        $toDecorate = function ($request, $response, $next) {
+        $toDecorate = function ($request, $response, $next): string {
             return 'foo';
         };
 
