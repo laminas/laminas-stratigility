@@ -5,36 +5,50 @@ declare(strict_types=1);
 namespace LaminasTest\Stratigility\Middleware;
 
 use Laminas\Stratigility\Middleware\RequestHandlerMiddleware;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class RequestHandlerMiddlewareTest extends TestCase
 {
-    use ProphecyTrait;
+    /** @var MockObject&ServerRequestInterface */
+    private $request;
+
+    /** @var MockObject&ResponseInterface */
+    private $response;
+
+    /** @var MockObject&RequestHandlerInterface */
+    private $handler;
+
+    /** @var RequestHandlerMiddleware */
+    private $middleware;
 
     protected function setUp(): void
     {
-        $this->request  = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $this->response = $this->prophesize(ResponseInterface::class)->reveal();
+        $this->request  = $this->createMock(ServerRequestInterface::class);
+        $this->response = $this->createMock(ResponseInterface::class);
 
-        $this->handler = $this->prophesize(RequestHandlerInterface::class);
-        $this->handler->handle($this->request)->willReturn($this->response);
+        $this->handler = $this->createMock(RequestHandlerInterface::class);
+        $this->handler
+            ->method('handle')
+        ->with($this->request)
+            ->willReturn($this->response);
 
-        $this->middleware = new RequestHandlerMiddleware($this->handler->reveal());
+        $this->middleware = new RequestHandlerMiddleware($this->handler);
     }
 
     public function testDecoratesHandlerAsMiddleware(): void
     {
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::any())->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler
+            ->expects(self::never())
+            ->method('handle');
 
         $this->assertSame(
             $this->response,
-            $this->middleware->process($this->request, $handler->reveal())
+            $this->middleware->process($this->request, $handler)
         );
     }
 
