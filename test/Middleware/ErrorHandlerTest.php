@@ -87,49 +87,6 @@ class ErrorHandlerTest extends TestCase
         $this->assertSame($expectedResponse, $result);
     }
 
-    public function testReturnsErrorResponseIfHandlerDoesNotReturnAResponse(): void
-    {
-        // TODO: verify if this is even possible, the {@see RequestHandlerInterface::handle} method is strictly typed...
-        $this->handler
-            ->expects(self::once())
-            ->method('handle')
-            ->with($this->request)
-            ->willReturn(null);
-
-        $this
-            ->body
-            ->expects(self::once())
-            ->method('write')
-            ->with('Unknown Error')
-            ->willReturnSelf();
-
-        $this->response
-            ->expects(self::once())
-            ->method('getStatusCode')
-            ->willReturn(200);
-
-        $this
-            ->response
-            ->expects(self::once())
-            ->method('withStatus')
-            ->with(500)
-            ->willReturnSelf();
-
-        $this->response
-            ->expects(self::once())
-            ->method('getReasonPhrase')
-            ->willReturn('');
-
-        $this->response
-            ->method('getBody')
-            ->willReturn($this->body);
-
-        $middleware = $this->createMiddleware();
-        $result     = $middleware->process($this->request, $this->handler);
-
-        $this->assertSame($this->response, $result);
-    }
-
     public function testReturnsErrorResponseIfHandlerRaisesAnErrorInTheErrorMask(): void
     {
         error_reporting(E_USER_DEPRECATED);
