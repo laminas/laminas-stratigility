@@ -6,7 +6,6 @@ namespace LaminasTest\Stratigility\Middleware;
 
 use Laminas\Stratigility\Middleware\NotFoundHandler;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -14,30 +13,41 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class NotFoundHandlerTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function testReturnsResponseWith404StatusAndErrorMessageInBody(): void
     {
-        $stream = $this->prophesize(StreamInterface::class);
-        $stream->write('Cannot POST https://example.com/foo');
+        $stream = $this->createMock(StreamInterface::class);
+        $stream
+            ->expects(self::once())
+            ->method('write')
+            ->with('Cannot POST https://example.com/foo')
+            ->willReturnSelf();
 
-        $response = $this->prophesize(ResponseInterface::class);
-        $response->withStatus(404)->will([$response, 'reveal']);
-        $response->getBody()->will([$stream, 'reveal']);
+        $response = $this->createMock(ResponseInterface::class);
+        $response
+            ->method('withStatus')
+            ->with(404)
+            ->willReturnSelf();
+        $response
+            ->method('getBody')
+            ->willReturn($stream);
 
-        $request = $this->prophesize(ServerRequestInterface::class);
-        $request->getMethod()->willReturn('POST');
-        $request->getUri()->willReturn('https://example.com/foo');
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request
+            ->method('getMethod')
+            ->willReturn('POST');
+        $request
+            ->method('getUri')
+            ->willReturn('https://example.com/foo');
 
-        $responseFactory = function () use ($response): ResponseInterface {
-            return $response->reveal();
+        $responseFactory = static function () use ($response): ResponseInterface {
+            return $response;
         };
 
         $middleware = new NotFoundHandler($responseFactory);
 
         $this->assertSame(
-            $response->reveal(),
-            $middleware->process($request->reveal(), $this->prophesize(RequestHandlerInterface::class)->reveal())
+            $response,
+            $middleware->process($request, $this->createMock(RequestHandlerInterface::class))
         );
     }
 }

@@ -12,10 +12,8 @@ use Laminas\Stratigility\Next;
 use LaminasTest\Stratigility\TestAsset\DelegatingMiddleware;
 use LaminasTest\Stratigility\TestAsset\ShortCircuitingMiddleware;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -25,13 +23,15 @@ use SplQueue;
 class NextTest extends TestCase
 {
     use MiddlewareTrait;
-    use ProphecyTrait;
 
     /** @var SplQueue */
     private $queue;
 
     /** @var Request */
     private $request;
+
+    /** @var MockObject&ResponseInterface */
+    private $response;
 
     protected function setUp(): void
     {
@@ -61,8 +61,8 @@ class NextTest extends TestCase
 
     public function createDefaultResponse(): ResponseInterface
     {
-        $this->response = $this->prophesize(ResponseInterface::class);
-        return $this->response->reveal();
+        $this->response = $this->createMock(ResponseInterface::class);
+        return $this->response;
     }
 
     /**
@@ -126,12 +126,14 @@ class NextTest extends TestCase
      */
     public function testNextDelegatesToFallbackHandlerWhenQueueIsEmpty(): void
     {
-        $expectedResponse = $this->prophesize(ResponseInterface::class)->reveal();
-        $fallbackHandler  = $this->prophesize(RequestHandlerInterface::class);
+        $expectedResponse = $this->createMock(ResponseInterface::class);
+        $fallbackHandler  = $this->createMock(RequestHandlerInterface::class);
         $fallbackHandler
-            ->handle($this->request)
-            ->willReturn($expectedResponse)->shouldBeCalled();
-        $next = new Next($this->queue, $fallbackHandler->reveal());
+            ->expects(self::once())
+            ->method('handle')
+            ->with($this->request)
+            ->willReturn($expectedResponse);
+        $next = new Next($this->queue, $fallbackHandler);
         $this->assertSame($expectedResponse, $next->handle($this->request));
     }
 
@@ -140,23 +142,24 @@ class NextTest extends TestCase
      */
     public function testNextProcessesEnqueuedMiddleware(): void
     {
-        $fallbackHandler = $this->prophesize(RequestHandlerInterface::class);
+        $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
         $fallbackHandler
-            ->handle(Argument::any())
-            ->shouldNotBeCalled();
+            ->expects(self::never())
+            ->method('handle');
 
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $response = $this->createMock(ResponseInterface::class);
 
-        $middleware = $this->prophesize(MiddlewareInterface::class);
+        $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware
-            ->process($this->request, Argument::type(Next::class))
+            ->method('process')
+            ->with($this->request)
             ->willReturn($response);
 
-        $this->queue->enqueue($middleware->reveal());
+        $this->queue->enqueue($middleware);
 
         // Creating after middleware enqueued, as Next clones the queue during
         // instantiation.
-        $next = new Next($this->queue, $fallbackHandler->reveal());
+        $next = new Next($this->queue, $fallbackHandler);
 
         $this->assertSame($response, $next->handle($this->request));
     }
@@ -166,42 +169,43 @@ class NextTest extends TestCase
      */
     public function testMiddlewareReturningResponseShortCircuitsProcess(): void
     {
-        $fallbackHandler = $this->prophesize(RequestHandlerInterface::class);
+        $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
         $fallbackHandler
-            ->handle(Argument::any())
-            ->shouldNotBeCalled();
+            ->expects(self::never())
+            ->method('handle');
 
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $response = $this->createMock(ResponseInterface::class);
 
-        $route1 = $this->prophesize(MiddlewareInterface::class);
+        $route1 = $this->createMock(MiddlewareInterface::class);
         $route1
-            ->process($this->request, Argument::type(Next::class))
+            ->method('process')
+            ->with($this->request)
             ->willReturn($response);
-        $this->queue->enqueue($route1->reveal());
+        $this->queue->enqueue($route1);
 
-        $route2 = $this->prophesize(MiddlewareInterface::class);
+        $route2 = $this->createMock(MiddlewareInterface::class);
         $route2
-            ->process(Argument::type(RequestInterface::class), Argument::type(Next::class))
-            ->shouldNotBeCalled();
-        $this->queue->enqueue($route2->reveal());
+            ->expects(self::never())
+            ->method('process');
+        $this->queue->enqueue($route2);
 
         // Creating after middleware enqueued, as Next clones the queue during
         // instantiation.
-        $next = new Next($this->queue, $fallbackHandler->reveal());
+        $next = new Next($this->queue, $fallbackHandler);
 
         $this->assertSame($response, $next->handle($this->request));
     }
 
     public function testNextHandlerCannotBeInvokedTwice(): void
     {
-        $fallbackHandler = $this->prophesize(RequestHandlerInterface::class);
+        $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
         $fallbackHandler
-            ->handle(Argument::any())
+            ->method('handle')
             ->willReturn(new Response());
 
         $this->queue->push(new DelegatingMiddleware());
 
-        $next = new Next($this->queue, $fallbackHandler->reveal());
+        $next = new Next($this->queue, $fallbackHandler);
         $next->handle($this->request);
 
         $this->expectException(MiddlewarePipeNextHandlerAlreadyCalledException::class);
@@ -210,15 +214,15 @@ class NextTest extends TestCase
 
     public function testSecondInvocationAttemptDoesNotInvokeFinalHandler(): void
     {
-        $fallBackHandler = $this->prophesize(RequestHandlerInterface::class);
+        $fallBackHandler = $this->createMock(RequestHandlerInterface::class);
         $fallBackHandler
-            ->handle(Argument::any())
-            ->willReturn(new Response())
-            ->shouldBeCalledTimes(1);
+            ->expects(self::once())
+            ->method('handle')
+            ->willReturn(new Response());
 
         $this->queue->push(new DelegatingMiddleware());
 
-        $next = new Next($this->queue, $fallBackHandler->reveal());
+        $next = new Next($this->queue, $fallBackHandler);
         $next->handle($this->request);
 
         $this->expectException(MiddlewarePipeNextHandlerAlreadyCalledException::class);
@@ -227,25 +231,24 @@ class NextTest extends TestCase
 
     public function testSecondInvocationAttemptDoesNotInvokeMiddleware(): void
     {
-        $fallBackHandler = $this->prophesize(RequestHandlerInterface::class);
+        $fallBackHandler = $this->createMock(RequestHandlerInterface::class);
         $fallBackHandler
-            ->handle(Argument::any())
+            ->method('handle')
             ->willReturn(new Response());
 
-        $middleware = $this->prophesize(MiddlewareInterface::class);
+        $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware
-            ->process(
-                Argument::type(ServerRequestInterface::class),
-                Argument::type(RequestHandlerInterface::class)
-            )
-            ->will(function (array $args): ResponseInterface {
-                return $args[1]->handle($args[0]);
-            })
-            ->shouldBeCalledTimes(1);
+            ->expects(self::once())
+            ->method('process')
+            ->willReturnCallback(
+                static function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+                    return $handler->handle($request);
+                }
+            );
 
-        $this->queue->push($middleware->reveal());
+        $this->queue->push($middleware);
 
-        $next = new Next($this->queue, $fallBackHandler->reveal());
+        $next = new Next($this->queue, $fallBackHandler);
         $next->handle($this->request);
 
         $this->expectException(MiddlewarePipeNextHandlerAlreadyCalledException::class);
@@ -254,11 +257,10 @@ class NextTest extends TestCase
 
     public function testShortCircuitingMiddlewareDoesNotEnableSecondInvocation(): void
     {
-        $fallBackHandler = $this->prophesize(RequestHandlerInterface::class);
+        $fallBackHandler = $this->createMock(RequestHandlerInterface::class);
         $fallBackHandler
-            ->handle(Argument::any())
-            ->willReturn(new Response())
-            ->shouldNotBeCalled();
+            ->expects(self::never())
+            ->method('handle');
 
         $this->queue->push(new ShortCircuitingMiddleware());
 
@@ -266,7 +268,7 @@ class NextTest extends TestCase
         // The middleware below still exists in the queue (when handler is invoked again)
         $this->queue->push(new DelegatingMiddleware());
 
-        $next = new Next($this->queue, $fallBackHandler->reveal());
+        $next = new Next($this->queue, $fallBackHandler);
         $next->handle($this->request);
 
         $this->expectException(MiddlewarePipeNextHandlerAlreadyCalledException::class);
@@ -275,13 +277,13 @@ class NextTest extends TestCase
 
     public function testSecondInvocationAttemptWithEmptyQueueDoesNotInvokeFinalHandler(): void
     {
-        $fallBackHandler = $this->prophesize(RequestHandlerInterface::class);
+        $fallBackHandler = $this->createMock(RequestHandlerInterface::class);
         $fallBackHandler
-            ->handle(Argument::any())
-            ->willReturn(new Response())
-            ->shouldBeCalledTimes(1);
+            ->expects(self::once())
+            ->method('handle')
+            ->willReturn(new Response());
 
-        $next = new Next($this->queue, $fallBackHandler->reveal());
+        $next = new Next($this->queue, $fallBackHandler);
 
         $next->handle($this->request);
 

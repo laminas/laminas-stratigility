@@ -7,7 +7,6 @@ namespace LaminasTest\Stratigility\Middleware;
 use Laminas\Stratigility\Exception;
 use Laminas\Stratigility\Middleware\CallableMiddlewareDecorator;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -16,14 +15,12 @@ use function Laminas\Stratigility\middleware;
 
 class CallableMiddlewareDecoratorTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException(): void
     {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $request = $this->createMock(ServerRequestInterface::class);
+        $handler = $this->createMock(RequestHandlerInterface::class);
 
-        $middleware = function ($request, $handler): string {
+        $middleware = function (): string {
             return 'foo';
         };
 
@@ -36,9 +33,9 @@ class CallableMiddlewareDecoratorTest extends TestCase
 
     public function testCallableMiddlewareReturningAResponseSucceedsProcessCall(): void
     {
-        $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $handler  = $this->prophesize(RequestHandlerInterface::class)->reveal();
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $request  = $this->createMock(ServerRequestInterface::class);
+        $handler  = $this->createMock(RequestHandlerInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
 
         $middleware = function ($request, $handler) use ($response): ResponseInterface {
             return $response;
@@ -51,7 +48,7 @@ class CallableMiddlewareDecoratorTest extends TestCase
 
     public function testMiddlewareFunction(): void
     {
-        $toDecorate = function ($request, $handler): string {
+        $toDecorate = static function (): string {
             return 'foo';
         };
 

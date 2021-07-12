@@ -8,8 +8,6 @@ use Laminas\Diactoros\Response;
 use Laminas\Stratigility\Exception;
 use Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -18,13 +16,11 @@ use function Laminas\Stratigility\doublePassMiddleware;
 
 class DoublePassMiddlewareDecoratorTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException(): void
     {
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
-        $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $handler  = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $response = $this->createMock(ResponseInterface::class);
+        $request  = $this->createMock(ServerRequestInterface::class);
+        $handler  = $this->createMock(RequestHandlerInterface::class);
 
         $middleware = function ($request, $response, $next): string {
             return 'foo';
@@ -39,9 +35,9 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
 
     public function testCallableMiddlewareReturningAResponseSucceedsProcessCall(): void
     {
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
-        $request  = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $handler  = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $response = $this->createMock(ResponseInterface::class);
+        $request  = $this->createMock(ServerRequestInterface::class);
+        $handler  = $this->createMock(RequestHandlerInterface::class);
 
         $middleware = function ($request, $response, $next) {
             return $response;
@@ -54,30 +50,33 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
 
     public function testCallableMiddlewareCanDelegateViaHandler(): void
     {
-        $response = $this->prophesize(ResponseInterface::class);
-        $request  = $this->prophesize(ServerRequestInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
+        $request  = $this->createMock(ServerRequestInterface::class);
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
+        $handler = $this->createMock(RequestHandlerInterface::class);
         $handler
-            ->handle(Argument::that([$request, 'reveal']))
-            ->will([$response, 'reveal']);
+            ->expects(self::once())
+            ->method('handle')
+            ->with($request)
+            ->willReturn($response);
 
-        $middleware = function ($request, $response, $next) {
-            return $next($request, $response);
-        };
+        $middleware = /** @psalm-param callable(ServerRequestInterface,ResponseInterface):ResponseInterface $next */
+            function (ServerRequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface {
+                return $next($request, $response);
+            };
 
-        $decorator = new DoublePassMiddlewareDecorator($middleware, $response->reveal());
+        $decorator = new DoublePassMiddlewareDecorator($middleware, $response);
 
         $this->assertSame(
-            $response->reveal(),
-            $decorator->process($request->reveal(), $handler->reveal())
+            $response,
+            $decorator->process($request, $handler)
         );
     }
 
     public function testDecoratorCreatesAResponsePrototypeIfNoneIsProvided(): void
     {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
-        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $request = $this->createMock(ServerRequestInterface::class);
+        $handler = $this->createMock(RequestHandlerInterface::class);
 
         $middleware = function ($request, $response, $next) {
             return $response;
@@ -96,7 +95,7 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
             return 'foo';
         };
 
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $response = $this->createMock(ResponseInterface::class);
 
         $middleware = doublePassMiddleware($toDecorate, $response);
         self::assertInstanceOf(DoublePassMiddlewareDecorator::class, $middleware);

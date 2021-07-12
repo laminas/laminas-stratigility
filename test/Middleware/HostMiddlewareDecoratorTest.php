@@ -6,10 +6,8 @@ namespace LaminasTest\Stratigility\Middleware;
 
 use Generator;
 use Laminas\Stratigility\Middleware\HostMiddlewareDecorator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
@@ -20,50 +18,56 @@ use function Laminas\Stratigility\host;
 
 class HostMiddlewareDecoratorTest extends TestCase
 {
-    use ProphecyTrait;
-
-    /** @var UriInterface|ObjectProphecy */
+    /** @var UriInterface&MockObject */
     private $uri;
 
-    /** @var ServerRequestInterface|ObjectProphecy */
+    /** @var ServerRequestInterface&MockObject */
     private $request;
 
-    /** @var ResponseInterface|ObjectProphecy */
+    /** @var ResponseInterface&MockObject */
     private $response;
 
-    /** @var RequestHandlerInterface|ObjectProphecy */
+    /** @var RequestHandlerInterface&MockObject */
     private $handler;
 
-    /** @var MiddlewareInterface|ObjectProphecy */
+    /** @var MiddlewareInterface&MockObject */
     private $toDecorate;
 
     protected function setUp(): void
     {
-        $this->uri        = $this->prophesize(UriInterface::class);
-        $this->request    = $this->prophesize(ServerRequestInterface::class);
-        $this->response   = $this->prophesize(ResponseInterface::class);
-        $this->handler    = $this->prophesize(RequestHandlerInterface::class);
-        $this->toDecorate = $this->prophesize(MiddlewareInterface::class);
+        $this->uri        = $this->createMock(UriInterface::class);
+        $this->request    = $this->createMock(ServerRequestInterface::class);
+        $this->response   = $this->createMock(ResponseInterface::class);
+        $this->handler    = $this->createMock(RequestHandlerInterface::class);
+        $this->toDecorate = $this->createMock(MiddlewareInterface::class);
     }
 
     public function testImplementsMiddlewareInterface(): void
     {
-        $middleware = new HostMiddlewareDecorator('host.test', $this->toDecorate->reveal());
+        $middleware = new HostMiddlewareDecorator('host.test', $this->toDecorate);
         self::assertInstanceOf(MiddlewareInterface::class, $middleware);
     }
 
     public function testDelegatesOriginalRequestToHandlerIfRequestHostDoesNotMatchDecoratorHostName(): void
     {
-        $this->uri->getHost()->willReturn('host.foo');
-        $this->request->getUri()->will([$this->uri, 'reveal']);
+        $this->uri
+            ->method('getHost')
+            ->willReturn('host.foo');
+        $this->request
+            ->method('getUri')
+            ->willReturn($this->uri);
+
         $this->handler
-            ->handle(Argument::that([$this->request, 'reveal']))
-            ->will([$this->response, 'reveal']);
+            ->method('handle')
+            ->with($this->request)
+            ->willReturn($this->response);
 
-        $this->toDecorate->process(Argument::any())->shouldNotBeCalled();
+        $this->toDecorate
+            ->expects(self::never())
+            ->method('process');
 
-        $decorator = new HostMiddlewareDecorator('host.bar', $this->toDecorate->reveal());
-        $decorator->process($this->request->reveal(), $this->handler->reveal());
+        $decorator = new HostMiddlewareDecorator('host.bar', $this->toDecorate);
+        $decorator->process($this->request, $this->handler);
     }
 
     public function matchingHost(): Generator
@@ -78,24 +82,30 @@ class HostMiddlewareDecoratorTest extends TestCase
      */
     public function testDelegatesOriginalRequestToDecoratedMiddleware(string $requestHost, string $decoratorHost): void
     {
-        $this->uri->getHost()->willReturn($requestHost);
-        $this->request->getUri()->will([$this->uri, 'reveal']);
-        $this->handler->handle(Argument::any())->shouldNotBeCalled();
-        $this->toDecorate
-            ->process(
-                Argument::that([$this->request, 'reveal']),
-                Argument::that([$this->handler, 'reveal'])
-            )
-            ->will([$this->response, 'reveal'])
-            ->shouldBeCalledTimes(1);
+        $this->uri
+            ->method('getHost')
+            ->willReturn($requestHost);
+        $this->request
+            ->method('getUri')
+            ->willReturn($this->uri);
 
-        $decorator = new HostMiddlewareDecorator($decoratorHost, $this->toDecorate->reveal());
-        $decorator->process($this->request->reveal(), $this->handler->reveal());
+        $this->handler
+            ->expects(self::never())
+            ->method('handle');
+
+        $this->toDecorate
+            ->expects(self::once())
+            ->method('process')
+            ->with($this->request, $this->handler)
+            ->willReturn($this->response);
+
+        $decorator = new HostMiddlewareDecorator($decoratorHost, $this->toDecorate);
+        $decorator->process($this->request, $this->handler);
     }
 
     public function testHostFunction(): void
     {
-        $toDecorate = $this->toDecorate->reveal();
+        $toDecorate = $this->toDecorate;
 
         $middleware = host('foo.bar', $toDecorate);
         self::assertInstanceOf(HostMiddlewareDecorator::class, $middleware);
