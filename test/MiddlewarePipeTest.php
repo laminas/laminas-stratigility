@@ -10,8 +10,6 @@ use Laminas\Stratigility\Exception;
 use Laminas\Stratigility\MiddlewarePipe;
 use Laminas\Stratigility\MiddlewarePipeInterface;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -29,7 +27,6 @@ use function var_export;
 class MiddlewarePipeTest extends TestCase
 {
     use MiddlewareTrait;
-    use ProphecyTrait;
 
     /** @var Request */
     private $request;
@@ -45,10 +42,12 @@ class MiddlewarePipeTest extends TestCase
 
     private function createFinalHandler(): RequestHandlerInterface
     {
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::any())->willReturn(new Response());
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler
+            ->method('handle')
+            ->willReturn(new Response());
 
-        return $handler->reveal();
+        return $handler;
     }
 
     /**
@@ -56,19 +55,32 @@ class MiddlewarePipeTest extends TestCase
      */
     public function testCanPipeInteropMiddleware(): void
     {
-        $handler = $this->prophesize(RequestHandlerInterface::class)->reveal();
+        $handler = $this->createMock(RequestHandlerInterface::class);
 
-        $response   = $this->prophesize(ResponseInterface::class)->reveal();
-        $middleware = $this->prophesize(MiddlewareInterface::class);
+        $response   = $this->createMock(ResponseInterface::class);
+        $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware
-            ->process(
-                Argument::type(ServerRequestInterface::class),
-                Argument::type(RequestHandlerInterface::class)
+            ->method('process')
+            ->with(
+                self::callback(
+                /** @psalm-suppress MissingClosureParamType */
+                    static function ($argument1): bool {
+                        self::assertInstanceOf(ServerRequestInterface::class, $argument1);
+                        return true;
+                    }
+                ),
+                self::callback(
+                    /** @psalm-suppress MissingClosureParamType */
+                    static function ($argument2): bool {
+                            self::assertInstanceOf(RequestHandlerInterface::class, $argument2);
+                            return true;
+                    }
+                )
             )
             ->willReturn($response);
 
         $pipeline = new MiddlewarePipe();
-        $pipeline->pipe($middleware->reveal());
+        $pipeline->pipe($middleware);
 
         $this->assertSame($response, $pipeline->process($this->request, $handler));
     }
@@ -112,7 +124,7 @@ class MiddlewarePipeTest extends TestCase
 
     public function testInvokesHandlerWhenQueueIsExhausted(): void
     {
-        $expected = $this->prophesize(ResponseInterface::class)->reveal();
+        $expected = $this->createMock(ResponseInterface::class);
 
         $this->pipeline->pipe($this->getPassToHandlerMiddleware());
         $this->pipeline->pipe($this->getPassToHandlerMiddleware());
@@ -120,10 +132,12 @@ class MiddlewarePipeTest extends TestCase
 
         $request = new Request([], [], 'http://local.example.com/foo', 'GET', 'php://memory');
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle($request)->willReturn($expected);
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->method('handle')
+        ->with($request)
+            ->willReturn($expected);
 
-        $result = $this->pipeline->process($request, $handler->reveal());
+        $result = $this->pipeline->process($request, $handler);
 
         $this->assertSame($expected, $result);
     }
@@ -148,7 +162,7 @@ class MiddlewarePipeTest extends TestCase
 
     public function testHandleRaisesExceptionIfQueueIsEmpty(): void
     {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $request = $this->createMock(ServerRequestInterface::class);
 
         $this->expectException(Exception\EmptyPipelineException::class);
 
@@ -157,29 +171,27 @@ class MiddlewarePipeTest extends TestCase
 
     public function testHandleProcessesEnqueuedMiddleware(): void
     {
-        $response    = $this->prophesize(ResponseInterface::class)->reveal();
-        $middleware1 = $this->prophesize(MiddlewareInterface::class);
+        $response    = $this->createMock(ResponseInterface::class);
+        $middleware1 = $this->createMock(MiddlewareInterface::class);
         $middleware1
-            ->process(
-                $this->request,
-                Argument::type(RequestHandlerInterface::class)
+            ->method('process')
+            ->with(
+                $this->request
             )
-            ->will(function ($args) {
-                $request = $args[0];
-                $handler = $args[1];
-                return $handler->handle($request);
-            });
-        $middleware2 = $this->prophesize(MiddlewareInterface::class);
+            ->willReturnCallback(
+                static function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
+                    return $handler->handle($request);
+                }
+            );
+        $middleware2 = $this->createMock(MiddlewareInterface::class);
         $middleware2
-            ->process(
-                $this->request,
-                Argument::type(RequestHandlerInterface::class)
-            )
+            ->method('process')
+        ->with($this->request)
             ->willReturn($response);
 
         $pipeline = new MiddlewarePipe();
-        $pipeline->pipe($middleware1->reveal());
-        $pipeline->pipe($middleware2->reveal());
+        $pipeline->pipe($middleware1);
+        $pipeline->pipe($middleware2);
 
         $this->assertSame($response, $pipeline->handle($this->request));
     }

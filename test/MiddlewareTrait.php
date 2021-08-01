@@ -4,40 +4,44 @@ declare(strict_types=1);
 
 namespace LaminasTest\Stratigility;
 
-use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 trait MiddlewareTrait
 {
     private function getNotCalledMiddleware(): MiddlewareInterface
     {
-        $middleware = $this->prophesize(MiddlewareInterface::class);
-        $middleware->process(Argument::any(), Argument::any())
-            ->shouldNotBeCalled();
+        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware
+            ->expects(self::never())
+            ->method('process');
 
-        return $middleware->reveal();
+        return $middleware;
     }
 
     private function getPassToHandlerMiddleware(): MiddlewareInterface
     {
-        $middleware = $this->prophesize(MiddlewareInterface::class);
-        $middleware->process(Argument::any(), Argument::any())
-            ->will(function (array $args) {
-                return $args[1]->handle($args[0]);
-            })
-            ->shouldBeCalledTimes(1);
+        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware
+            ->expects(self::once())
+            ->method('process')
+            ->willReturnCallback(static function (ServerRequestInterface $request, RequestHandlerInterface $handler) {
+                return $handler->handle($request);
+            });
 
-        return $middleware->reveal();
+        return $middleware;
     }
 
     private function getMiddlewareWhichReturnsResponse(ResponseInterface $response): MiddlewareInterface
     {
-        $middleware = $this->prophesize(MiddlewareInterface::class);
-        $middleware->process(Argument::any(), Argument::any())
-            ->willReturn($response)
-            ->shouldBeCalledTimes(1);
+        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware
+            ->expects(self::once())
+            ->method('process')
+            ->willReturn($response);
 
-        return $middleware->reveal();
+        return $middleware;
     }
 }

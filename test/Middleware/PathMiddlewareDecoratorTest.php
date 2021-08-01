@@ -9,10 +9,8 @@ use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Uri;
 use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
-use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
@@ -26,76 +24,80 @@ use function var_export;
 
 class PathMiddlewareDecoratorTest extends TestCase
 {
-    use ProphecyTrait;
-
-    /** @var ObjectProphecy<UriInterface> */
+    /** @var MockObject&UriInterface */
     private $uri;
 
-    /** @var ObjectProphecy<ServerRequestInterface> */
+    /** @var MockObject&ServerRequestInterface */
     private $request;
 
-    /** @var ObjectProphecy<ResponseInterface> */
+    /** @var MockObject&ResponseInterface */
     private $response;
 
-    /** @var ObjectProphecy<RequestHandlerInterface> */
+    /** @var MockObject&RequestHandlerInterface */
     private $handler;
 
-    /** @var ObjectProphecy<MiddlewareInterface> */
+    /** @var MockObject&MiddlewareInterface */
     private $toDecorate;
 
     protected function setUp(): void
     {
-        $this->uri        = $this->prophesize(UriInterface::class);
-        $this->request    = $this->prophesize(ServerRequestInterface::class);
-        $this->response   = $this->prophesize(ResponseInterface::class);
-        $this->handler    = $this->prophesize(RequestHandlerInterface::class);
-        $this->toDecorate = $this->prophesize(MiddlewareInterface::class);
+        $this->uri        = $this->createMock(UriInterface::class);
+        $this->request    = $this->createMock(ServerRequestInterface::class);
+        $this->response   = $this->createMock(ResponseInterface::class);
+        $this->handler    = $this->createMock(RequestHandlerInterface::class);
+        $this->toDecorate = $this->createMock(MiddlewareInterface::class);
     }
 
     public function testImplementsMiddlewareInterface(): void
     {
-        $middleware = new PathMiddlewareDecorator('/foo', $this->toDecorate->reveal());
+        $middleware = new PathMiddlewareDecorator('/foo', $this->toDecorate);
         $this->assertInstanceOf(MiddlewareInterface::class, $middleware);
     }
 
     public function testDelegatesOriginalRequestToHandlerIfRequestPathIsShorterThanDecoratorPrefix(): void
     {
         $this->uri
-            ->getPath()
+            ->method('getPath')
             ->willReturn('/f');
         $this->request
-            ->getUri()
-            ->will([$this->uri, 'reveal']);
+            ->method('getUri')
+            ->willReturn($this->uri);
         $this->handler
-            ->handle(Argument::that([$this->request, 'reveal']))
-            ->will([$this->response, 'reveal']);
+            ->method('handle')
+            ->with($this->request)
+            ->willReturn($this->response);
 
-        $this->toDecorate->process(Argument::any())->shouldNotBeCalled();
+        $this->toDecorate
+            ->expects(self::never())
+            ->method('process');
 
-        $middleware = new PathMiddlewareDecorator('/foo', $this->toDecorate->reveal());
+        $middleware = new PathMiddlewareDecorator('/foo', $this->toDecorate);
 
         $this->assertSame(
-            $this->response->reveal(),
-            $middleware->process($this->request->reveal(), $this->handler->reveal())
+            $this->response,
+            $middleware->process($this->request, $this->handler)
         );
     }
 
     public function testDelegatesOriginalRequestToHandlerIfRequestPathIsDoesNotMatchDecoratorPath(): void
     {
         $this->uri
-            ->getPath()
+            ->method('getPath')
             ->willReturn('/bar');
         $this->request
-            ->getUri()
-            ->will([$this->uri, 'reveal']);
+            ->method('getUri')
+            ->willReturn($this->uri);
         $this->handler
-            ->handle(Argument::that([$this->request, 'reveal']))
-            ->will([$this->response, 'reveal']);
+            ->method('handle')
+            ->with($this->request)
+            ->willReturn($this->response);
 
-        $this->toDecorate->process(Argument::any())->shouldNotBeCalled();
+        $this->toDecorate
+            ->expects(self::never())
+            ->method('process');
 
-        $middleware = new PathMiddlewareDecorator('/foo', $this->toDecorate->reveal());
-        $middleware->process($this->request->reveal(), $this->handler->reveal());
+        $middleware = new PathMiddlewareDecorator('/foo', $this->toDecorate);
+        $middleware->process($this->request, $this->handler);
     }
 
     public function testDelegatesOrignalRequestToHandlerIfRequestDoesNotMatchPrefixAtABoundary(): void
@@ -105,17 +107,22 @@ class PathMiddlewareDecoratorTest extends TestCase
         $request  = (new ServerRequest())->withUri($uri);
         $response = new Response();
 
-        $middleware = $this->prophesize(MiddlewareInterface::class);
-        $middleware->process(Argument::any(), Argument::any())->shouldNotBeCalled();
+        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware
+            ->expects(self::never())
+            ->method('process');
 
-        $decorator = new PathMiddlewareDecorator('/foo', $middleware->reveal());
+        $decorator = new PathMiddlewareDecorator('/foo', $middleware);
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle($request)->willReturn($response);
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler
+            ->method('handle')
+            ->with($request)
+            ->willReturn($response);
 
         $this->assertSame(
             $response,
-            $decorator->process($request, $handler->reveal())
+            $decorator->process($request, $handler)
         );
     }
 
@@ -239,8 +246,10 @@ class PathMiddlewareDecoratorTest extends TestCase
         string $uriPath,
         bool $expectsHeader
     ): void {
-        $finalHandler = $this->prophesize(RequestHandlerInterface::class);
-        $finalHandler->handle(Argument::any())->willReturn(new Response());
+        $finalHandler = $this->createMock(RequestHandlerInterface::class);
+        $finalHandler
+            ->method('handle')
+            ->willReturn(new Response());
 
         $nested = new PathMiddlewareDecorator($nestPrefix, new class () implements MiddlewareInterface {
             public function process(
@@ -271,7 +280,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         $uri     = (new Uri())->withPath($uriPath);
         $request = (new ServerRequest())->withUri($uri);
 
-        $response = $topLevel->process($request, $finalHandler->reveal());
+        $response = $topLevel->process($request, $finalHandler);
 
         $this->assertSame(
             $expectsHeader,
@@ -301,8 +310,10 @@ class PathMiddlewareDecoratorTest extends TestCase
      */
     public function testTreatsBothSlashAndEmptyPathAsTheRootPath(string $path): void
     {
-        $finalHandler = $this->prophesize(RequestHandlerInterface::class);
-        $finalHandler->handle(Argument::any())->willReturn(new Response());
+        $finalHandler = $this->createMock(RequestHandlerInterface::class);
+        $finalHandler
+            ->method('handle')
+            ->willReturn(new Response());
 
         $middleware = new PathMiddlewareDecorator($path, new class () implements MiddlewareInterface {
             public function process(ServerRequestInterface $req, RequestHandlerInterface $handler): ResponseInterface
@@ -314,32 +325,34 @@ class PathMiddlewareDecoratorTest extends TestCase
         $uri        = (new Uri())->withPath($path);
         $request    = (new ServerRequest())->withUri($uri);
 
-        $response = $middleware->process($request, $finalHandler->reveal());
+        $response = $middleware->process($request, $finalHandler);
         $this->assertTrue($response->hasHeader('x-found'));
     }
 
     public function testRequestPathPassedToDecoratedMiddlewareTrimsPathPrefix(): void
     {
-        $finalHandler = $this->prophesize(RequestHandlerInterface::class);
-        $finalHandler->handle(Argument::any())->willReturn(new Response());
+        $finalHandler = $this->createMock(RequestHandlerInterface::class);
+        $finalHandler
+            ->method('handle')
+            ->willReturn(new Response());
 
         $request = new ServerRequest([], [], 'http://local.example.com/foo/bar', 'GET', 'php://memory');
 
-        $middleware = $this->prophesize(MiddlewareInterface::class);
+        $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware
-            ->process(
-                Argument::that(function (ServerRequestInterface $req) {
-                    Assert::assertSame('/bar', $req->getUri()->getPath());
+            ->expects(self::once())
+            ->method('process')
+            ->with(
+                self::callback(function (ServerRequestInterface $req): bool {
+                    self::assertSame('/bar', $req->getUri()->getPath());
 
                     return true;
-                }),
-                Argument::any()
+                })
             )
-            ->willReturn(new Response())
-            ->shouldBeCalledTimes(1);
+            ->willReturn(new Response());
 
-        $decorator = new PathMiddlewareDecorator('/foo', $middleware->reveal());
-        $decorator->process($request, $finalHandler->reveal());
+        $decorator = new PathMiddlewareDecorator('/foo', $middleware);
+        $decorator->process($request, $finalHandler);
     }
 
     public function testInvocationOfHandlerByDecoratedMiddlewareWillInvokeWithOriginalRequestPath(): void
@@ -347,55 +360,58 @@ class PathMiddlewareDecoratorTest extends TestCase
         $request          = new ServerRequest([], [], 'http://local.example.com/test', 'GET', 'php://memory');
         $expectedResponse = new Response();
 
-        $finalHandler = $this->prophesize(RequestHandlerInterface::class);
+        $finalHandler = $this->createMock(RequestHandlerInterface::class);
         $finalHandler
-            ->handle(Argument::that(function ($received) use ($request) {
-                Assert::assertNotSame(
-                    $request,
-                    $received,
-                    'Final handler received same request, and should not have'
-                );
+            ->method('handle')
+            ->with(
+                self::callback(function ($received) use ($request) {
+                    self::assertNotSame(
+                        $request,
+                        $received,
+                        'Final handler received same request, and should not have'
+                    );
 
-                Assert::assertSame(
-                    $request->getUri()->getPath(),
-                    $received->getUri()->getPath(),
-                    'Final handler received request with different path'
-                );
+                    self::assertSame(
+                        $request->getUri()->getPath(),
+                        $received->getUri()->getPath(),
+                        'Final handler received request with different path'
+                    );
 
-                return $received;
-            }))
+                    return true;
+                })
+            )
             ->willReturn($expectedResponse);
 
-        $segregatedMiddleware = $this->prophesize(MiddlewareInterface::class);
+        $segregatedMiddleware = $this->createMock(MiddlewareInterface::class);
         $segregatedMiddleware
-            ->process(
-                Argument::that(function ($received) use ($request) {
+            ->method('process')
+            ->with(
+                self::callback(function ($received) use ($request) {
                     Assert::assertNotSame(
                         $request,
                         $received,
                         'Segregated middleware received same request as decorator, but should not have'
                     );
-                    return $received;
-                }),
-                Argument::type(RequestHandlerInterface::class)
+                    return true;
+                })
             )
-            ->will(function ($args) {
-                $request = $args[0];
-                $next    = $args[1];
-                return $next->handle($request);
-            });
+            ->willReturnCallback(
+                static function (ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface {
+                    return $next->handle($request);
+                }
+            );
 
-        $decoratedMiddleware = new PathMiddlewareDecorator('/test', $segregatedMiddleware->reveal());
+        $decoratedMiddleware = new PathMiddlewareDecorator('/test', $segregatedMiddleware);
 
         $this->assertSame(
             $expectedResponse,
-            $decoratedMiddleware->process($request, $finalHandler->reveal())
+            $decoratedMiddleware->process($request, $finalHandler)
         );
     }
 
     public function testPathFunction(): void
     {
-        $toDecorate = $this->toDecorate->reveal();
+        $toDecorate = $this->toDecorate;
         $middleware = path('/foo', $toDecorate);
         self::assertEquals(new PathMiddlewareDecorator('/foo', $toDecorate), $middleware);
     }
@@ -411,39 +427,45 @@ class PathMiddlewareDecoratorTest extends TestCase
         });
         $middleware          = new PathMiddlewareDecorator('/foo', $decoratedMiddleware);
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::that(function (ServerRequestInterface $received) {
-            Assert::assertEquals('/foo/changed/path', $received->getUri()->getPath());
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler
+            ->method('handle')
+        ->with(
+            self::callback(function (ServerRequestInterface $received): bool {
+                self::assertEquals('/foo/changed/path', $received->getUri()->getPath());
 
-            return $received;
-        }));
+                return true;
+            })
+        );
 
-        $middleware->process($request, $handler->reveal());
+        $middleware->process($request, $handler);
     }
 
     public function testProcessesMatchedPathsWithoutCaseSensitivity(): void
     {
-        $finalHandler = $this->prophesize(RequestHandlerInterface::class);
-        $finalHandler->handle(Argument::any())->willReturn(new Response());
+        $finalHandler = $this->createMock(RequestHandlerInterface::class);
+        $finalHandler
+            ->method('handle')
+        ->willReturn(new Response());
 
         // Note that the path requested is ALL CAPS:
         $request = new ServerRequest([], [], 'http://local.example.com/MYADMIN', 'GET', 'php://memory');
 
-        $middleware = $this->prophesize(MiddlewareInterface::class);
+        $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware
-            ->process(
-                Argument::that(function (ServerRequestInterface $req) {
+            ->expects(self::once())
+            ->method('process')
+            ->with(
+                self::callback(function (ServerRequestInterface $req) {
                     Assert::assertSame('', $req->getUri()->getPath());
 
                     return true;
-                }),
-                Argument::any()
+                })
             )
-            ->willReturn(new Response())
-            ->shouldBeCalledTimes(1);
+            ->willReturn(new Response());
 
         // Note that the path to match is lowercase:
-        $decorator = new PathMiddlewareDecorator('/myadmin', $middleware->reveal());
-        $decorator->process($request, $finalHandler->reveal());
+        $decorator = new PathMiddlewareDecorator('/myadmin', $middleware);
+        $decorator->process($request, $finalHandler);
     }
 }

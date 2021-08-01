@@ -11,16 +11,13 @@ use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 use Laminas\Stratigility\MiddlewarePipe;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class PathMiddlewareDecoratorIntegrationTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function testPipelineComposingPathDecoratedMiddlewareExecutesAsExpected(): void
     {
         $uri      = (new Uri())->withPath('/foo/bar/baz');
@@ -30,7 +27,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
         $pipeline = new MiddlewarePipe();
 
         $first  = $this->createPassThroughMiddleware(function ($received) use ($request) {
-            Assert::assertSame(
+            self::assertSame(
                 $request,
                 $received,
                 'First middleware did not receive original request, but should have'
@@ -39,7 +36,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
         });
         $second = new PathMiddlewareDecorator('/foo', $this->createNestedPipeline($request));
         $last   = $this->createPassThroughMiddleware(function ($received) use ($request) {
-            Assert::assertNotSame(
+            self::assertNotSame(
                 $request,
                 $received,
                 'Last middleware received original request, but should not have'
@@ -67,90 +64,120 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
         $pipeline->pipe($second);
         $pipeline->pipe($last);
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
+        $handler = $this->createMock(RequestHandlerInterface::class);
         $handler
-            ->handle($request)
+            ->method('handle')
+            ->with($request)
             ->willReturn($response);
 
         $this->assertSame(
             $response,
-            $pipeline->process($request, $handler->reveal())
+            $pipeline->process($request, $handler)
         );
     }
 
-    public function createPassThroughMiddleware(callable $requestAssertion): MiddlewareInterface
+    /**
+     * @param callable(mixed) $requestAssertion
+     */
+    private function createPassThroughMiddleware(callable $requestAssertion): MiddlewareInterface
     {
-        $middleware = $this->prophesize(MiddlewareInterface::class);
+        $middleware = $this->createMock(MiddlewareInterface::class);
         $middleware
-            ->process(
-                Argument::that($requestAssertion),
-                Argument::type(RequestHandlerInterface::class)
+            ->method('process')
+            ->with(
+                self::callback(
+                /** @psalm-suppress MissingClosureParamType */
+                    static function ($argument1) use ($requestAssertion): bool {
+                        $requestAssertion($argument1);
+                        return true;
+                    }
+                ),
+                self::callback(
+                /** @psalm-suppress MissingClosureParamType */
+                    static function ($argument2): bool {
+                        self::assertInstanceOf(RequestHandlerInterface::class, $argument2);
+                        return true;
+                    }
+                )
             )
-            ->will(function ($args) {
-                $request = $args[0];
-                $next    = $args[1];
-                return $next->handle($request);
-            });
-        return $middleware->reveal();
+            ->will(
+                self::returnCallback(
+                    static function (
+                        ServerRequestInterface $request,
+                        RequestHandlerInterface $next
+                    ): ResponseInterface {
+                        return $next->handle($request);
+                    }
+                )
+            );
+
+        return $middleware;
     }
 
     public function createNestedPipeline(ServerRequestInterface $originalRequest): MiddlewareInterface
     {
         $pipeline = new MiddlewarePipe();
 
-        $barMiddleware = $this->prophesize(MiddlewareInterface::class);
+        $barMiddleware = $this->createMock(MiddlewareInterface::class);
         $barMiddleware
-            ->process(
-                Argument::that(function ($request) use ($originalRequest) {
-                    Assert::assertNotSame(
-                        $originalRequest,
-                        $request,
-                        'Decorated middleware received original request, but should not have'
-                    );
-                    $path = $request->getUri()->getPath();
-                    Assert::assertSame(
-                        '/baz',
-                        $path,
-                        'Decorated middleware expected path "/baz"; received ' . $path
-                    );
-                    return $request;
-                }),
-                Argument::type(RequestHandlerInterface::class)
+            ->method('process')
+            ->with(
+                self::callback(
+                    static function ($request) use ($originalRequest) {
+                        self::assertNotSame(
+                            $originalRequest,
+                            $request,
+                            'Decorated middleware received original request, but should not have'
+                        );
+                        $path = $request->getUri()->getPath();
+                        self::assertSame(
+                            '/baz',
+                            $path,
+                            'Decorated middleware expected path "/baz"; received ' . $path
+                        );
+                        return true;
+                    }
+                )
             )
-            ->will(function ($args) {
-                $request = $args[0];
-                $next    = $args[1];
+            ->willReturnCallback(static function (
+                ServerRequestInterface $request,
+                RequestHandlerInterface $next
+            ): ResponseInterface {
                 return $next->handle($request);
             });
-        $decorated = new PathMiddlewareDecorator('/bar', $barMiddleware->reveal());
 
-        $normal = $this->prophesize(MiddlewareInterface::class);
+        $decorated = new PathMiddlewareDecorator('/bar', $barMiddleware);
+
+        $normal = $this->createMock(MiddlewareInterface::class);
         $normal
-            ->process(
-                Argument::that(function ($request) use ($originalRequest) {
-                    Assert::assertNotSame(
+            ->method('process')
+            ->with(
+                self::callback(static function (ServerRequestInterface $request) use ($originalRequest): bool {
+                    self::assertNotSame(
                         $originalRequest,
                         $request,
                         'Decorated middleware received original request, but should not have'
                     );
                     $path = $request->getUri()->getPath();
-                    Assert::assertSame(
+                    self::assertSame(
                         '/bar/baz',
                         $path,
                         'Decorated middleware expected path "/bar/baz"; received ' . $path
                     );
-                    return $request;
-                }),
-                Argument::type(RequestHandlerInterface::class)
+                    return true;
+                })
             )
-            ->will(function ($args) {
-                $request = $args[0];
-                $next    = $args[1];
-                return $next->handle($request);
-            });
+            ->willReturnCallback(
+                static function (
+                    ServerRequestInterface $request,
+                    RequestHandlerInterface $next
+                ): ResponseInterface {
+                    return $next->handle($request);
+                }
+            );
 
         $pipeline->pipe($decorated);
-        $pipeline->pipe($normal->reveal());
+        $pipeline->pipe($normal);
 
         return $pipeline;
     }
