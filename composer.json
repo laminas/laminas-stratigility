@@ -21,10 +21,9 @@
     "config": {
         "sort-packages": true
     },
-    "extra": {
-    },
+    "extra": {},
     "require": {
-        "php": "^7.3 || ~8.0.0",
+        "php": "^7.3 || ~8.0.0 || ~8.1.0",
         "fig/http-message-util": "^1.1",
         "laminas/laminas-escaper": "^2.3",
         "laminas/laminas-zendframework-bridge": "^1.0",
