@@ -6,27 +6,24 @@ Versions prior to 1.0 were originally released as `phly/conduit`; please visit
 its [CHANGELOG](https://github.com/phly/conduit/blob/master/CHANGELOG.md) for
 details.
 
-## 3.5.0 - TBD
+## 3.5.0 - 2021-09-14
 
-### Added
 
-- Nothing.
+-----
 
-### Changed
+### Release Notes for [3.5.0](https://github.com/laminas/laminas-stratigility/milestone/6)
 
-- Nothing.
+Feature release (minor)
 
-### Deprecated
+### 3.5.0
 
-- Nothing.
+- Total issues resolved: **0**
+- Total pull requests resolved: **1**
+- Total contributors: **1**
 
-### Removed
+#### Enhancement
 
-- Nothing.
-
-### Fixed
-
-- Nothing.
+ - [22: PHP 8.1 support](https://github.com/laminas/laminas-stratigility/pull/22) thanks to @boesing
 
 ## 3.4.0 - 2021-06-28
 
