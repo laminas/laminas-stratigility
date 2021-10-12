@@ -37,15 +37,18 @@ nav:
         - "Creating Middleware": v1/creating-middleware.md
         - "Executing and composing middleware": v1/executing-middleware.md
         - "API Reference": v1/api.md
-    - "_hidden-legacy-page-links":
-        - "_install": install.md
-        - "_usage": usage.md
-        - "_middleware": middleware.md
-        - "_error-handlers": error-handlers.md
-        - "_creating-middleware": creating-middleware.md
-        - "_executing-middleware": executing-middleware.md
-        - "_api": api.md
-        - "_migration": migration.md
 site_name: laminas-stratigility
 site_description: laminas-stratigility
 repo_url: 'https://github.com/laminas/laminas-stratigility'
+plugins:
+  - search
+  - redirects:
+      redirect_maps:
+        install.md: v3/install.md
+        usage.md: v3/usage.md
+        middleware.md: v3/middleware.md
+        error-handlers.md: v3/error-handlers.md
+        creating-middleware.md: v3/creating-middleware.md
+        executing-middleware.md: v3/executing-middleware.md
+        api.md: v3/api.md
+        migration.md: v3/migration.md
