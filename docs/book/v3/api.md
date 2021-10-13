@@ -58,7 +58,7 @@ Since your middleware needs to return a response, the instance receives the
 handler; if the last middleware in the queue calls on its handler, `Next` will
 execute the fallback request handler to generate a response to return.
 
-### Providing an altered request:
+### Providing an altered request
 
 ```php
 function ($request, RequestHandlerInterface $handler) use ($bodyParser)
@@ -72,7 +72,7 @@ function ($request, RequestHandlerInterface $handler) use ($bodyParser)
 }
 ```
 
-### Providing an altered request and operating on the returned response:
+### Providing an altered request and operating on the returned response
 
 ```php
 function ($request, RequestHandlerInterface $handler) use ($bodyParser)

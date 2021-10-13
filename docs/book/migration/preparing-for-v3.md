@@ -171,6 +171,7 @@ no longer support operation directly within a double-pass architecture, this
 class will be removed.
 
 Methods that produce an instance include:
+
 - `MiddlewarePipe::__invoke()`
 - `NotFoundHandler::__invoke()`
 - `ErrorHandler::__invoke()`

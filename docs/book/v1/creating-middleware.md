@@ -46,7 +46,7 @@ function (
 ) : Psr\Http\Message\ResponseInterface
 ```
 
-### Legacy error middleware
+## Legacy error middleware
 
 - Deprecated since 1.3.0; to be removed in version 2.0.0. Please use the the
   `NotFoundHandler` and `ErrorHandler` detailed in the
