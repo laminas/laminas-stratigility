@@ -6,6 +6,7 @@ Middleware is code that exists between the request and response, and which can
 take the incoming request, perform actions based on it, and either complete the
 response or pass delegation on to the next middleware in the queue.
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### Installation requirements
 >
 > The following example depends on the [laminas-httphandlerrunner](http://docs.laminas.dev/laminas-httphandlerrunner)

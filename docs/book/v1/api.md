@@ -183,7 +183,7 @@ you will need to:
 - Create and return a concrete response type, OR
 - Operate on a response returned by invoking the delegate.
 
-### Providing an altered request:
+### Providing an altered request
 
 ```php
 // Standard invokable:
@@ -266,7 +266,6 @@ return $delegate->process($request);
 
 **Middleware should always return a response, and, if it cannot, return the
 result of delegation.**
-
 
 ### Raising an error condition
 
@@ -379,7 +378,7 @@ Additionally, it provides access to the original response created by the server 
 
 Stratigility provides several concrete middleware implementations.
 
-#### ErrorHandler and NotFoundHandler
+### ErrorHandler and NotFoundHandler
 
 These two middleware allow you to provide handle PHP errors and exceptions, and
 404 conditions, respectively. You may read more about them in the

@@ -59,7 +59,6 @@ The `MiddlewarePipe` is itself middleware, and can be executed in stacks that
 expect the `__invoke()` signature (via the `__invoke()` signature), or stacks
 expecting http-interop middleware signatures (via the `process()` method).
 
-
 When using `__invoke()`, the callable `$out` argument should either implement
 delegator/request handler interface from `http-interop/http-middleware`
 (depends on version you are using), or use the signature:
@@ -170,7 +169,7 @@ you will need to:
 - Create and return a concrete response type, OR
 - Operate on a response returned by invoking the delegate.
 
-### Providing an altered request:
+### Providing an altered request
 
 ```php
 // Standard invokable:
@@ -195,7 +194,7 @@ function ($request, DelegateInterface $delegate) use ($bodyParser)
 }
 ```
 
-### Providing an altered request and operating on the returned response:
+### Providing an altered request and operating on the returned response
 
 ```php
 function ($request, $response, $next) use ($bodyParser)
@@ -276,7 +275,6 @@ return $delegate->process($request);
 **Middleware should always return a response, and, if it cannot, return the
 result of delegation.**
 
-
 ### Raising an error condition
 
 If your middleware cannot complete &mdash; perhaps a database error occurred, a
@@ -304,7 +302,7 @@ your users.
 
 Stratigility provides several concrete middleware implementations.
 
-#### ErrorHandler and NotFoundHandler
+### ErrorHandler and NotFoundHandler
 
 These two middleware allow you to provide handle PHP errors and exceptions, and
 404 conditions, respectively. You may read more about them in the

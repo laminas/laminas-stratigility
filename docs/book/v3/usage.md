@@ -1,5 +1,6 @@
 # Usage
 
+<!-- markdownlint-disable-next-line header-increment -->
 > ### Installation requirements
 >
 > The following example depends on the [laminas-httphandlerrunner](http://docs.laminas.dev/laminas-httphandlerrunner)
