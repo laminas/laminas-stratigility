@@ -12,8 +12,7 @@ use Throwable;
 
 final class ErrorResponseGenerator
 {
-    /** @var bool */
-    private $isDevelopmentMode;
+    private bool $isDevelopmentMode;
 
     public function __construct(bool $isDevelopmentMode = false)
     {

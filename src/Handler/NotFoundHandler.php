@@ -23,9 +23,7 @@ final class NotFoundHandler implements RequestHandlerInterface
      */
     public function __construct(callable $responseFactory)
     {
-        $this->responseFactory = function () use ($responseFactory): ResponseInterface {
-            return $responseFactory();
-        };
+        $this->responseFactory = static fn(): ResponseInterface => $responseFactory();
     }
 
     /**

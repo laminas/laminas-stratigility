@@ -15,8 +15,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 final class NotFoundHandler implements MiddlewareInterface
 {
-    /** @var NotFoundRequestHandler */
-    private $notFoundHandler;
+    private NotFoundRequestHandler $notFoundHandler;
 
     /**
      * @param callable $responseFactory A factory capable of returning an

@@ -20,9 +20,7 @@ class CallableMiddlewareDecoratorTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $handler = $this->createMock(RequestHandlerInterface::class);
 
-        $middleware = function (): string {
-            return 'foo';
-        };
+        $middleware = static fn(): string => 'foo';
 
         $decorator = new CallableMiddlewareDecorator($middleware);
 
@@ -37,9 +35,7 @@ class CallableMiddlewareDecoratorTest extends TestCase
         $handler  = $this->createMock(RequestHandlerInterface::class);
         $response = $this->createMock(ResponseInterface::class);
 
-        $middleware = function ($request, $handler) use ($response): ResponseInterface {
-            return $response;
-        };
+        $middleware = static fn($request, $handler): ResponseInterface => $response;
 
         $decorator = new CallableMiddlewareDecorator($middleware);
 
@@ -48,9 +44,7 @@ class CallableMiddlewareDecoratorTest extends TestCase
 
     public function testMiddlewareFunction(): void
     {
-        $toDecorate = static function (): string {
-            return 'foo';
-        };
+        $toDecorate = static fn(): string => 'foo';
 
         $middleware = middleware($toDecorate);
         self::assertInstanceOf(CallableMiddlewareDecorator::class, $middleware);

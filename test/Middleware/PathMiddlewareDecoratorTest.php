@@ -262,8 +262,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         });
 
         $topLevel = new PathMiddlewareDecorator($prefix, new class ($nested) implements MiddlewareInterface {
-            /** @var MiddlewareInterface */
-            private $middleware;
+            private MiddlewareInterface $middleware;
 
             public function __construct(MiddlewareInterface $middleware)
             {
@@ -346,9 +345,8 @@ class PathMiddlewareDecoratorTest extends TestCase
             ->expects(self::once())
             ->method('process')
             ->with(
-                self::callback(function (ServerRequestInterface $req): bool {
+                self::callback(static function (ServerRequestInterface $req): bool {
                     self::assertSame('/bar', $req->getUri()->getPath());
-
                     return true;
                 })
             )
@@ -367,19 +365,17 @@ class PathMiddlewareDecoratorTest extends TestCase
         $finalHandler
             ->method('handle')
             ->with(
-                self::callback(function ($received) use ($request) {
+                self::callback(static function ($received) use ($request) {
                     self::assertNotSame(
                         $request,
                         $received,
                         'Final handler received same request, and should not have'
                     );
-
                     self::assertSame(
                         $request->getUri()->getPath(),
                         $received->getUri()->getPath(),
                         'Final handler received request with different path'
                     );
-
                     return true;
                 })
             )
@@ -389,7 +385,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         $segregatedMiddleware
             ->method('process')
             ->with(
-                self::callback(function ($received) use ($request) {
+                self::callback(static function ($received) use ($request) {
                     Assert::assertNotSame(
                         $request,
                         $received,
@@ -399,9 +395,7 @@ class PathMiddlewareDecoratorTest extends TestCase
                 })
             )
             ->willReturnCallback(
-                static function (ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface {
-                    return $next->handle($request);
-                }
+                static fn(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface => $next->handle($request)
             );
 
         $decoratedMiddleware = new PathMiddlewareDecorator('/test', $segregatedMiddleware);
@@ -422,21 +416,15 @@ class PathMiddlewareDecoratorTest extends TestCase
     public function testUpdatesInPathInsideNestedMiddlewareAreRespected(): void
     {
         $request             = new ServerRequest([], [], 'http://local.example.com/foo/bar', 'GET', 'php://memory');
-        $decoratedMiddleware = middleware(function (
-            ServerRequestInterface $request,
-            RequestHandlerInterface $handler
-        ) {
-            return $handler->handle($request->withUri(new Uri('/changed/path')));
-        });
+        $decoratedMiddleware = middleware(static fn(ServerRequestInterface $request, RequestHandlerInterface $handler) => $handler->handle($request->withUri(new Uri('/changed/path'))));
         $middleware          = new PathMiddlewareDecorator('/foo', $decoratedMiddleware);
 
         $handler = $this->createMock(RequestHandlerInterface::class);
         $handler
             ->method('handle')
         ->with(
-            self::callback(function (ServerRequestInterface $received): bool {
+            self::callback(static function (ServerRequestInterface $received): bool {
                 self::assertEquals('/foo/changed/path', $received->getUri()->getPath());
-
                 return true;
             })
         );
@@ -459,9 +447,8 @@ class PathMiddlewareDecoratorTest extends TestCase
             ->expects(self::once())
             ->method('process')
             ->with(
-                self::callback(function (ServerRequestInterface $req) {
+                self::callback(static function (ServerRequestInterface $req) {
                     Assert::assertSame('', $req->getUri()->getPath());
-
                     return true;
                 })
             )

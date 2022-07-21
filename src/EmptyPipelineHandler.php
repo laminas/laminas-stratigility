@@ -10,8 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class EmptyPipelineHandler implements RequestHandlerInterface
 {
-    /** @var string */
-    private $className;
+    private string $className;
 
     public function __construct(string $className)
     {

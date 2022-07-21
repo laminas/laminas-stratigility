@@ -15,8 +15,7 @@ use function spl_autoload_unregister;
 
 class DoublePassMiddlewareDecoratorExceptionTest extends TestCase
 {
-    /** @var array */
-    private $autoloadFunctions = [];
+    private array $autoloadFunctions = [];
 
     protected function setUp(): void
     {
@@ -38,9 +37,7 @@ class DoublePassMiddlewareDecoratorExceptionTest extends TestCase
 
     public function testDiactorosIsNotAvailableAndResponsePrototypeIsNotSet(): void
     {
-        $middleware = function ($request, $response, $next) {
-            return $response;
-        };
+        $middleware = static fn($request, $response, $next) => $response;
 
         $this->expectException(MissingResponsePrototypeException::class);
         $this->expectExceptionMessage(

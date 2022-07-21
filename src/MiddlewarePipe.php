@@ -26,8 +26,7 @@ use SplQueue;
  */
 final class MiddlewarePipe implements MiddlewarePipeInterface
 {
-    /** @var SplQueue */
-    private $pipeline;
+    private SplQueue $pipeline;
 
     /**
      * Initializes the queue.

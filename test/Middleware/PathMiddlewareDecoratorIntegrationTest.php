@@ -27,7 +27,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
 
         $pipeline = new MiddlewarePipe();
 
-        $first  = $this->createPassThroughMiddleware(function ($received) use ($request) {
+        $first  = $this->createPassThroughMiddleware(static function ($received) use ($request) {
             self::assertSame(
                 $request,
                 $received,
@@ -36,28 +36,24 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
             return $request;
         });
         $second = new PathMiddlewareDecorator('/foo', $this->createNestedPipeline($request));
-        $last   = $this->createPassThroughMiddleware(function ($received) use ($request) {
+        $last   = $this->createPassThroughMiddleware(static function ($received) use ($request) {
             self::assertNotSame(
                 $request,
                 $received,
                 'Last middleware received original request, but should not have'
             );
-
             $originalUri = $request->getUri();
             $receivedUri = $received->getUri();
-
             Assert::assertNotSame(
                 $originalUri,
                 $receivedUri,
                 'Last middleware received original URI instance, but should not have'
             );
-
             Assert::assertSame(
                 $originalUri->getPath(),
                 $receivedUri->getPath(),
                 'Last middleware did not receive original URI path, but should have'
             );
-
             return $request;
         });
 
@@ -103,12 +99,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
             )
             ->will(
                 self::returnCallback(
-                    static function (
-                        ServerRequestInterface $request,
-                        RequestHandlerInterface $next
-                    ): ResponseInterface {
-                        return $next->handle($request);
-                    }
+                    static fn(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface => $next->handle($request)
                 )
             );
 
@@ -140,12 +131,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
                     }
                 )
             )
-            ->willReturnCallback(static function (
-                ServerRequestInterface $request,
-                RequestHandlerInterface $next
-            ): ResponseInterface {
-                return $next->handle($request);
-            });
+            ->willReturnCallback(static fn(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface => $next->handle($request));
 
         $decorated = new PathMiddlewareDecorator('/bar', $barMiddleware);
 
@@ -169,12 +155,7 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
                 })
             )
             ->willReturnCallback(
-                static function (
-                    ServerRequestInterface $request,
-                    RequestHandlerInterface $next
-                ): ResponseInterface {
-                    return $next->handle($request);
-                }
+                static fn(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface => $next->handle($request)
             );
 
         $pipeline->pipe($decorated);
