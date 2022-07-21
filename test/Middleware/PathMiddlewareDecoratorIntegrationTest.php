@@ -158,7 +158,9 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
                 })
             )
             ->willReturnCallback(
-                static fn(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface => $next->handle($request)
+                static fn(
+                    ServerRequestInterface $request,
+                    RequestHandlerInterface $next): ResponseInterface => $next->handle($request)
             );
 
         $pipeline->pipe($decorated);

@@ -177,7 +177,9 @@ class MiddlewarePipeTest extends TestCase
                 $this->request
             )
             ->willReturnCallback(
-                static fn(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface => $handler->handle($request)
+                static fn(
+                    ServerRequestInterface $request,
+                    RequestHandlerInterface $handler): ResponseInterface => $handler->handle($request)
             );
         $middleware2 = $this->createMock(MiddlewareInterface::class);
         $middleware2
