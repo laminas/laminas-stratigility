@@ -28,11 +28,9 @@ class MiddlewarePipeTest extends TestCase
 {
     use MiddlewareTrait;
 
-    /** @var Request */
-    private $request;
+    private Request $request;
 
-    /** @var MiddlewarePipe */
-    private $pipeline;
+    private MiddlewarePipe $pipeline;
 
     protected function setUp(): void
     {
@@ -179,9 +177,9 @@ class MiddlewarePipeTest extends TestCase
                 $this->request
             )
             ->willReturnCallback(
-                static function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-                    return $handler->handle($request);
-                }
+                static fn(
+                    ServerRequestInterface $request,
+                    RequestHandlerInterface $handler): ResponseInterface => $handler->handle($request)
             );
         $middleware2 = $this->createMock(MiddlewareInterface::class);
         $middleware2

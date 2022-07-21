@@ -39,16 +39,13 @@ class ErrorHandlerTest extends TestCase
     /** @var callable():ResponseInterface */
     private $responseFactory;
 
-    /** @var int */
-    private $errorReporting;
+    private int $errorReporting;
 
     protected function setUp(): void
     {
         $this->response        = $this->createMock(ResponseInterface::class);
         $response              = $this->response;
-        $this->responseFactory = static function () use ($response): ResponseInterface {
-            return $response;
-        };
+        $this->responseFactory = static fn(): ResponseInterface => $response;
 
         $this->request        = $this->createMock(ServerRequestInterface::class);
         $this->body           = $this->createMock(StreamInterface::class);
@@ -93,7 +90,7 @@ class ErrorHandlerTest extends TestCase
         $this->handler
             ->method('handle')
             ->with($this->request)
-            ->will(self::returnCallback(function () {
+            ->will(self::returnCallback(static function () {
                 trigger_error('Deprecated', E_USER_DEPRECATED);
             }));
 
@@ -278,7 +275,7 @@ class ErrorHandlerTest extends TestCase
 
     public function testCanProvideAlternateErrorResponseGenerator(): void
     {
-        $generator = function (
+        $generator = static function (
             Throwable $e,
             ServerRequestInterface $request,
             ResponseInterface $response

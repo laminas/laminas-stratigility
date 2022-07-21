@@ -17,11 +17,10 @@ use function substr;
 
 final class PathMiddlewareDecorator implements MiddlewareInterface
 {
-    /** @var MiddlewareInterface */
-    private $middleware;
+    private MiddlewareInterface $middleware;
 
     /** @var string Path prefix under which the middleware is segregated.  */
-    private $prefix;
+    private string $prefix;
 
     public function __construct(string $prefix, MiddlewareInterface $middleware)
     {
@@ -96,11 +95,9 @@ final class PathMiddlewareDecorator implements MiddlewareInterface
     private function prepareHandlerForOriginalRequest(RequestHandlerInterface $handler): RequestHandlerInterface
     {
         return new class ($handler, $this->prefix) implements RequestHandlerInterface {
-            /** @var RequestHandlerInterface */
-            private $handler;
+            private RequestHandlerInterface $handler;
 
-            /** @var string */
-            private $prefix;
+            private string $prefix;
 
             public function __construct(RequestHandlerInterface $handler, string $prefix)
             {

@@ -15,11 +15,9 @@ use SplQueue;
  */
 final class Next implements RequestHandlerInterface
 {
-    /** @var RequestHandlerInterface */
-    private $fallbackHandler;
+    private RequestHandlerInterface $fallbackHandler;
 
-    /** @var null|SplQueue */
-    private $queue;
+    private ?SplQueue $queue;
 
     /**
      * Clones the queue provided to allow re-use.

@@ -13,11 +13,10 @@ use function strtolower;
 
 final class HostMiddlewareDecorator implements MiddlewareInterface
 {
-    /** @var MiddlewareInterface */
-    private $middleware;
+    private MiddlewareInterface $middleware;
 
     /** @var string Host name under which the middleware is segregated.  */
-    private $host;
+    private string $host;
 
     public function __construct(string $host, MiddlewareInterface $middleware)
     {

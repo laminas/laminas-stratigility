@@ -7,6 +7,7 @@ namespace LaminasTest\Stratigility\Middleware;
 use Laminas\Stratigility\Exception\MissingResponsePrototypeException;
 use Laminas\Stratigility\Middleware\DoublePassMiddlewareDecorator;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 
 use function class_exists;
 use function spl_autoload_functions;
@@ -15,8 +16,7 @@ use function spl_autoload_unregister;
 
 class DoublePassMiddlewareDecoratorExceptionTest extends TestCase
 {
-    /** @var array */
-    private $autoloadFunctions = [];
+    private array $autoloadFunctions = [];
 
     protected function setUp(): void
     {
@@ -38,9 +38,7 @@ class DoublePassMiddlewareDecoratorExceptionTest extends TestCase
 
     public function testDiactorosIsNotAvailableAndResponsePrototypeIsNotSet(): void
     {
-        $middleware = function ($request, $response, $next) {
-            return $response;
-        };
+        $middleware = static fn($request, ResponseInterface $response, $next): ResponseInterface => $response;
 
         $this->expectException(MissingResponsePrototypeException::class);
         $this->expectExceptionMessage(

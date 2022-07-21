@@ -39,9 +39,7 @@ class NotFoundHandlerTest extends TestCase
             ->method('getUri')
             ->willReturn('https://example.com/foo');
 
-        $responseFactory = static function () use ($response): ResponseInterface {
-            return $response;
-        };
+        $responseFactory = static fn(): ResponseInterface => $response;
 
         $middleware = new NotFoundHandler($responseFactory);
 

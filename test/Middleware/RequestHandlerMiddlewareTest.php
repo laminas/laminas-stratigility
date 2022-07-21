@@ -22,8 +22,7 @@ class RequestHandlerMiddlewareTest extends TestCase
     /** @var MockObject&RequestHandlerInterface */
     private $handler;
 
-    /** @var RequestHandlerMiddleware */
-    private $middleware;
+    private RequestHandlerMiddleware $middleware;
 
     protected function setUp(): void
     {

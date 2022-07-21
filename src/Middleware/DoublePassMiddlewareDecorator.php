@@ -36,8 +36,7 @@ final class DoublePassMiddlewareDecorator implements MiddlewareInterface
     /** @var callable */
     private $middleware;
 
-    /** @var ResponseInterface */
-    private $responsePrototype;
+    private ResponseInterface $responsePrototype;
 
     /**
      * @throws Exception\MissingResponsePrototypeException If no response
@@ -77,8 +76,6 @@ final class DoublePassMiddlewareDecorator implements MiddlewareInterface
 
     private function decorateHandler(RequestHandlerInterface $handler): callable
     {
-        return function ($request, $response) use ($handler) {
-            return $handler->handle($request);
-        };
+        return static fn($request, $response) => $handler->handle($request);
     }
 }

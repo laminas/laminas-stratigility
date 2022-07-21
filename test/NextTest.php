@@ -24,8 +24,7 @@ class NextTest extends TestCase
 {
     use MiddlewareTrait;
 
-    /** @var SplQueue */
-    private $queue;
+    private SplQueue $queue;
 
     private Request $request;
 
@@ -43,8 +42,7 @@ class NextTest extends TestCase
     {
         $response = $response ?: $this->createDefaultResponse();
         return new class ($response) implements RequestHandlerInterface {
-            /** @var ResponseInterface */
-            private $response;
+            private ResponseInterface $response;
 
             public function __construct(ResponseInterface $response)
             {
@@ -82,8 +80,7 @@ class NextTest extends TestCase
 
         $middleware1 = new class ($cannedRequest) implements MiddlewareInterface
         {
-            /** @var ServerRequestInterface */
-            private $cannedRequest;
+            private ServerRequestInterface $cannedRequest;
 
             public function __construct(ServerRequestInterface $cannedRequest)
             {
@@ -98,8 +95,7 @@ class NextTest extends TestCase
 
         $middleware2 = new class ($cannedRequest) implements MiddlewareInterface
         {
-            /** @var ServerRequestInterface */
-            private $cannedRequest;
+            private ServerRequestInterface $cannedRequest;
 
             public function __construct(ServerRequestInterface $cannedRequest)
             {
@@ -241,9 +237,10 @@ class NextTest extends TestCase
             ->expects(self::once())
             ->method('process')
             ->willReturnCallback(
-                static function (ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-                    return $handler->handle($request);
-                }
+                static fn(
+                    ServerRequestInterface $request,
+                    RequestHandlerInterface $handler
+                ): ResponseInterface => $handler->handle($request)
             );
 
         $this->queue->push($middleware);
