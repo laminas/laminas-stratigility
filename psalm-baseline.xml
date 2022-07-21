@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
+<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
   <file src="src/Handler/NotFoundHandler.php">
     <MixedInferredReturnType occurrences="1">
       <code>ResponseInterface</code>
@@ -55,29 +55,62 @@
     </MixedReturnStatement>
   </file>
   <file src="src/functions/double-pass-middleware.legacy.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>laminas_doublePassMiddleware(...func_get_args())</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>Middleware\DoublePassMiddlewareDecorator</code>
+    </InvalidReturnType>
     <MixedArgument occurrences="1">
       <code>func_get_args()</code>
     </MixedArgument>
+    <UndefinedClass occurrences="1">
+      <code>Middleware\DoublePassMiddlewareDecorator</code>
+    </UndefinedClass>
   </file>
   <file src="src/functions/host.legacy.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>laminas_host(...func_get_args())</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>Middleware\HostMiddlewareDecorator</code>
+    </InvalidReturnType>
     <MixedArgument occurrences="1">
       <code>func_get_args()</code>
     </MixedArgument>
+    <UndefinedClass occurrences="1">
+      <code>Middleware\HostMiddlewareDecorator</code>
+    </UndefinedClass>
   </file>
   <file src="src/functions/middleware.legacy.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>laminas_middleware(...func_get_args())</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>Middleware\CallableMiddlewareDecorator</code>
+    </InvalidReturnType>
     <MixedArgument occurrences="1">
       <code>func_get_args()</code>
     </MixedArgument>
+    <UndefinedClass occurrences="1">
+      <code>Middleware\CallableMiddlewareDecorator</code>
+    </UndefinedClass>
   </file>
   <file src="src/functions/path.legacy.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>laminas_path(...func_get_args())</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>Middleware\PathMiddlewareDecorator</code>
+    </InvalidReturnType>
     <MixedArgument occurrences="1">
       <code>func_get_args()</code>
     </MixedArgument>
+    <UndefinedClass occurrences="1">
+      <code>Middleware\PathMiddlewareDecorator</code>
+    </UndefinedClass>
   </file>
   <file src="test/Exception/ExceptionTest.php">
-    <InvalidLiteralArgument occurrences="1">
-      <code>ExceptionInterface::class</code>
-    </InvalidLiteralArgument>
     <MixedInferredReturnType occurrences="1">
       <code>Generator</code>
     </MixedInferredReturnType>
@@ -88,18 +121,10 @@
   <file src="test/Middleware/CallableMiddlewareDecoratorTest.php">
     <MissingClosureParamType occurrences="2">
       <code>$handler</code>
-      <code>$handler</code>
-      <code>$handler</code>
-      <code>$request</code>
-      <code>$request</code>
       <code>$request</code>
     </MissingClosureParamType>
     <UnusedClosureParam occurrences="2">
       <code>$handler</code>
-      <code>$handler</code>
-      <code>$handler</code>
-      <code>$request</code>
-      <code>$request</code>
       <code>$request</code>
     </UnusedClosureParam>
   </file>
@@ -129,20 +154,16 @@
       <code>$next</code>
       <code>$next</code>
       <code>$next</code>
-      <code>$next</code>
       <code>$request</code>
       <code>$request</code>
       <code>$request</code>
       <code>$request</code>
-      <code>$request</code>
-      <code>$response</code>
       <code>$response</code>
       <code>$response</code>
       <code>$response</code>
       <code>$response</code>
     </MissingClosureParamType>
     <MissingClosureReturnType occurrences="2">
-      <code>function ($request, $response, $next) {</code>
       <code>function ($request, $response, $next) {</code>
       <code>function ($request, $response, $next) {</code>
     </MissingClosureReturnType>
@@ -182,33 +203,20 @@
     </DeprecatedClass>
   </file>
   <file src="test/Middleware/PathMiddlewareDecoratorIntegrationTest.php">
-    <MissingClosureParamType occurrences="3">
-      <code>$received</code>
-      <code>$received</code>
-      <code>$request</code>
-      <code>$request</code>
-    </MissingClosureParamType>
     <MixedAssignment occurrences="1">
       <code>$receivedUri</code>
     </MixedAssignment>
     <MixedMethodCall occurrences="4">
       <code>getPath</code>
       <code>getPath</code>
-      <code>getPath</code>
-      <code>getUri</code>
       <code>getUri</code>
       <code>getUri</code>
     </MixedMethodCall>
     <MixedOperand occurrences="1">
       <code>$path</code>
-      <code>$path</code>
     </MixedOperand>
   </file>
   <file src="test/Middleware/PathMiddlewareDecoratorTest.php">
-    <MissingClosureParamType occurrences="2">
-      <code>$received</code>
-      <code>$received</code>
-    </MissingClosureParamType>
     <MixedMethodCall occurrences="2">
       <code>getPath</code>
       <code>getUri</code>

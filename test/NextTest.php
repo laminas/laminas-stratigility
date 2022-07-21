@@ -27,8 +27,7 @@ class NextTest extends TestCase
     /** @var SplQueue */
     private $queue;
 
-    /** @var Request */
-    private $request;
+    private Request $request;
 
     /** @var MockObject&ResponseInterface */
     private $response;
@@ -76,7 +75,8 @@ class NextTest extends TestCase
 
     public function testMiddlewareCallingNextWithRequestPassesRequestToNextMiddleware(): void
     {
-        $request       = $this->request->withUri(new Uri('http://example.com/foo/bar/baz'));
+        $request = $this->request->withUri(new Uri('http://example.com/foo/bar/baz'));
+        self::assertInstanceOf(ServerRequestInterface::class, $request);
         $cannedRequest = clone $request;
         $cannedRequest = $cannedRequest->withMethod('POST');
 

@@ -20,8 +20,9 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
 {
     public function testPipelineComposingPathDecoratedMiddlewareExecutesAsExpected(): void
     {
-        $uri      = (new Uri())->withPath('/foo/bar/baz');
-        $request  = (new ServerRequest())->withUri($uri);
+        $uri     = (new Uri())->withPath('/foo/bar/baz');
+        $request = (new ServerRequest())->withUri($uri);
+        self::assertInstanceOf(ServerRequestInterface::class, $request);
         $response = new Response();
 
         $pipeline = new MiddlewarePipe();

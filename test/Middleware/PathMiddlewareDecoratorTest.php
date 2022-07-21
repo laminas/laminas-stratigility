@@ -103,8 +103,9 @@ class PathMiddlewareDecoratorTest extends TestCase
     public function testDelegatesOrignalRequestToHandlerIfRequestDoesNotMatchPrefixAtABoundary(): void
     {
         // e.g., if route is "/foo", but path is "/foobar", no match
-        $uri      = (new Uri())->withPath('/foobar');
-        $request  = (new ServerRequest())->withUri($uri);
+        $uri     = (new Uri())->withPath('/foobar');
+        $request = (new ServerRequest())->withUri($uri);
+        self::assertInstanceOf(ServerRequestInterface::class, $request);
         $response = new Response();
 
         $middleware = $this->createMock(MiddlewareInterface::class);
@@ -279,6 +280,7 @@ class PathMiddlewareDecoratorTest extends TestCase
 
         $uri     = (new Uri())->withPath($uriPath);
         $request = (new ServerRequest())->withUri($uri);
+        self::assertInstanceOf(ServerRequestInterface::class, $request);
 
         $response = $topLevel->process($request, $finalHandler);
 
@@ -324,6 +326,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         });
         $uri        = (new Uri())->withPath($path);
         $request    = (new ServerRequest())->withUri($uri);
+        self::assertInstanceOf(ServerRequestInterface::class, $request);
 
         $response = $middleware->process($request, $finalHandler);
         $this->assertTrue($response->hasHeader('x-found'));
