@@ -37,7 +37,7 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
         $request  = $this->createMock(ServerRequestInterface::class);
         $handler  = $this->createMock(RequestHandlerInterface::class);
 
-        $middleware = static fn($request, $response, $next) => $response;
+        $middleware = static fn($request, ResponseInterface $response, $next): ResponseInterface => $response;
 
         $decorator = new DoublePassMiddlewareDecorator($middleware, $response);
 
@@ -72,7 +72,7 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $handler = $this->createMock(RequestHandlerInterface::class);
 
-        $middleware = static fn($request, $response, $next) => $response;
+        $middleware = static fn($request, ResponseInterface $response, $next): ResponseInterface => $response;
 
         $decorator = new DoublePassMiddlewareDecorator($middleware);
 

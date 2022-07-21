@@ -134,9 +134,6 @@
       <code>$request</code>
       <code>$response</code>
     </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="1">
-      <code>function ($request, $response, $next) {</code>
-    </MissingClosureReturnType>
     <MixedArgument occurrences="1">
       <code>$autoloader</code>
     </MixedArgument>
@@ -163,10 +160,6 @@
       <code>$response</code>
       <code>$response</code>
     </MissingClosureParamType>
-    <MissingClosureReturnType occurrences="2">
-      <code>function ($request, $response, $next) {</code>
-      <code>function ($request, $response, $next) {</code>
-    </MissingClosureReturnType>
     <UnusedClosureParam occurrences="10">
       <code>$next</code>
       <code>$next</code>
