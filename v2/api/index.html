@@ -5,7 +5,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="laminas-stratigility">  
+    <meta name="description" content="laminas-stratigility"> 
+
+    
+    
+        
+    
+    <meta name="docsearch:version" content="3.0.0,latest">
+    <meta name="docsearch:language" content="en">
+    <meta name="docsearch:component" content="laminas-stratigility">
+
     <link rel="canonical" href="https://docs.laminas.dev/laminas-stratigility/v2/api/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
@@ -274,7 +283,7 @@
                     <a href="#" class="header__link header__link--search" data-toggle="modal" data-target="#mkdocs_search_modal" title="Open search">
                         <i class="fa fa-search"></i> Search
                     </a>
-                    <a href="https://github.com/laminas/laminas-stratigility/" class="header__link header__link--github" title="Go to repository of laminas-stratigility">
+                    <a href="https://github.com/laminas/laminas-stratigility" class="header__link header__link--github" title="Go to repository of laminas-stratigility">
                         <i class="fa fa-github"></i> GitHub
                     </a>
                 
@@ -496,7 +505,7 @@ you will need to:</p>
 <li>Create and return a concrete response type, OR</li>
 <li>Operate on a response returned by invoking the delegate.</li>
 </ul>
-<h3 id="providing-an-altered-request">Providing an altered request:</h3>
+<h3 id="providing-an-altered-request">Providing an altered request</h3>
 <pre class="highlight"><code class="language-php">// Standard invokable:
 function ($request, $response, $next) use ($bodyParser)
 {
@@ -517,7 +526,7 @@ function ($request, DelegateInterface $delegate) use ($bodyParser)
         $request-&gt;withBodyParams($bodyParams)
     );
 }</code></pre>
-<h3 id="providing-an-altered-request-and-operating-on-the-returned-response">Providing an altered request and operating on the returned response:</h3>
+<h3 id="providing-an-altered-request-and-operating-on-the-returned-response">Providing an altered request and operating on the returned response</h3>
 <pre class="highlight"><code class="language-php">function ($request, $response, $next) use ($bodyParser)
 {
     $response = $next(
@@ -595,7 +604,7 @@ to handle exceptions thrown by your middleware and report the error condition to
 your users.</p>
 <h2 id="middleware_1">Middleware</h2>
 <p>Stratigility provides several concrete middleware implementations.</p>
-<h4 id="errorhandler-and-notfoundhandler">ErrorHandler and NotFoundHandler</h4>
+<h3 id="errorhandler-and-notfoundhandler">ErrorHandler and NotFoundHandler</h3>
 <p>These two middleware allow you to provide handle PHP errors and exceptions, and
 404 conditions, respectively. You may read more about them in the
 <a href="../error-handlers/">error handling chapter</a>.</p>
@@ -677,7 +686,9 @@ class TimestampMiddleware implements ServerMiddlewareInterface
         <li class="page-nav__item">
             
                 <a rel="prev" class="page-nav__link page-nav__link--prev" href="../executing-middleware/">
-                    <i class="fa fa-chevron-left"></i> Previous
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    Executing and composing middleware
                 </a>
             
         </li>
@@ -686,7 +697,9 @@ class TimestampMiddleware implements ServerMiddlewareInterface
         <li class="page-nav__item">
             
                 <a rel="next" class="page-nav__link page-nav__link--next" href="../migration/">
-                    Next <i class="fa fa-chevron-right"></i>
+                    <small class="page-nav__label">Next</small>
+                    Migration
+                    <i class="fa fa-chevron-right"></i>
                 </a>
             
         </li>
@@ -861,7 +874,7 @@ class TimestampMiddleware implements ServerMiddlewareInterface
                         <h4 class="footer__headline">License</h4>
                         <p>
                             Code licensed under <a
-                                href="https://github.com/laminas/laminas-stratigility/blob/master/LICENSE.md">BSD 3-Clause</a>.
+                                href="https://github.com/laminas/laminas-stratigility/blob/-/LICENSE.md">BSD 3-Clause</a>.
                         </p>
                     </div>
 
@@ -871,7 +884,7 @@ class TimestampMiddleware implements ServerMiddlewareInterface
                         <p>
                             <!--Built with love by the Laminas team with the help of our
                             <a href="https://github.com/laminas/laminas-stratigility/graphs/contributors">contributors</a>.<br>-->
-                            &copy; 2021 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
+                            &copy; 2022 <a href="https://getlaminas.org/">Laminas Project</a> a Series of LF Projects, LLC.
                         </p>
                     </div>
                 </div>
