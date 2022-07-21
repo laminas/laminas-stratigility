@@ -27,7 +27,8 @@ trait MiddlewareTrait
         $middleware
             ->expects(self::once())
             ->method('process')
-            ->willReturnCallback(static fn(ServerRequestInterface $request, RequestHandlerInterface $handler) => $handler->handle($request));
+            ->willReturnCallback(static fn(ServerRequestInterface $request, RequestHandlerInterface $handler)
+                 => $handler->handle($request));
 
         return $middleware;
     }

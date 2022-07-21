@@ -275,7 +275,11 @@ class ErrorHandlerTest extends TestCase
 
     public function testCanProvideAlternateErrorResponseGenerator(): void
     {
-        $generator = static function (Throwable $e, ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+        $generator = static function (
+            Throwable $e,
+            ServerRequestInterface $request,
+            ResponseInterface $response
+        ): ResponseInterface {
             $response = $response->withStatus(400);
             $response->getBody()->write('The client messed up');
             return $response;

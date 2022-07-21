@@ -395,7 +395,8 @@ class PathMiddlewareDecoratorTest extends TestCase
                 })
             )
             ->willReturnCallback(
-                static fn(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface => $next->handle($request)
+                static fn(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface =>
+                    $next->handle($request)
             );
 
         $decoratedMiddleware = new PathMiddlewareDecorator('/test', $segregatedMiddleware);
@@ -416,7 +417,8 @@ class PathMiddlewareDecoratorTest extends TestCase
     public function testUpdatesInPathInsideNestedMiddlewareAreRespected(): void
     {
         $request             = new ServerRequest([], [], 'http://local.example.com/foo/bar', 'GET', 'php://memory');
-        $decoratedMiddleware = middleware(static fn(ServerRequestInterface $request, RequestHandlerInterface $handler) => $handler->handle($request->withUri(new Uri('/changed/path'))));
+        $decoratedMiddleware = middleware(static fn(ServerRequestInterface $request, RequestHandlerInterface $handler)
+            => $handler->handle($request->withUri(new Uri('/changed/path'))));
         $middleware          = new PathMiddlewareDecorator('/foo', $decoratedMiddleware);
 
         $handler = $this->createMock(RequestHandlerInterface::class);

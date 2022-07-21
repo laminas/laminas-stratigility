@@ -166,6 +166,7 @@ class ErrorHandler implements MiddlewareInterface
                 // error_reporting does not include this error
                 return;
             }
+
             throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
         };
     }

@@ -237,7 +237,10 @@ class NextTest extends TestCase
             ->expects(self::once())
             ->method('process')
             ->willReturnCallback(
-                static fn(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface => $handler->handle($request)
+                static fn(
+                    ServerRequestInterface $request,
+                    RequestHandlerInterface $handler
+                ): ResponseInterface => $handler->handle($request)
             );
 
         $this->queue->push($middleware);

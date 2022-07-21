@@ -99,7 +99,8 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
             )
             ->will(
                 self::returnCallback(
-                    static fn(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface => $next->handle($request)
+                    static fn(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
+                        => $next->handle($request)
                 )
             );
 
@@ -131,7 +132,9 @@ class PathMiddlewareDecoratorIntegrationTest extends TestCase
                     }
                 )
             )
-            ->willReturnCallback(static fn(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface => $next->handle($request));
+            ->willReturnCallback(static fn(
+                ServerRequestInterface $request,
+                RequestHandlerInterface $next): ResponseInterface => $next->handle($request));
 
         $decorated = new PathMiddlewareDecorator('/bar', $barMiddleware);
 

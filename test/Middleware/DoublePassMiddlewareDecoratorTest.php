@@ -57,7 +57,10 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
             ->willReturn($response);
 
         $middleware = /** @psalm-param callable(ServerRequestInterface,ResponseInterface):ResponseInterface $next */
-            static fn(ServerRequestInterface $request, ResponseInterface $response, callable $next): ResponseInterface => $next($request, $response);
+            static fn(
+                ServerRequestInterface $request,
+                ResponseInterface $response,
+                callable $next): ResponseInterface => $next($request, $response);
 
         $decorator = new DoublePassMiddlewareDecorator($middleware, $response);
 
