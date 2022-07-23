@@ -32,7 +32,7 @@ abstract class Utils
         }
 
         $status = $response->getStatusCode();
-        if (! $status || $status < 400 || $status >= 600) {
+        if ($status < 400 || $status >= 600) {
             $status = 500;
         }
         return $status;
