@@ -13,6 +13,7 @@ use Laminas\Diactoros\Response\TextResponse;
 use Laminas\Stratigility\Utils;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 
 class UtilsTest extends TestCase
@@ -31,5 +32,20 @@ class UtilsTest extends TestCase
         $actual = Utils::getStatusCode($exception, new TextResponse('I am a teapot.', 418));
 
         Assert::assertEquals(418, $actual);
+    }
+
+    public function testGetStatusCodeZeroExpectedStatusCodeFiveHundredReturned(): void
+    {
+        $statusCode = 0;
+
+        $response = $this->createMock(ResponseInterface::class);
+        $response
+            ->method('getStatusCode')
+            ->willReturn($statusCode);
+
+        $actualStatusCode   = Utils::getStatusCode(new Exception(), $response);
+        $expectedStatusCode = 500;
+
+        static::assertEquals($expectedStatusCode, $actualStatusCode);
     }
 }
