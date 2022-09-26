@@ -26,7 +26,6 @@ final class NotFoundHandler implements RequestHandlerInterface
      */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var ResponseInterface $response */
         $response = $this->responseFactory->createResponse(StatusCode::STATUS_NOT_FOUND);
 
         $response->getBody()->write(sprintf(
