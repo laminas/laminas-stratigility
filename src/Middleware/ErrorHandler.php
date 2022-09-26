@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Laminas\Stratigility\Middleware;
 
 use ErrorException;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -70,19 +71,15 @@ class ErrorHandler implements MiddlewareInterface
     /** @var callable Routine that will generate the error response. */
     private $responseGenerator;
 
-    /** @var callable */
-    private $responseFactory;
+    private ResponseFactoryInterface $responseFactory;
 
     /**
-     * @param callable $responseFactory A factory capable of returning an
-     *     empty ResponseInterface instance to update and return when returning
-     *     an error response.
      * @param null|callable $responseGenerator Callback that will generate the final
      *     error response; if none is provided, ErrorResponseGenerator is used.
      */
-    public function __construct(callable $responseFactory, ?callable $responseGenerator = null)
+    public function __construct(ResponseFactoryInterface $responseFactory, ?callable $responseGenerator = null)
     {
-        $this->responseFactory   = static fn(): ResponseInterface => $responseFactory();
+        $this->responseFactory   = $responseFactory;
         $this->responseGenerator = $responseGenerator ?: new ErrorResponseGenerator();
     }
 
@@ -146,7 +143,8 @@ class ErrorHandler implements MiddlewareInterface
     private function handleThrowable(Throwable $e, ServerRequestInterface $request): ResponseInterface
     {
         $generator = $this->responseGenerator;
-        $response  = $generator($e, $request, ($this->responseFactory)());
+        /** @var ResponseInterface $response */
+        $response = $generator($e, $request, $this->responseFactory->createResponse());
         $this->triggerListeners($e, $request, $response);
         return $response;
     }
