@@ -47,7 +47,7 @@ class ErrorHandlerTest extends TestCase
         $this->request         = $this->createMock(ServerRequestInterface::class);
         $this->response        = $this->createMock(ResponseInterface::class);
         $this->responseFactory = $this->createMock(ResponseFactoryInterface::class);
-        $this->responseFactory->expects(self::any())->method('createResponse')->willReturn($this->response);
+        $this->responseFactory->method('createResponse')->willReturn($this->response);
         $this->body           = $this->createMock(StreamInterface::class);
         $this->handler        = $this->createMock(RequestHandlerInterface::class);
         $this->errorReporting = error_reporting();
