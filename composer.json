@@ -55,11 +55,7 @@
             "src/functions/double-pass-middleware.php",
             "src/functions/host.php",
             "src/functions/middleware.php",
-            "src/functions/path.php",
-            "src/functions/double-pass-middleware.legacy.php",
-            "src/functions/host.legacy.php",
-            "src/functions/middleware.legacy.php",
-            "src/functions/path.legacy.php"
+            "src/functions/path.php"
         ],
         "psr-4": {
             "Laminas\\Stratigility\\": "src/"
