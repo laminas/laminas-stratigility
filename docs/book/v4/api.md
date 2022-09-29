@@ -1,6 +1,6 @@
 # API Reference
 
-The following make up the primary API of Stratigility.
+The following makes up the primary API of Stratigility.
 
 ## Middleware
 
@@ -99,7 +99,10 @@ response prototype; this will ensure that the response is specific for your
 context.
 
 ```php
-$prototype = new Response();
+use Laminas\Diactoros\ResponseFactory;
+
+$responseFactory = new ResponseFactory();
+$prototype = $responseFactory->createResponse(); // or new Response();
 
 function ($request, RequestHandlerInterface $handler) use ($prototype)
 {
