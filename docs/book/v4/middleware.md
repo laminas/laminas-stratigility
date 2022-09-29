@@ -54,9 +54,7 @@ $app->pipe(path('/foo', middleware(function ($req, $handler) {
 })));
 
 // 404 handler
-$app->pipe(new NotFoundHandler(function () {
-    return new Response();
-}));
+$app->pipe(new NotFoundHandler(new ResponseFactory()));
 
 $server = new RequestHandlerRunner(
     $app,
