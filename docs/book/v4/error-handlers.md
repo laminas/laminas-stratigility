@@ -14,15 +14,17 @@ You can typically handle these conditions via middleware itself.
 If no middleware is able to handle the incoming request, this is typically
 representative of an HTTP 404 status. Stratigility provides a barebones
 middleware that you may register in an innermost layer that will return a 404
-condition, `Laminas\Stratigility\Middleware\NotFoundHandler`. The class requires a
-response prototype instance that it will use to provide the 404 status and a
-message indicating the request method and URI used:
+condition, `Laminas\Stratigility\Handler\NotFoundHandler`. The class requires a
+`Psr\Http\Message\ResponseFactoryInterface` instance that it will use to create
+the `Psr\Http\Message\ResponseInterface` with 404 status and a message indicating
+the request method and URI used:
 
 ```php
+use Laminas\Diactoros\ResponseFactory;
 // setup layers
 $app->pipe(/* ... */);
 $app->pipe(/* ... */);
-$app->pipe(new NotFoundHandler(new Response());
+$app->pipe(new NotFoundHandler(new ResponseFactory());
 
 // execute application
 ```
@@ -34,6 +36,7 @@ If you would like a templated response, you will need to write your own
 middleware; such middleware might look like the following:
 
 ```php
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -41,19 +44,20 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class NotFoundMiddleware implements MiddlewareInterface
 {
-    private $renderer;
+    private TemplateRendererInterface $renderer;
+    private ResponseFactoryInterface $responseFactory;
 
     public function __construct(
         TemplateRendererInterface $renderer,
-        ResponseInterface $response
+        ResponseFactoryInterface $responseFactory
     ) {
         $this->renderer = $renderer;
-        $this->response = $response;
+        $this->responseFactory = $responseFactory;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
-        $response = $this->response->withStatus(404);
+        $response = $this->responseFactory->createResponse(404);
         $response->getBody()->write(
             $this->renderer->render('error::404')
         );
@@ -95,13 +99,15 @@ derived from the reason phrase, if any is present. You may pass a boolean flag
 to its constructor indicating the application is in development mode; if so, the
 response will have the stack trace included in the body.
 
-In order to work, the `ErrorHandler` needs a prototype response instance, and,
+In order to work, the `ErrorHandler` needs a `Psr\Http\Message\ResponseFactoryInterface` instance, and,
 optionally, an error response generator (if none is provided,
 `ErrorResponseGenerator` is used, in production mode):
 
 ```php
+use Laminas\Diactoros\ResponseFactory;
 // setup error handling
-$app->pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDevelopmentMode));
+
+$app->pipe(new ErrorHandler(new ResponseFactory(), new ErrorResponseGenerator($isDevelopmentMode));
 
 // setup layers
 $app->pipe(/* ... */);
@@ -112,15 +118,16 @@ As a full example, you can combine the two middleware into the same application
 as separate layers:
 
 ```php
+use Laminas\Diactoros\ResponseFactory;
 // setup error handling
-$app->pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDevelopmentMode));
+$app->pipe(new ErrorHandler(new ResponseFactory(), new ErrorResponseGenerator($isDevelopmentMode));
 
 // setup layers
 $app->pipe(/* ... */);
 $app->pipe(/* ... */);
 
 // setup 404 handling
-$app->pipe(new NotFoundHandler(new Response());
+$app->pipe(new NotFoundHandler(new ResponseFactory());
 
 // execute application
 ```
