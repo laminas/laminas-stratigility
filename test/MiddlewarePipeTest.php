@@ -18,7 +18,6 @@ use ReflectionClass;
 use ReflectionMethod;
 use ReflectionObject;
 
-use function get_class;
 use function sort;
 use function spl_object_hash;
 use function strpos;
@@ -153,8 +152,8 @@ class MiddlewarePipeTest extends TestCase
         $request = new Request([], [], 'http://local.example.com/foo', 'GET', 'php://memory');
         $result  = $this->pipeline->process($request, $this->createFinalHandler());
         $this->assertSame($return, $result, var_export([
-            spl_object_hash($return) => get_class($return),
-            spl_object_hash($result) => get_class($result),
+            spl_object_hash($return) => $return::class,
+            spl_object_hash($result) => $result::class,
         ], true));
     }
 

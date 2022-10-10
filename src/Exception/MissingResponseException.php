@@ -6,7 +6,6 @@ namespace Laminas\Stratigility\Exception;
 
 use OutOfBoundsException;
 
-use function get_class;
 use function gettype;
 use function is_object;
 use function sprintf;
@@ -20,7 +19,7 @@ class MissingResponseException extends OutOfBoundsException implements Exception
     public static function forCallableMiddleware(callable $middleware): self
     {
         $type = is_object($middleware)
-            ? get_class($middleware)
+            ? $middleware::class
             : gettype($middleware);
 
         return new self(sprintf(
