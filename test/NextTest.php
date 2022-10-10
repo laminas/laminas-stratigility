@@ -25,11 +25,11 @@ class NextTest extends TestCase
     use MiddlewareTrait;
 
     private SplQueue $queue;
-
     private Request $request;
 
     /** @var MockObject&ResponseInterface */
     private $response;
+    private RequestHandlerInterface $fallbackHandler;
 
     protected function setUp(): void
     {
