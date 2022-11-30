@@ -39,9 +39,9 @@
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~2.4.0",
-        "laminas/laminas-diactoros": "^2.18",
+        "laminas/laminas-diactoros": "^2.22",
         "phpunit/phpunit": "^9.5.26",
-        "psalm/plugin-phpunit": "^0.18.0",
+        "psalm/plugin-phpunit": "^0.18.3",
         "vimeo/psalm": "^5.0.0"
     },
     "conflict": {
