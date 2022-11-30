@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.24.0@06dd975cb55d36af80f242561738f16c5f58264f">
+<files psalm-version="5.0.0@4e177bf0c9f03c17d2fbfd83b7cc9c47605274d8">
   <file src="src/Handler/NotFoundHandler.php">
     <MixedInferredReturnType occurrences="1">
       <code>ResponseInterface</code>
@@ -61,7 +61,8 @@
     <InvalidReturnType occurrences="1">
       <code>Middleware\DoublePassMiddlewareDecorator</code>
     </InvalidReturnType>
-    <MixedArgument occurrences="1">
+    <MixedArgument occurrences="2">
+      <code>func_get_args()</code>
       <code>func_get_args()</code>
     </MixedArgument>
     <UndefinedClass occurrences="1">
@@ -75,7 +76,8 @@
     <InvalidReturnType occurrences="1">
       <code>Middleware\HostMiddlewareDecorator</code>
     </InvalidReturnType>
-    <MixedArgument occurrences="1">
+    <MixedArgument occurrences="2">
+      <code>func_get_args()</code>
       <code>func_get_args()</code>
     </MixedArgument>
     <UndefinedClass occurrences="1">
@@ -103,7 +105,8 @@
     <InvalidReturnType occurrences="1">
       <code>Middleware\PathMiddlewareDecorator</code>
     </InvalidReturnType>
-    <MixedArgument occurrences="1">
+    <MixedArgument occurrences="2">
+      <code>func_get_args()</code>
       <code>func_get_args()</code>
     </MixedArgument>
     <UndefinedClass occurrences="1">
@@ -129,10 +132,9 @@
     </UnusedClosureParam>
   </file>
   <file src="test/Middleware/DoublePassMiddlewareDecoratorExceptionTest.php">
-    <MissingClosureParamType occurrences="3">
+    <MissingClosureParamType occurrences="2">
       <code>$next</code>
       <code>$request</code>
-      <code>$response</code>
     </MissingClosureParamType>
     <MixedArgument occurrences="1">
       <code>$autoloader</code>
@@ -146,7 +148,7 @@
     </UnusedClosureParam>
   </file>
   <file src="test/Middleware/DoublePassMiddlewareDecoratorTest.php">
-    <MissingClosureParamType occurrences="12">
+    <MissingClosureParamType occurrences="10">
       <code>$next</code>
       <code>$next</code>
       <code>$next</code>
@@ -155,8 +157,6 @@
       <code>$request</code>
       <code>$request</code>
       <code>$request</code>
-      <code>$response</code>
-      <code>$response</code>
       <code>$response</code>
       <code>$response</code>
     </MissingClosureParamType>
@@ -225,21 +225,10 @@
     </ParamNameMismatch>
   </file>
   <file src="test/NextTest.php">
-    <MixedArgument occurrences="2">
-      <code>$this-&gt;fallbackHandler</code>
-      <code>$this-&gt;fallbackHandler</code>
-    </MixedArgument>
     <ParamNameMismatch occurrences="2">
       <code>$req</code>
       <code>$req</code>
     </ParamNameMismatch>
-    <UndefinedThisPropertyAssignment occurrences="1">
-      <code>$this-&gt;fallbackHandler</code>
-    </UndefinedThisPropertyAssignment>
-    <UndefinedThisPropertyFetch occurrences="2">
-      <code>$this-&gt;fallbackHandler</code>
-      <code>$this-&gt;fallbackHandler</code>
-    </UndefinedThisPropertyFetch>
   </file>
   <file src="test/TestAsset/DelegatingMiddleware.php">
     <ParamNameMismatch occurrences="1">
