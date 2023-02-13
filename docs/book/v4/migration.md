@@ -23,7 +23,6 @@ As a result, a number of signatures have been changed. Primarily, these were a
 matter of updating typehints on `Laminas\Stratigility\Middleware\ErrorHandler`
 & `Laminas\Stratigility\Handler\NotFoundHandler`.
 
-
 ```php
 use Psr\Http\Message\RequestFactoryInterface;
 
