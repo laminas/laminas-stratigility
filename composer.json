@@ -7,6 +7,7 @@
         "http",
         "psr-7",
         "psr-15",
+        "psr-17",
         "middleware"
     ],
     "homepage": "https://laminas.dev",
@@ -32,6 +33,7 @@
         "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
         "fig/http-message-util": "^1.1",
         "laminas/laminas-escaper": "^2.10.0",
+        "psr/http-factory": "^1.0",
         "psr/http-message": "^1.0",
         "psr/http-server-middleware": "^1.0"
     },
@@ -47,18 +49,15 @@
         "zendframework/zend-stratigility": "*"
     },
     "suggest": {
-        "psr/http-message-implementation": "Please install a psr/http-message-implementation to consume Stratigility; e.g., laminas/laminas-diactoros"
+        "psr/http-message-implementation": "Please install a psr/http-message implementation to consume Stratigility; e.g., laminas/laminas-diactoros",
+        "psr/http-factory-implementation": "Please install a psr/http-factory implementation to consume Stratigility; e.g., laminas/laminas-diactoros"
     },
     "autoload": {
         "files": [
             "src/functions/double-pass-middleware.php",
             "src/functions/host.php",
             "src/functions/middleware.php",
-            "src/functions/path.php",
-            "src/functions/double-pass-middleware.legacy.php",
-            "src/functions/host.legacy.php",
-            "src/functions/middleware.legacy.php",
-            "src/functions/path.legacy.php"
+            "src/functions/path.php"
         ],
         "psr-4": {
             "Laminas\\Stratigility\\": "src/"
@@ -71,7 +70,6 @@
     },
     "scripts": {
         "check": [
-            "@license-check",
             "@cs-check",
             "@test"
         ],
@@ -79,7 +77,6 @@
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
-        "license-check": "docheader check src/ test/",
         "static-analysis": "psalm --shepherd --stats"
     }
 }

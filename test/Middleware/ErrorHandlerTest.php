@@ -9,6 +9,7 @@ use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\ErrorResponseGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -36,18 +37,17 @@ class ErrorHandlerTest extends TestCase
     /** @var MockObject&ResponseInterface */
     private $response;
 
-    /** @var callable():ResponseInterface */
-    private $responseFactory;
+    /** @var MockObject&ResponseFactoryInterface */
+    private ResponseFactoryInterface $responseFactory;
 
     private int $errorReporting;
 
     protected function setUp(): void
     {
+        $this->request         = $this->createMock(ServerRequestInterface::class);
         $this->response        = $this->createMock(ResponseInterface::class);
-        $response              = $this->response;
-        $this->responseFactory = static fn(): ResponseInterface => $response;
-
-        $this->request        = $this->createMock(ServerRequestInterface::class);
+        $this->responseFactory = $this->createMock(ResponseFactoryInterface::class);
+        $this->responseFactory->method('createResponse')->willReturn($this->response);
         $this->body           = $this->createMock(StreamInterface::class);
         $this->handler        = $this->createMock(RequestHandlerInterface::class);
         $this->errorReporting = error_reporting();
