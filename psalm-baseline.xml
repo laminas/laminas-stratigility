@@ -1,154 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.0.0@4e177bf0c9f03c17d2fbfd83b7cc9c47605274d8">
+<files psalm-version="5.11.0@c9b192ab8400fdaf04b2b13d110575adc879aa90">
   <file src="src/Handler/NotFoundHandler.php">
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType>
       <code>ResponseInterface</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>withStatus</code>
     </MixedMethodCall>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement>
       <code>$responseFactory()</code>
     </MixedReturnStatement>
   </file>
   <file src="src/Middleware/DoublePassMiddlewareDecorator.php">
-    <MissingClosureParamType occurrences="2">
+    <MissingClosureParamType>
       <code>$request</code>
       <code>$response</code>
     </MissingClosureParamType>
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>$request</code>
     </MixedArgument>
-    <UnusedClosureParam occurrences="1">
+    <UnusedClosureParam>
       <code>$response</code>
     </UnusedClosureParam>
   </file>
   <file src="src/Middleware/ErrorHandler.php">
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>$response</code>
     </MixedArgument>
-    <MixedArgumentTypeCoercion occurrences="1">
-      <code>$this-&gt;createErrorHandler()</code>
+    <MixedArgumentTypeCoercion>
+      <code><![CDATA[$this->createErrorHandler()]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$response</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType>
       <code>ResponseInterface</code>
     </MixedInferredReturnType>
-    <MixedReturnStatement occurrences="1">
+    <MixedReturnStatement>
       <code>$responseFactory()</code>
     </MixedReturnStatement>
   </file>
+  <file src="src/Middleware/ErrorResponseGenerator.php">
+    <UnusedParam>
+      <code>$request</code>
+    </UnusedParam>
+  </file>
+  <file src="src/Middleware/HostMiddlewareDecorator.php">
+    <PossiblyUnusedReturnValue>
+      <code>ResponseInterface</code>
+    </PossiblyUnusedReturnValue>
+  </file>
   <file src="src/Next.php">
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$middleware</code>
     </MixedAssignment>
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType>
       <code>ResponseInterface</code>
     </MixedInferredReturnType>
-    <MixedMethodCall occurrences="1">
+    <MixedMethodCall>
       <code>process</code>
     </MixedMethodCall>
-    <MixedReturnStatement occurrences="1">
-      <code>$middleware-&gt;process($request, $next)</code>
+    <MixedReturnStatement>
+      <code><![CDATA[$middleware->process($request, $next)]]></code>
     </MixedReturnStatement>
   </file>
   <file src="src/functions/double-pass-middleware.legacy.php">
-    <InvalidReturnStatement occurrences="1">
+    <InvalidReturnStatement>
       <code>laminas_doublePassMiddleware(...func_get_args())</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnType>
       <code>Middleware\DoublePassMiddlewareDecorator</code>
     </InvalidReturnType>
-    <MixedArgument occurrences="2">
+    <MixedArgument>
       <code>func_get_args()</code>
       <code>func_get_args()</code>
     </MixedArgument>
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>Middleware\DoublePassMiddlewareDecorator</code>
     </UndefinedClass>
   </file>
   <file src="src/functions/host.legacy.php">
-    <InvalidReturnStatement occurrences="1">
+    <InvalidReturnStatement>
       <code>laminas_host(...func_get_args())</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnType>
       <code>Middleware\HostMiddlewareDecorator</code>
     </InvalidReturnType>
-    <MixedArgument occurrences="2">
+    <MixedArgument>
       <code>func_get_args()</code>
       <code>func_get_args()</code>
     </MixedArgument>
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>Middleware\HostMiddlewareDecorator</code>
     </UndefinedClass>
   </file>
   <file src="src/functions/middleware.legacy.php">
-    <InvalidReturnStatement occurrences="1">
+    <InvalidReturnStatement>
       <code>laminas_middleware(...func_get_args())</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnType>
       <code>Middleware\CallableMiddlewareDecorator</code>
     </InvalidReturnType>
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>func_get_args()</code>
     </MixedArgument>
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>Middleware\CallableMiddlewareDecorator</code>
     </UndefinedClass>
   </file>
   <file src="src/functions/path.legacy.php">
-    <InvalidReturnStatement occurrences="1">
+    <InvalidReturnStatement>
       <code>laminas_path(...func_get_args())</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="1">
+    <InvalidReturnType>
       <code>Middleware\PathMiddlewareDecorator</code>
     </InvalidReturnType>
-    <MixedArgument occurrences="2">
+    <MixedArgument>
       <code>func_get_args()</code>
       <code>func_get_args()</code>
     </MixedArgument>
-    <UndefinedClass occurrences="1">
+    <UndefinedClass>
       <code>Middleware\PathMiddlewareDecorator</code>
     </UndefinedClass>
   </file>
   <file src="test/Exception/ExceptionTest.php">
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType>
       <code>Generator</code>
     </MixedInferredReturnType>
-    <PossiblyFalseOperand occurrences="1">
+    <PossiblyFalseOperand>
       <code>strrpos(ExceptionInterface::class, '\\')</code>
     </PossiblyFalseOperand>
   </file>
   <file src="test/Middleware/CallableMiddlewareDecoratorTest.php">
-    <MissingClosureParamType occurrences="2">
+    <MissingClosureParamType>
       <code>$handler</code>
       <code>$request</code>
     </MissingClosureParamType>
-    <UnusedClosureParam occurrences="2">
+    <UnusedClosureParam>
       <code>$handler</code>
       <code>$request</code>
     </UnusedClosureParam>
   </file>
   <file src="test/Middleware/DoublePassMiddlewareDecoratorExceptionTest.php">
-    <MissingClosureParamType occurrences="2">
+    <MissingClosureParamType>
       <code>$next</code>
       <code>$request</code>
     </MissingClosureParamType>
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>$autoloader</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$autoloader</code>
     </MixedAssignment>
-    <UnusedClosureParam occurrences="2">
+    <UnusedClosureParam>
       <code>$next</code>
-      <code>$request</code>
     </UnusedClosureParam>
   </file>
   <file src="test/Middleware/DoublePassMiddlewareDecoratorTest.php">
-    <MissingClosureParamType occurrences="10">
+    <MissingClosureParamType>
       <code>$next</code>
       <code>$next</code>
       <code>$next</code>
@@ -160,13 +169,11 @@
       <code>$response</code>
       <code>$response</code>
     </MissingClosureParamType>
-    <UnusedClosureParam occurrences="10">
+    <UnusedClosureParam>
       <code>$next</code>
       <code>$next</code>
       <code>$next</code>
       <code>$next</code>
-      <code>$request</code>
-      <code>$request</code>
       <code>$request</code>
       <code>$request</code>
       <code>$response</code>
@@ -174,69 +181,65 @@
     </UnusedClosureParam>
   </file>
   <file src="test/Middleware/ErrorHandlerTest.php">
-    <MixedArgument occurrences="1">
+    <MixedArgument>
       <code>$listeners</code>
     </MixedArgument>
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$listeners</code>
     </MixedAssignment>
-    <UnusedClosureParam occurrences="2">
-      <code>$e</code>
-      <code>$request</code>
-    </UnusedClosureParam>
   </file>
   <file src="test/Middleware/HostMiddlewareDecoratorTest.php">
-    <MixedInferredReturnType occurrences="1">
+    <MixedInferredReturnType>
       <code>Generator</code>
     </MixedInferredReturnType>
   </file>
   <file src="test/Middleware/NotFoundHandlerTest.php">
-    <DeprecatedClass occurrences="1">
+    <DeprecatedClass>
       <code>new NotFoundHandler($responseFactory)</code>
     </DeprecatedClass>
   </file>
   <file src="test/Middleware/PathMiddlewareDecoratorIntegrationTest.php">
-    <MixedAssignment occurrences="1">
+    <MixedAssignment>
       <code>$receivedUri</code>
     </MixedAssignment>
-    <MixedMethodCall occurrences="4">
+    <MixedMethodCall>
       <code>getPath</code>
       <code>getPath</code>
       <code>getUri</code>
       <code>getUri</code>
     </MixedMethodCall>
-    <MixedOperand occurrences="1">
+    <MixedOperand>
       <code>$path</code>
     </MixedOperand>
   </file>
   <file src="test/Middleware/PathMiddlewareDecoratorTest.php">
-    <MixedMethodCall occurrences="2">
+    <MixedMethodCall>
       <code>getPath</code>
       <code>getUri</code>
     </MixedMethodCall>
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$req</code>
     </ParamNameMismatch>
   </file>
   <file src="test/MiddlewarePipeTest.php">
-    <ParamNameMismatch occurrences="2">
+    <ParamNameMismatch>
       <code>$req</code>
       <code>$req</code>
     </ParamNameMismatch>
   </file>
   <file src="test/NextTest.php">
-    <ParamNameMismatch occurrences="2">
+    <ParamNameMismatch>
       <code>$req</code>
       <code>$req</code>
     </ParamNameMismatch>
   </file>
   <file src="test/TestAsset/DelegatingMiddleware.php">
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$req</code>
     </ParamNameMismatch>
   </file>
   <file src="test/TestAsset/ShortCircuitingMiddleware.php">
-    <ParamNameMismatch occurrences="1">
+    <ParamNameMismatch>
       <code>$req</code>
     </ParamNameMismatch>
   </file>
