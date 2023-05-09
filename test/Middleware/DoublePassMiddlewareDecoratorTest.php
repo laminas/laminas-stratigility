@@ -91,7 +91,6 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
         $response = $this->createMock(ResponseInterface::class);
 
         $middleware = doublePassMiddleware($toDecorate, $response);
-        self::assertInstanceOf(DoublePassMiddlewareDecorator::class, $middleware);
         self::assertEquals(new DoublePassMiddlewareDecorator($toDecorate, $response), $middleware);
     }
 }
