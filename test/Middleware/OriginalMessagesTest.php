@@ -31,6 +31,7 @@ class OriginalMessagesTest extends TestCase
         $middleware = new OriginalMessages();
         $expected   = $this->createMock(ResponseInterface::class);
 
+        /** @var RequestHandlerInterface&MockObject $handler */
         $handler = $this->createMock(RequestHandlerInterface::class);
         $handler
             ->method('handle')
@@ -42,12 +43,12 @@ class OriginalMessagesTest extends TestCase
             ->willReturn($this->uri);
 
         $this->request
+            ->expects($this->exactly(2))
             ->method('withAttribute')
-            ->withConsecutive(
-                ['originalUri', $this->uri],
-                ['originalRequest', $this->request]
-            )
-            ->willReturnSelf();
+            ->willReturnCallback(fn(string $attribute, object $value) => match ([$attribute, $value]) {
+                ['originalUri', $this->uri]         => $this->request,
+                ['originalRequest', $this->request] => $this->request,
+            });
 
         $response = $middleware->process($this->request, $handler);
 

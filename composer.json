@@ -33,19 +33,18 @@
         "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
         "fig/http-message-util": "^1.1",
         "laminas/laminas-escaper": "^2.10.0",
-        "psr/http-factory": "^1.0",
-        "psr/http-message": "^1.0",
-        "psr/http-server-middleware": "^1.0"
+        "psr/http-factory": "^1.0.2",
+        "psr/http-message": "^1.0 || ^2.0",
+        "psr/http-server-middleware": "^1.0.2"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "~2.4.0",
-        "laminas/laminas-diactoros": "^2.18",
-        "phpunit/phpunit": "^9.5.25",
-        "psalm/plugin-phpunit": "^0.17.0",
-        "vimeo/psalm": "^4.28"
+        "laminas/laminas-coding-standard": "~2.5.0",
+        "laminas/laminas-diactoros": "^2.25 || ^3.0",
+        "phpunit/phpunit": "^9.5.26",
+        "psalm/plugin-phpunit": "^0.18.3",
+        "vimeo/psalm": "^5.0.0"
     },
     "conflict": {
-        "laminas/laminas-diactoros": "<1.7.1",
         "zendframework/zend-stratigility": "*"
     },
     "suggest": {
