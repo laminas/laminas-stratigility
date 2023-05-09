@@ -108,7 +108,6 @@ class HostMiddlewareDecoratorTest extends TestCase
         $toDecorate = $this->toDecorate;
 
         $middleware = host('foo.bar', $toDecorate);
-        self::assertInstanceOf(HostMiddlewareDecorator::class, $middleware);
         self::assertEquals(new HostMiddlewareDecorator('foo.bar', $toDecorate), $middleware);
     }
 }

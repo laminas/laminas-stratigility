@@ -47,7 +47,6 @@ class CallableMiddlewareDecoratorTest extends TestCase
         $toDecorate = static fn(): string => 'foo';
 
         $middleware = middleware($toDecorate);
-        self::assertInstanceOf(CallableMiddlewareDecorator::class, $middleware);
         self::assertEquals(new CallableMiddlewareDecorator($toDecorate), $middleware);
     }
 }

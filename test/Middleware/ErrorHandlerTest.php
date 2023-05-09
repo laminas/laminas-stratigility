@@ -18,6 +18,7 @@ use RuntimeException;
 use Throwable;
 
 use function error_reporting;
+use function strlen;
 use function trigger_error;
 
 use const E_USER_DEPRECATED;
@@ -98,7 +99,7 @@ class ErrorHandlerTest extends TestCase
             ->expects(self::once())
             ->method('write')
             ->with('Unknown Error')
-            ->willReturnSelf();
+            ->willReturn(0);
 
         $this->response
             ->method('getStatusCode')
@@ -164,7 +165,7 @@ class ErrorHandlerTest extends TestCase
             ->expects(self::once())
             ->method('write')
             ->with('Unknown Error')
-            ->willReturnSelf();
+            ->willReturn(0);
 
         $this->response
             ->method('getStatusCode')
@@ -203,7 +204,7 @@ class ErrorHandlerTest extends TestCase
                 (new Escaper())
                     ->escapeHtml((string) $exception)
             )
-            ->willReturnSelf();
+            ->willReturn(strlen((string) $exception));
         $this->response
             ->method('getStatusCode')
             ->willReturn(200);
@@ -236,7 +237,7 @@ class ErrorHandlerTest extends TestCase
             ->expects(self::once())
             ->method('write')
             ->with('Unknown Error')
-            ->willReturnSelf();
+            ->willReturn(0);
         $this->response
             ->method('getStatusCode')
             ->willReturn(200);
@@ -303,7 +304,7 @@ class ErrorHandlerTest extends TestCase
             ->expects(self::once())
             ->method('write')
             ->with('The client messed up')
-            ->willReturnSelf();
+            ->willReturn(0);
 
         $middleware = new ErrorHandler($this->responseFactory, $generator);
         $result     = $middleware->process($this->request, $this->handler);
