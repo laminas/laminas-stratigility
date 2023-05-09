@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.11.0@c9b192ab8400fdaf04b2b13d110575adc879aa90">
-  <file src="src/Handler/NotFoundHandler.php">
-    <MixedInferredReturnType>
-      <code>ResponseInterface</code>
-    </MixedInferredReturnType>
-    <MixedMethodCall>
-      <code>withStatus</code>
-    </MixedMethodCall>
-    <MixedReturnStatement>
-      <code>$responseFactory()</code>
-    </MixedReturnStatement>
-  </file>
   <file src="src/Middleware/DoublePassMiddlewareDecorator.php">
     <MissingClosureParamType>
       <code>$request</code>
@@ -24,21 +13,9 @@
     </UnusedClosureParam>
   </file>
   <file src="src/Middleware/ErrorHandler.php">
-    <MixedArgument>
-      <code>$response</code>
-    </MixedArgument>
     <MixedArgumentTypeCoercion>
       <code><![CDATA[$this->createErrorHandler()]]></code>
     </MixedArgumentTypeCoercion>
-    <MixedAssignment>
-      <code>$response</code>
-    </MixedAssignment>
-    <MixedInferredReturnType>
-      <code>ResponseInterface</code>
-    </MixedInferredReturnType>
-    <MixedReturnStatement>
-      <code>$responseFactory()</code>
-    </MixedReturnStatement>
   </file>
   <file src="src/Middleware/ErrorResponseGenerator.php">
     <UnusedParam>
@@ -63,65 +40,6 @@
     <MixedReturnStatement>
       <code><![CDATA[$middleware->process($request, $next)]]></code>
     </MixedReturnStatement>
-  </file>
-  <file src="src/functions/double-pass-middleware.legacy.php">
-    <InvalidReturnStatement>
-      <code>laminas_doublePassMiddleware(...func_get_args())</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>Middleware\DoublePassMiddlewareDecorator</code>
-    </InvalidReturnType>
-    <MixedArgument>
-      <code>func_get_args()</code>
-      <code>func_get_args()</code>
-    </MixedArgument>
-    <UndefinedClass>
-      <code>Middleware\DoublePassMiddlewareDecorator</code>
-    </UndefinedClass>
-  </file>
-  <file src="src/functions/host.legacy.php">
-    <InvalidReturnStatement>
-      <code>laminas_host(...func_get_args())</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>Middleware\HostMiddlewareDecorator</code>
-    </InvalidReturnType>
-    <MixedArgument>
-      <code>func_get_args()</code>
-      <code>func_get_args()</code>
-    </MixedArgument>
-    <UndefinedClass>
-      <code>Middleware\HostMiddlewareDecorator</code>
-    </UndefinedClass>
-  </file>
-  <file src="src/functions/middleware.legacy.php">
-    <InvalidReturnStatement>
-      <code>laminas_middleware(...func_get_args())</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>Middleware\CallableMiddlewareDecorator</code>
-    </InvalidReturnType>
-    <MixedArgument>
-      <code>func_get_args()</code>
-    </MixedArgument>
-    <UndefinedClass>
-      <code>Middleware\CallableMiddlewareDecorator</code>
-    </UndefinedClass>
-  </file>
-  <file src="src/functions/path.legacy.php">
-    <InvalidReturnStatement>
-      <code>laminas_path(...func_get_args())</code>
-    </InvalidReturnStatement>
-    <InvalidReturnType>
-      <code>Middleware\PathMiddlewareDecorator</code>
-    </InvalidReturnType>
-    <MixedArgument>
-      <code>func_get_args()</code>
-      <code>func_get_args()</code>
-    </MixedArgument>
-    <UndefinedClass>
-      <code>Middleware\PathMiddlewareDecorator</code>
-    </UndefinedClass>
   </file>
   <file src="test/Exception/ExceptionTest.php">
     <MixedInferredReturnType>
@@ -192,11 +110,6 @@
     <MixedInferredReturnType>
       <code>Generator</code>
     </MixedInferredReturnType>
-  </file>
-  <file src="test/Middleware/NotFoundHandlerTest.php">
-    <DeprecatedClass>
-      <code>new NotFoundHandler($responseFactory)</code>
-    </DeprecatedClass>
   </file>
   <file src="test/Middleware/PathMiddlewareDecoratorIntegrationTest.php">
     <MixedAssignment>
