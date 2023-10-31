@@ -16,7 +16,7 @@ use function substr;
 
 class ExceptionTest extends TestCase
 {
-    public function exception(): Generator
+    public static function exception(): Generator
     {
         $namespace = substr(ExceptionInterface::class, 0, strrpos(ExceptionInterface::class, '\\') + 1);
 
