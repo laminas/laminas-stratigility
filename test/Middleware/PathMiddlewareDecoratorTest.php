@@ -135,7 +135,7 @@ class PathMiddlewareDecoratorTest extends TestCase
      *     3: bool
      * }>
      */
-    public function nestedPathCombinations(): array
+    public static function nestedPathCombinations(): array
     {
         return [
             // name                      => [$prefix, $nestPrefix, $uriPath,      $expectsHeader ]
@@ -297,7 +297,7 @@ class PathMiddlewareDecoratorTest extends TestCase
     }
 
     /** @psalm-return array<array-key, array{0: string}> */
-    public function rootPathsProvider(): array
+    public static function rootPathsProvider(): array
     {
         return [
             'empty' => [''],

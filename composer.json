@@ -37,10 +37,10 @@
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "~2.5.0",
-        "laminas/laminas-diactoros": "^2.25 || ^3.0",
-        "phpunit/phpunit": "^9.5.26",
-        "psalm/plugin-phpunit": "^0.18.3",
-        "vimeo/psalm": "^5.0.0"
+        "laminas/laminas-diactoros": "^2.25 || ^3.3",
+        "phpunit/phpunit": "^10.4.2",
+        "psalm/plugin-phpunit": "^0.18.4",
+        "vimeo/psalm": "^5.15.0"
     },
     "conflict": {
         "zendframework/zend-stratigility": "*"

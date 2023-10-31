@@ -26,7 +26,7 @@ class UtilsTest extends TestCase
         $exception  = new Exception();
         $reflection = new ReflectionClass($exception);
         $code       = $reflection->getProperty('code');
-        $code->setAccessible(true);
+
         $code->setValue($exception, $naughtyCode);
 
         $actual = Utils::getStatusCode($exception, new TextResponse('I am a teapot.', 418));
