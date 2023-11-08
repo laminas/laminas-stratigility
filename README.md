@@ -19,7 +19,6 @@
 >
 > You trust us enough to use our software. We ask that you trust us to say the truth on this. We need your help. Go out and protest this unnecessary war. Stop the bloodshed. Say "stop the war!"
 
-
 > From "Strata", Latin for "layer", and "agility".
 
 This package supersedes and replaces [phly/conduit](https://github.com/phly/conduit).
