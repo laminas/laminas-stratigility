@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.11.0@c9b192ab8400fdaf04b2b13d110575adc879aa90">
+<files psalm-version="5.20.0@3f284e96c9d9be6fe6b15c79416e1d1903dcfef4">
   <file src="src/Middleware/DoublePassMiddlewareDecorator.php">
     <MissingClosureParamType>
       <code>$request</code>
@@ -46,7 +46,7 @@
       <code>Generator</code>
     </MixedInferredReturnType>
     <PossiblyFalseOperand>
-      <code>strrpos(ExceptionInterface::class, '\\')</code>
+      <code><![CDATA[strrpos(ExceptionInterface::class, '\\')]]></code>
     </PossiblyFalseOperand>
   </file>
   <file src="test/Middleware/CallableMiddlewareDecoratorTest.php">

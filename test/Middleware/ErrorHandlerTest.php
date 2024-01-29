@@ -91,9 +91,9 @@ class ErrorHandlerTest extends TestCase
         $this->handler
             ->method('handle')
             ->with($this->request)
-            ->will(self::returnCallback(static function () {
+            ->willReturnCallback(static function () {
                 trigger_error('Deprecated', E_USER_DEPRECATED);
-            }));
+            });
 
         $this->body
             ->expects(self::once())
@@ -132,10 +132,10 @@ class ErrorHandlerTest extends TestCase
         $this->handler
             ->method('handle')
             ->with($this->request)
-            ->will(self::returnCallback(static function () use ($expectedResponse): ResponseInterface {
+            ->willReturnCallback(static function () use ($expectedResponse): ResponseInterface {
                 trigger_error('Deprecated', E_USER_DEPRECATED);
                 return $expectedResponse;
-            }));
+            });
 
         $this->body
             ->expects(self::never())
@@ -323,7 +323,6 @@ class ErrorHandlerTest extends TestCase
 
         $ref  = new ReflectionObject($middleware);
         $prop = $ref->getProperty('listeners');
-        $prop->setAccessible(true);
 
         $listeners = $prop->getValue($middleware);
 
