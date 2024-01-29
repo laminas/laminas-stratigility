@@ -1225,16 +1225,16 @@
         },
         {
             "name": "netresearch/jsonmapper",
-            "version": "v4.2.0",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cweiske/jsonmapper.git",
-                "reference": "f60565f8c0566a31acf06884cdaa591867ecc956"
+                "reference": "18133a2d8c24e10e58e02b700308ed3a4a60c97f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cweiske/jsonmapper/zipball/f60565f8c0566a31acf06884cdaa591867ecc956",
-                "reference": "f60565f8c0566a31acf06884cdaa591867ecc956",
+                "url": "https://api.github.com/repos/cweiske/jsonmapper/zipball/18133a2d8c24e10e58e02b700308ed3a4a60c97f",
+                "reference": "18133a2d8c24e10e58e02b700308ed3a4a60c97f",
                 "shasum": ""
             },
             "require": {
@@ -1245,7 +1245,7 @@
                 "php": ">=7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "~7.5 || ~8.0 || ~9.0",
+                "phpunit/phpunit": "~7.5 || ~8.0 || ~9.0 || ~10.0",
                 "squizlabs/php_codesniffer": "~3.5"
             },
             "type": "library",
@@ -1270,9 +1270,9 @@
             "support": {
                 "email": "cweiske@cweiske.de",
                 "issues": "https://github.com/cweiske/jsonmapper/issues",
-                "source": "https://github.com/cweiske/jsonmapper/tree/v4.2.0"
+                "source": "https://github.com/cweiske/jsonmapper/tree/v4.4.0"
             },
-            "time": "2023-04-09T17:37:40+00:00"
+            "time": "2024-01-28T07:31:37+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -1973,16 +1973,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.7",
+            "version": "10.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "e5c5b397a95cb0db013270a985726fcae93e61b8"
+                "reference": "0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e5c5b397a95cb0db013270a985726fcae93e61b8",
-                "reference": "e5c5b397a95cb0db013270a985726fcae93e61b8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe",
+                "reference": "0bd663704f0165c9e76fe4f06ffa6a1ca727fdbe",
                 "shasum": ""
             },
             "require": {
@@ -2054,7 +2054,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.7"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.9"
             },
             "funding": [
                 {
@@ -2070,7 +2070,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-14T16:40:30+00:00"
+            "time": "2024-01-22T14:35:40+00:00"
         },
         {
             "name": "psalm/plugin-phpunit",
@@ -4183,16 +4183,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "5.19.0",
+            "version": "5.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "06b71be009a6bd6d81b9811855d6629b9fe90e1b"
+                "reference": "3f284e96c9d9be6fe6b15c79416e1d1903dcfef4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/06b71be009a6bd6d81b9811855d6629b9fe90e1b",
-                "reference": "06b71be009a6bd6d81b9811855d6629b9fe90e1b",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/3f284e96c9d9be6fe6b15c79416e1d1903dcfef4",
+                "reference": "3f284e96c9d9be6fe6b15c79416e1d1903dcfef4",
                 "shasum": ""
             },
             "require": {
@@ -4289,7 +4289,7 @@
                 "issues": "https://github.com/vimeo/psalm/issues",
                 "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2024-01-09T21:02:43+00:00"
+            "time": "2024-01-18T12:15:06+00:00"
         },
         {
             "name": "webimpress/coding-standard",
