@@ -83,7 +83,7 @@ class ErrorHandler implements MiddlewareInterface
     public function __construct(callable $responseFactory, ?callable $responseGenerator = null)
     {
         $this->responseFactory   = static fn(): ResponseInterface => $responseFactory();
-        $this->responseGenerator = $responseGenerator ?: new ErrorResponseGenerator();
+        $this->responseGenerator = $responseGenerator ?? new ErrorResponseGenerator();
     }
 
     /**
