@@ -13,7 +13,7 @@ $app = new MiddlewarePipe();  // Middleware representing the application
 $app->pipe(new PathMiddlewareDecorator('/api', $api)); // API middleware attached to the path "/api"
 ```
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > ### Request path changes when path matched
 >
 > When you use the `PathMiddlewareDecorator` using a path (other than '' or

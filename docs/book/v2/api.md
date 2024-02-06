@@ -343,7 +343,7 @@ Two versions exist:
 
 You can manually decorate callable middleware using these decorators, or simply
 let `MiddlewarePipe` do the work for you. To let `MiddlewarePipe` handle this,
-however, you _must_ compose a response prototype prior to piping middleware
+however, you *must* compose a response prototype prior to piping middleware
 using the legacy middleware signature.
 
 ## Delegates

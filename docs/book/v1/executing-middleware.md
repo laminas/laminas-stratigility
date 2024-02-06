@@ -13,8 +13,8 @@ $app = new MiddlewarePipe();  // Middleware representing the application
 $app->pipe('/api', $api);     // API middleware attached to the path "/api"
 ```
 
-<!-- markdownlint-disable-next-line header-increment -->
-> ### Request path changes when path matched
+<!-- markdownlint-disable-next-line heading-increment -->
+> ## Request path changes when path matched
 >
 > When you pipe middleware using a path (other than '' or '/'), the middleware
 > is dispatched with a request that strips the matched segment(s) from the start
