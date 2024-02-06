@@ -44,7 +44,7 @@ this point, a "final handler" is composed by default to report 404 status.
 So, concisely put, _middleware are PHP callables that accept a request and
 response object, and do something with it_.
 
-<!-- markdownlint-disable-next-line header-increment -->
+<!-- markdownlint-disable-next-line heading-increment -->
 > ### http-interop middleware
 >
 > The above example demonstrates the legacy (pre-1.3.0) signature for

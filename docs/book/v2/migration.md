@@ -454,7 +454,7 @@ class PingMiddleware implements ServerMiddlewareInterface
 
 > ### Implementing http-interop between Stratigility 1.3 and 2.0
 >
-> While you _can_ write your middleware to implement the
+> While you *can* write your middleware to implement the
 > http-interop/http-middleware middleware interface, please be aware that if you
 > do so, you will need to take additional steps when upgrading from 1.3 to 2.0.
 >
