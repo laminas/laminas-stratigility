@@ -609,11 +609,13 @@ exhausts itself. It expects three arguments when invoked: a request instance, a 
 and an error condition (or <code>null</code> for no error). It returns a response.</p>
 <p><code>FinalHandler</code> allows two optional arguments during instantiation</p>
 <ul>
-<li><code>$options</code>, an array of options with which to configure itself. These options currently include:</li>
+<li><code>$options</code>, an array of options with which to configure itself. These options currently include:<ul>
 <li><code>env</code>, the application environment. If set to "production", no stack traces will be provided.</li>
 <li><code>onerror</code>, a callable to execute if an error is passed when <code>FinalHandler</code> is invoked. The
-    callable is invoked with the error (which will be <code>null</code> in the absence of an error), the request,
-    and the response, in that order.</li>
+callable is invoked with the error (which will be <code>null</code> in the absence of an error), the request,
+and the response, in that order.</li>
+</ul>
+</li>
 <li><code>Psr\Http\Message\ResponseInterface $response</code>; if passed, it will compare the response passed
   during invocation against this instance; if they are different, it will return the response from
   the invocation, as this indicates that one or more middleware provided a new response instance.</li>

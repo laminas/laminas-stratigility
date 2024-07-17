@@ -404,11 +404,12 @@ recommend the following:</p>
 <ul>
 <li>Pipe <code>Laminas\Stratigility\Middleware\OriginalMessages</code> as the outermost layer of
   your application. This will inject the following request attributes into
-  layers beneath it:</li>
+  layers beneath it:<ul>
 <li><code>originalRequest</code>, mapping to the request provided to it at invocation.</li>
 <li><code>originalResponse</code>, mapping to the response provided to it at invocation.</li>
-<li><code>originalUri</code>, mapping to the URI composed by the request provided to it at
-     invocation.</li>
+<li><code>originalUri</code>, mapping to the URI composed by the request provided to it at invocation.</li>
+</ul>
+</li>
 </ul>
 <p>You can then access these values within other middleware:</p>
 <pre class="highlight"><code class="language-php">$originalRequest = $request-&gt;getAttribute('originalRequest');
@@ -864,12 +865,14 @@ $response = $pipeline-&gt;process($request, new CallableDelegateDecorator(
 <h2 id="interfacesignature-changes">Interface/signature changes</h2>
 <p>The following signature changes were made with the 2.0.0 release:</p>
 <ul>
-<li><code>Laminas\Stratigility\Next</code>:</li>
+<li><code>Laminas\Stratigility\Next</code>:<ul>
 <li>The <code>$done</code> constructor argument was renamed to <code>$nextDelegate</code>, and now
-    allows either <code>callable</code> or <code>Interop\Http\ServerMiddleware\DelegateInterface</code>
-    arguments.</li>
+  allows either <code>callable</code> or <code>Interop\Http\ServerMiddleware\DelegateInterface</code>
+  arguments.</li>
 <li>The <code>$response</code> argument to <code>__invoke()</code> was removed.</li>
 <li>The (optional) <code>$err</code> argument to <code>__invoke()</code> was removed.</li>
+</ul>
+</li>
 </ul>
 <h2 id="removed-functionality">Removed functionality</h2>
 <p>The following classes, methods, and arguments are removed starting in version

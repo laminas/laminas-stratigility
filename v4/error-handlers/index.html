@@ -15,7 +15,7 @@
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-stratigility">
 
-    <link rel="canonical" href="https://docs.laminas.dev/laminas-stratigility/v1/error-handlers/">
+    <link rel="canonical" href="https://docs.laminas.dev/laminas-stratigility/v4/error-handlers/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
     <title>Error Handlers - laminas-stratigility - Laminas Docs</title>
@@ -150,48 +150,8 @@
 
                 
                 
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../install/" class="subnavigation__link">Installation and Requirements</a>
-    </li>
 
                     
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../usage/" class="subnavigation__link">Usage</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../middleware/" class="subnavigation__link">Middleware</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Error Handlers</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../creating-middleware/" class="subnavigation__link">Creating Middleware</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../executing-middleware/" class="subnavigation__link">Executing and composing middleware</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../api/" class="subnavigation__link">API Reference</a>
-    </li>
-
                     
                 
             
@@ -240,7 +200,7 @@
     <div class="btn-group">
         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
-                v1
+                v3
             
         </button>
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
@@ -262,7 +222,7 @@
                 
             
                 
-                    <a href="../install/" class="dropdown-item active">
+                    <a href="../../v1/install/" class="dropdown-item">
                         
                             v1
                         
@@ -309,10 +269,6 @@
                         <a href="#handling-php-errors-and-exceptions" class="toc__link nav-link">Handling PHP errors and exceptions</a>
                     </li>
                 
-                    <li class="toc__entry">
-                        <a href="#legacy-error-middleware" class="toc__link nav-link">Legacy error middleware</a>
-                    </li>
-                
             </ul>
         </div>
     
@@ -329,11 +285,6 @@
             
                 <li class="breadcrumb-item"><a href="../..">laminas-stratigility</a></li>
 
-                
-                    
-                        
-                        
-                    
                 
 
                 <li class="breadcrumb-item active" aria-current="page">Error Handlers</li>
@@ -357,6 +308,8 @@
 
     
     
+        <h2 class="chapter__headline"></h2>
+    
 
     <h1 id="error-handlers">Error Handlers</h1>
 <p>In your application, you may need to handle error conditions:</p>
@@ -368,45 +321,46 @@
 </ul>
 <p>You can typically handle these conditions via middleware itself.</p>
 <h2 id="handling-404-conditions">Handling 404 conditions</h2>
-<ul>
-<li>Since 1.3.0</li>
-</ul>
 <p>If no middleware is able to handle the incoming request, this is typically
 representative of an HTTP 404 status. Stratigility provides a barebones
 middleware that you may register in an innermost layer that will return a 404
-condition, <code>Laminas\Stratigility\Middleware\NotFoundHandler</code>. The class requires a
-response prototype instance that it will use to provide the 404 status and a
-message indicating the request method and URI used:</p>
-<pre class="highlight"><code class="language-php">// setup layers
+condition, <code>Laminas\Stratigility\Handler\NotFoundHandler</code>. The class requires a
+<code>Psr\Http\Message\ResponseFactoryInterface</code> instance that it will use to create
+the <code>Psr\Http\Message\ResponseInterface</code> with 404 status and a message indicating
+the request method and URI used:</p>
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\ResponseFactory;
+// setup layers
 $app-&gt;pipe(/* ... */);
 $app-&gt;pipe(/* ... */);
-$app-&gt;pipe(new NotFoundHandler(new Response());
+$app-&gt;pipe(new NotFoundHandler(new ResponseFactory());
 
 // execute application</code></pre>
 <p>Note that it is the last middleware piped into the application! Since it returns
 a response, no deeper nested layers will execute once it has been invoked.</p>
 <p>If you would like a templated response, you will need to write your own
 middleware; such middleware might look like the following:</p>
-<pre class="highlight"><code class="language-php">use Interop\Http\Middleware\DelegateInterface;
-use Interop\Http\Middleware\ServerMiddlewareInterface;
+<pre class="highlight"><code class="language-php">use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class NotFoundMiddleware implements ServerMiddlewareInterface
+class NotFoundMiddleware implements MiddlewareInterface
 {
-    private $renderer;
+    private TemplateRendererInterface $renderer;
+    private ResponseFactoryInterface $responseFactory;
 
     public function __construct(
         TemplateRendererInterface $renderer,
-        ResponseInterface $response
+        ResponseFactoryInterface $responseFactory
     ) {
         $this-&gt;renderer = $renderer;
-        $this-&gt;response = $response;
+        $this-&gt;responseFactory = $responseFactory;
     }
 
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler)
     {
-        $response = $this-&gt;response-&gt;withStatus(404);
+        $response = $this-&gt;responseFactory-&gt;createResponse(404);
         $response-&gt;getBody()-&gt;write(
             $this-&gt;renderer-&gt;render('error::404')
         );
@@ -414,22 +368,6 @@ class NotFoundMiddleware implements ServerMiddlewareInterface
     }
 }</code></pre>
 <h2 id="handling-php-errors-and-exceptions">Handling PHP errors and exceptions</h2>
-<ul>
-<li>Since 1.3.0</li>
-</ul>
-<blockquote>
-<h3 id="opting-in-to-error-middleware">Opting in to error middleware</h3>
-<p>If you have upgraded from Mezzio 1.0.0, you will have been using the
-<code>FinalHandler</code> implementation, and relying on the fact that, internally,
-dispatching wraps all middleware in <code>try/catch</code> blocks.</p>
-<p>Starting in 1.3.0, we provide a new way to handle errors via middleware.</p>
-<p><strong>To opt-in to the new system, you must call <code>raiseThrowables()</code> on your
-middleware pipeline:</strong></p>
-<pre class="highlight"><code class="language-php">$pipeline = new MiddlewarePipe();
-$pipeline-&gt;raiseThrowables();</code></pre>
-<p>(Starting in 2.0.0, this will no longer be necessary, but until then, this is
-how you opt-in to the system described below.)</p>
-</blockquote>
 <p><code>Laminas\Stratigility\Middleware\ErrorHandler</code> is a middleware implementation to
 register as the <em>outermost layer</em> of your application (or close to the outermost
 layer). It does the following:</p>
@@ -458,26 +396,29 @@ which generates an error response with a <code>5XX</code> series status code and
 derived from the reason phrase, if any is present. You may pass a boolean flag
 to its constructor indicating the application is in development mode; if so, the
 response will have the stack trace included in the body.</p>
-<p>In order to work, the <code>ErrorHandler</code> needs a prototype response instance, and,
+<p>In order to work, the <code>ErrorHandler</code> needs a <code>Psr\Http\Message\ResponseFactoryInterface</code> instance, and,
 optionally, an error response generator (if none is provided,
 <code>ErrorResponseGenerator</code> is used, in production mode):</p>
-<pre class="highlight"><code class="language-php">// setup error handling
-$app-&gt;pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDevelopmentMode));
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\ResponseFactory;
+// setup error handling
+
+$app-&gt;pipe(new ErrorHandler(new ResponseFactory(), new ErrorResponseGenerator($isDevelopmentMode));
 
 // setup layers
 $app-&gt;pipe(/* ... */);
 $app-&gt;pipe(/* ... */);</code></pre>
 <p>As a full example, you can combine the two middleware into the same application
 as separate layers:</p>
-<pre class="highlight"><code class="language-php">// setup error handling
-$app-&gt;pipe(new ErrorHandler(new Response(), new ErrorResponseGenerator($isDevelopmentMode));
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\ResponseFactory;
+// setup error handling
+$app-&gt;pipe(new ErrorHandler(new ResponseFactory(), new ErrorResponseGenerator($isDevelopmentMode));
 
 // setup layers
 $app-&gt;pipe(/* ... */);
 $app-&gt;pipe(/* ... */);
 
 // setup 404 handling
-$app-&gt;pipe(new NotFoundHandler(new Response());
+$app-&gt;pipe(new NotFoundHandler(new ResponseFactory());
 
 // execute application</code></pre>
 <p>The <code>ErrorResponseGenerator</code> provides no templating facilities, and only
@@ -505,7 +446,7 @@ class TemplatedErrorResponseGenerator
         $this-&gt;isDevelopmentMode = $isDevelopmentMode;
     }
 
-    public function __invoke($e, ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(Throwable $e, ServerRequestInterface $request, ResponseInterface $response)
     {
         $response = $response-&gt;withStatus(500);
         $response-&gt;getBody()-&gt;write($this-&gt;renderer-&gt;render('error::error', [
@@ -546,52 +487,9 @@ function (
     );
     $logger-&gt;error($message);
 });</code></pre>
-<h2 id="legacy-error-middleware">Legacy error middleware</h2>
-<ul>
-<li>Deprecated starting in 1.3.0, to be removed in 2.0.0. Please see the
-  <a href="../../v2/migration/#error-handling">v2 migration guide</a> for more details, as well
-  as the preceding section.</li>
-</ul>
-<p>To handle errors, you can write middleware that accepts <strong>exactly</strong> four arguments:</p>
-<pre class="highlight"><code class="language-php">function ($error, $request, $response, $next) { }</code></pre>
-<p>Alternately, you can implement <code>Laminas\Stratigility\ErrorMiddlewareInterface</code>.</p>
-<p>When using <code>MiddlewarePipe</code>, as the queue is executed, if <code>$next()</code> is called with an argument, or
-if an exception is thrown, middleware will iterate through the queue until the first such error
-handler is found. That error handler can either complete the request, or itself call <code>$next()</code>.
-<strong>Error handlers that call <code>$next()</code> SHOULD call it with the error it received itself, or with
-another error.</strong></p>
-<p>Error handlers are usually attached at the end of middleware, to prevent attempts at executing
-non-error-handling middleware, and to ensure they can intercept errors from any other handlers.</p>
 
 
 
-
-    <nav>
-    <ul class="page-nav hidden-print">
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../middleware/">
-                    <small class="page-nav__label">Previous</small>
-                    <i class="fa fa-chevron-left"></i>
-                    Middleware
-                </a>
-            
-        </li>
-
-        
-        <li class="page-nav__item">
-            
-                <a rel="next" class="page-nav__link page-nav__link--next" href="../creating-middleware/">
-                    <small class="page-nav__label">Next</small>
-                    Creating Middleware
-                    <i class="fa fa-chevron-right"></i>
-                </a>
-            
-        </li>
-    </ul>
-</nav>
 
 
 
@@ -644,48 +542,8 @@ non-error-handling middleware, and to ensure they can intercept errors from any 
 
                 
                 
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../install/" class="subnavigation__link">Installation and Requirements</a>
-    </li>
 
                     
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../usage/" class="subnavigation__link">Usage</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../middleware/" class="subnavigation__link">Middleware</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item subnavigation__list-item--active">
-        <a href="./" class="subnavigation__link">Error Handlers</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../creating-middleware/" class="subnavigation__link">Creating Middleware</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../executing-middleware/" class="subnavigation__link">Executing and composing middleware</a>
-    </li>
-
-                    
-                        
-    <li class="subnavigation__list-item ">
-        <a href="../api/" class="subnavigation__link">API Reference</a>
-    </li>
-
                     
                 
             
