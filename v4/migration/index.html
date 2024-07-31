@@ -5,20 +5,20 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="laminas-stratigility"> 
+    <meta name="description" content="PSR-7 middleware foundation for building and dispatching middleware pipelines"> 
 
     
     
         
     
-    <meta name="docsearch:version" content="3.0.0,latest">
+    <meta name="docsearch:version" content="4.0.0,latest">
     <meta name="docsearch:language" content="en">
     <meta name="docsearch:component" content="laminas-stratigility">
 
     <link rel="canonical" href="https://docs.laminas.dev/laminas-stratigility/v4/migration/">
     <link rel="shortcut icon" href="https://docs.laminas.dev/img/trademark-laminas-foundation-rgb.svg">
 
-    <title>Migrating from version 3 to version 4 - laminas-stratigility - Laminas Docs</title>
+    <title>Migration from Version 3 to 4 - laminas-stratigility - Laminas Docs</title>
 
     <link rel="stylesheet" href="https://docs.laminas.dev/css/styles.css">
     
@@ -134,6 +134,75 @@
 
                 
                 
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../install/" class="subnavigation__link">Installation and Requirements</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../usage/" class="subnavigation__link">Usage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../middleware/" class="subnavigation__link">Middleware</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../error-handlers/" class="subnavigation__link">Error Handlers</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../creating-middleware/" class="subnavigation__link">Creating Middleware</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../executing-middleware/" class="subnavigation__link">Composing middleware</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../api/" class="subnavigation__link">API Reference</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Migration from Version 3 to 4</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
+            
+
+                
+                
 
                     
                     
@@ -200,15 +269,23 @@
     <div class="btn-group">
         <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false" id="version-selector-dropdown">
             
-                v3
+                v4
             
         </button>
         <div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left" aria-labelledby="version-selector-dropdown">
             
                 
+                    <a href="../intro/" class="dropdown-item active">
+                        
+                            v4 (latest)
+                        
+                    </a>
+                
+            
+                
                     <a href="../../v3/intro/" class="dropdown-item">
                         
-                            v3 (latest)
+                            v3
                         
                     </a>
                 
@@ -290,8 +367,20 @@
                 <li class="breadcrumb-item"><a href="../..">laminas-stratigility</a></li>
 
                 
+                    
+                        
+                        
+                    
+                
+                    
+                        
+                        
+                            <li class="breadcrumb-item">Migration</li>
+                        
+                    
+                
 
-                <li class="breadcrumb-item active" aria-current="page">Migrating from version 3 to version 4</li>
+                <li class="breadcrumb-item active" aria-current="page">Migration from Version 3 to 4</li>
             
         
     </ol>
@@ -299,20 +388,12 @@
 
 
 
-    <div class="alert alert-danger" role="alert">
-        <h4>Caution</h4>
-        <p>
-            The documentation you are viewing is for an older version of this component.<br>
-            <a href="../..">Switch to the latest (v3) version.</a>
-        </p>
-    </div>
-
 
 
 
     
     
-        <h2 class="chapter__headline"></h2>
+        <h2 class="chapter__headline">Migration</h2>
     
 
     <h1 id="migrating-from-version-3-to-version-4">Migrating from version 3 to version 4</h1>
@@ -345,6 +426,8 @@ public function __construct(ResponseFactoryInterface $responseFactory, ?callable
 // Laminas\Stratigility\Handler\NotFoundHandler::__construct
 public function __construct(ResponseFactoryInterface $responseFactory){}</code></pre>
 <h2 id="changes-in-public-interfaces">Changes in public interfaces</h2>
+<h3 id="middlewarepipe-is-now-iterable">MiddlewarePipe is now Iterable</h3>
+<p><code>MiddlewarePipe</code> now implements a new interface <code>IterableMiddlewarePipeInterface</code>. This makes the pipeline iterable and provides a way of inspecting the composed middleware.</p>
 <h3 id="signature-changes">Signature changes</h3>
 <ul>
 <li><code>Laminas\Stratigility\Handler\NotFoundHandler::__construct()</code>: the parameter <code>$responseFactory</code> changed from <code>callable</code> to <code>Psr\Http\Message\ResponseFactoryInterface</code>.</li>
@@ -366,6 +449,33 @@ public function __construct(ResponseFactoryInterface $responseFactory){}</code><
 
 
 
+
+    <nav>
+    <ul class="page-nav hidden-print">
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="prev" class="page-nav__link page-nav__link--prev" href="../api/">
+                    <small class="page-nav__label">Previous</small>
+                    <i class="fa fa-chevron-left"></i>
+                    API Reference
+                </a>
+            
+        </li>
+
+        
+        <li class="page-nav__item">
+            
+                <a rel="next" class="page-nav__link page-nav__link--next" href="../../v3/intro/">
+                    <small class="page-nav__label">Next</small>
+                    Intro
+                    <i class="fa fa-chevron-right"></i>
+                </a>
+            
+        </li>
+    </ul>
+</nav>
 
 
 
@@ -398,6 +508,75 @@ public function __construct(ResponseFactoryInterface $responseFactory){}</code><
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
         <ul class="subnavigation__list">
+            
+
+                
+                
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../intro/" class="subnavigation__link">Introduction</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../install/" class="subnavigation__link">Installation and Requirements</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../usage/" class="subnavigation__link">Usage</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../middleware/" class="subnavigation__link">Middleware</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../error-handlers/" class="subnavigation__link">Error Handlers</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../creating-middleware/" class="subnavigation__link">Creating Middleware</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../executing-middleware/" class="subnavigation__link">Composing middleware</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item ">
+        <a href="../api/" class="subnavigation__link">API Reference</a>
+    </li>
+
+                    
+                        
+    <li class="subnavigation__list-item">
+        <span class="subnavigation__headline">Migration</span>
+        <ul class="subnavigation__list">
+            
+                
+    <li class="subnavigation__list-item subnavigation__list-item--active">
+        <a href="./" class="subnavigation__link">Migration from Version 3 to 4</a>
+    </li>
+
+            
+        </ul>
+    </li>
+
+                    
+                
             
 
                 
