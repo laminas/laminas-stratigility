@@ -1,1 +1,15 @@
-{}
+{
+    "additional_checks": [
+        {
+            "name": "Run Tests on 8.4",
+            "job": {
+                "php": "8.4",
+                "dependencies": "latest",
+                "command": "vendor/bin/phpunit"
+            }
+        }
+    ],
+    "ignore_php_platform_requirements": {
+        "8.4": true
+    }
+}
