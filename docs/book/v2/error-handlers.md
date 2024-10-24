@@ -71,9 +71,9 @@ layer). It does the following:
 - Creates a PHP error handler that catches any errors in the `error_handling()`
   mask and throws them as `ErrorException` instances.
 - Wraps the invocation of the delegate in a try/catch block:
-  - if no exception is caught, and the result is a response, it returns it.
-  - if no exception is caught, it raises an exception, which will be caught.
-  - any caught exception is transformed into an error response.
+    - if no exception is caught, and the result is a response, it returns it.
+    - if no exception is caught, it raises an exception, which will be caught.
+    - any caught exception is transformed into an error response.
 
 To generate the error response, we provide the ability to inject a callable with
 the following signature into the `ErrorHandler` during instantiation:

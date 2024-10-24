@@ -298,10 +298,10 @@ and an error condition (or `null` for no error). It returns a response.
 `FinalHandler` allows two optional arguments during instantiation
 
 - `$options`, an array of options with which to configure itself. These options currently include:
-  - `env`, the application environment. If set to "production", no stack traces will be provided.
-  - `onerror`, a callable to execute if an error is passed when `FinalHandler` is invoked. The
-    callable is invoked with the error (which will be `null` in the absence of an error), the request,
-    and the response, in that order.
+    - `env`, the application environment. If set to "production", no stack traces will be provided.
+    - `onerror`, a callable to execute if an error is passed when `FinalHandler` is invoked. The
+      callable is invoked with the error (which will be `null` in the absence of an error), the request,
+      and the response, in that order.
 - `Psr\Http\Message\ResponseInterface $response`; if passed, it will compare the response passed
   during invocation against this instance; if they are different, it will return the response from
   the invocation, as this indicates that one or more middleware provided a new response instance.
