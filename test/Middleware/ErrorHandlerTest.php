@@ -9,6 +9,7 @@ use Laminas\Stratigility\Middleware\ErrorHandler;
 use Laminas\Stratigility\Middleware\ErrorResponseGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -25,30 +26,20 @@ use const E_USER_DEPRECATED;
 
 class ErrorHandlerTest extends TestCase
 {
-    /** @var MockObject&StreamInterface */
-    private $body;
-
-    /** @var MockObject&RequestHandlerInterface */
-    private $handler;
-
-    /** @var MockObject&ServerRequestInterface */
-    private $request;
-
-    /** @var MockObject&ResponseInterface */
-    private $response;
-
-    /** @var callable():ResponseInterface */
-    private $responseFactory;
+    private StreamInterface&MockObject $body;
+    private RequestHandlerInterface&MockObject $handler;
+    private ServerRequestInterface&MockObject $request;
+    private ResponseInterface&MockObject $response;
+    private ResponseFactoryInterface&MockObject $responseFactory;
 
     private int $errorReporting;
 
     protected function setUp(): void
     {
+        $this->request         = $this->createMock(ServerRequestInterface::class);
         $this->response        = $this->createMock(ResponseInterface::class);
-        $response              = $this->response;
-        $this->responseFactory = static fn(): ResponseInterface => $response;
-
-        $this->request        = $this->createMock(ServerRequestInterface::class);
+        $this->responseFactory = $this->createMock(ResponseFactoryInterface::class);
+        $this->responseFactory->method('createResponse')->willReturn($this->response);
         $this->body           = $this->createMock(StreamInterface::class);
         $this->handler        = $this->createMock(RequestHandlerInterface::class);
         $this->errorReporting = error_reporting();
@@ -325,7 +316,7 @@ class ErrorHandlerTest extends TestCase
         $prop = $ref->getProperty('listeners');
 
         $listeners = $prop->getValue($middleware);
-
+        self::assertIsArray($listeners);
         self::assertCount(1, $listeners);
     }
 }

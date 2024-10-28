@@ -8,3 +8,6 @@
 /psalm.xml export-ignore
 /psalm-baseline.xml export-ignore
 /test/ export-ignore
+/composer.lock export-ignore
+/.laminas-ci.json export-ignore
+/renovate.json export-ignore

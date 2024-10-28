@@ -18,20 +18,11 @@ use function Laminas\Stratigility\host;
 
 class HostMiddlewareDecoratorTest extends TestCase
 {
-    /** @var UriInterface&MockObject */
-    private $uri;
-
-    /** @var ServerRequestInterface&MockObject */
-    private $request;
-
-    /** @var ResponseInterface&MockObject */
-    private $response;
-
-    /** @var RequestHandlerInterface&MockObject */
-    private $handler;
-
-    /** @var MiddlewareInterface&MockObject */
-    private $toDecorate;
+    private UriInterface&MockObject $uri;
+    private ServerRequestInterface&MockObject $request;
+    private ResponseInterface&MockObject $response;
+    private RequestHandlerInterface&MockObject $handler;
+    private MiddlewareInterface&MockObject $toDecorate;
 
     protected function setUp(): void
     {

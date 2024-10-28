@@ -18,7 +18,7 @@ final class Next implements RequestHandlerInterface
 {
     private RequestHandlerInterface $fallbackHandler;
 
-    /** @var SplQueue<MiddlewareInterface> */
+    /** @var SplQueue<MiddlewareInterface>|null */
     private ?SplQueue $queue;
 
     /**

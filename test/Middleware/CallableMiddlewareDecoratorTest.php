@@ -35,7 +35,11 @@ class CallableMiddlewareDecoratorTest extends TestCase
         $handler  = $this->createMock(RequestHandlerInterface::class);
         $response = $this->createMock(ResponseInterface::class);
 
-        $middleware = static fn($request, $handler): ResponseInterface => $response;
+        /** @psalm-suppress UnusedClosureParam */
+        $middleware = static fn(
+            ServerRequestInterface $request,
+            RequestHandlerInterface $handler,
+        ): ResponseInterface => $response;
 
         $decorator = new CallableMiddlewareDecorator($middleware);
 

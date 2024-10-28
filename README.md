@@ -1,7 +1,7 @@
 # laminas-stratigility
 
 [![Build Status](https://github.com/laminas/laminas-stratigility/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/laminas/laminas-stratigility/actions/workflows/continuous-integration.yml)
-[![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-stratigility/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-stratigility?branch=master)
+[![Type Coverage](https://shepherd.dev/github/laminas/laminas-stratigility/coverage.svg)](https://shepherd.dev/github/laminas/laminas-stratigility)
 
 > ## 🇷🇺 Русским гражданам
 >

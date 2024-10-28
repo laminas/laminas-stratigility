@@ -22,7 +22,12 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
         $request  = $this->createMock(ServerRequestInterface::class);
         $handler  = $this->createMock(RequestHandlerInterface::class);
 
-        $middleware = static fn($request, $response, $next): string => 'foo';
+        /** @psalm-suppress UnusedClosureParam */
+        $middleware = static fn(
+            ServerRequestInterface $request,
+            ResponseInterface $response,
+            callable $next,
+        ): string => 'foo';
 
         $decorator = new DoublePassMiddlewareDecorator($middleware, $response);
 
@@ -37,7 +42,12 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
         $request  = $this->createMock(ServerRequestInterface::class);
         $handler  = $this->createMock(RequestHandlerInterface::class);
 
-        $middleware = static fn($request, ResponseInterface $response, $next): ResponseInterface => $response;
+        /** @psalm-suppress UnusedClosureParam */
+        $middleware = static fn(
+            ServerRequestInterface $request,
+            ResponseInterface $response,
+            callable $next,
+        ): ResponseInterface => $response;
 
         $decorator = new DoublePassMiddlewareDecorator($middleware, $response);
 
@@ -75,7 +85,12 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
         $request = $this->createMock(ServerRequestInterface::class);
         $handler = $this->createMock(RequestHandlerInterface::class);
 
-        $middleware = static fn($request, ResponseInterface $response, $next): ResponseInterface => $response;
+        /** @psalm-suppress UnusedClosureParam */
+        $middleware = static fn(
+            ServerRequestInterface $request,
+            ResponseInterface $response,
+            callable $next,
+        ): ResponseInterface => $response;
 
         $decorator = new DoublePassMiddlewareDecorator($middleware);
 
@@ -86,7 +101,12 @@ class DoublePassMiddlewareDecoratorTest extends TestCase
 
     public function testDoublePassMiddlewareFunction(): void
     {
-        $toDecorate = static fn($request, $response, $next): string => 'foo';
+        /** @psalm-suppress UnusedClosureParam */
+        $toDecorate = static fn(
+            ServerRequestInterface $request,
+            ResponseInterface $response,
+            callable $next,
+        ): string => 'foo';
 
         $response = $this->createMock(ResponseInterface::class);
 

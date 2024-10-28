@@ -76,6 +76,6 @@ final class DoublePassMiddlewareDecorator implements MiddlewareInterface
 
     private function decorateHandler(RequestHandlerInterface $handler): callable
     {
-        return static fn($request, $response) => $handler->handle($request);
+        return static fn(ServerRequestInterface $request, ResponseInterface $response) => $handler->handle($request);
     }
 }
