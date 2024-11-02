@@ -44,11 +44,8 @@ class NextTest extends TestCase
     {
         $response = $response ?: $this->createDefaultResponse();
         return new class ($response) implements RequestHandlerInterface {
-            private ResponseInterface $response;
-
-            public function __construct(ResponseInterface $response)
+            public function __construct(private readonly ResponseInterface $response)
             {
-                $this->response = $response;
             }
 
             public function handle(ServerRequestInterface $request): ResponseInterface
@@ -82,11 +79,8 @@ class NextTest extends TestCase
 
         $middleware1 = new class ($cannedRequest) implements MiddlewareInterface
         {
-            private ServerRequestInterface $cannedRequest;
-
-            public function __construct(ServerRequestInterface $cannedRequest)
+            public function __construct(private readonly ServerRequestInterface $cannedRequest)
             {
-                $this->cannedRequest = $cannedRequest;
             }
 
             public function process(
@@ -99,11 +93,8 @@ class NextTest extends TestCase
 
         $middleware2 = new class ($cannedRequest) implements MiddlewareInterface
         {
-            private ServerRequestInterface $cannedRequest;
-
-            public function __construct(ServerRequestInterface $cannedRequest)
+            public function __construct(private readonly ServerRequestInterface $cannedRequest)
             {
-                $this->cannedRequest = $cannedRequest;
             }
 
             public function process(

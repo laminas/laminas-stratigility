@@ -36,7 +36,7 @@ final class DoublePassMiddlewareDecorator implements MiddlewareInterface
     /** @var callable */
     private $middleware;
 
-    private ResponseInterface $responsePrototype;
+    private readonly ResponseInterface $responsePrototype;
 
     /**
      * @throws Exception\MissingResponsePrototypeException If no response

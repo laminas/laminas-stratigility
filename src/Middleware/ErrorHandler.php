@@ -71,15 +71,14 @@ class ErrorHandler implements MiddlewareInterface
     /** @var callable Routine that will generate the error response. */
     private $responseGenerator;
 
-    private ResponseFactoryInterface $responseFactory;
-
     /**
      * @param null|callable $responseGenerator Callback that will generate the final
      *     error response; if none is provided, ErrorResponseGenerator is used.
      */
-    public function __construct(ResponseFactoryInterface $responseFactory, ?callable $responseGenerator = null)
-    {
-        $this->responseFactory   = $responseFactory;
+    public function __construct(
+        private readonly ResponseFactoryInterface $responseFactory,
+        ?callable $responseGenerator = null
+    ) {
         $this->responseGenerator = $responseGenerator ?? new ErrorResponseGenerator();
     }
 

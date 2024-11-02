@@ -14,11 +14,8 @@ use function sprintf;
 
 final class NotFoundHandler implements RequestHandlerInterface
 {
-    private ResponseFactoryInterface $responseFactory;
-
-    public function __construct(ResponseFactoryInterface $responseFactory)
+    public function __construct(private readonly ResponseFactoryInterface $responseFactory)
     {
-        $this->responseFactory = $responseFactory;
     }
 
     /**

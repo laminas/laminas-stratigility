@@ -6,8 +6,7 @@ namespace Laminas\Stratigility\Exception;
 
 use OutOfBoundsException;
 
-use function gettype;
-use function is_object;
+use function get_debug_type;
 use function sprintf;
 
 /**
@@ -18,9 +17,7 @@ class MissingResponseException extends OutOfBoundsException implements Exception
 {
     public static function forCallableMiddleware(callable $middleware): self
     {
-        $type = is_object($middleware)
-            ? $middleware::class
-            : gettype($middleware);
+        $type = get_debug_type($middleware);
 
         return new self(sprintf(
             'Decorated callable middleware of type %s failed to produce a response.',
