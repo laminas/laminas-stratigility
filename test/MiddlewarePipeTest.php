@@ -23,7 +23,7 @@ use SplQueue;
 use function iterator_to_array;
 use function sort;
 use function spl_object_hash;
-use function strpos;
+use function str_starts_with;
 use function var_export;
 
 class MiddlewarePipeTest extends TestCase
@@ -208,7 +208,7 @@ class MiddlewarePipeTest extends TestCase
         $methods = $r->getMethods(ReflectionMethod::IS_PUBLIC);
         $actual  = [];
         foreach ($methods as $method) {
-            if (strpos($method->getName(), '__') !== 0) {
+            if (! str_starts_with($method->getName(), '__')) {
                 $actual[] = $method->getName();
             }
         }

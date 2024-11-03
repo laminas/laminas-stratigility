@@ -16,8 +16,6 @@ use SplQueue;
  */
 final class Next implements RequestHandlerInterface
 {
-    private RequestHandlerInterface $fallbackHandler;
-
     /** @var SplQueue<MiddlewareInterface>|null */
     private ?SplQueue $queue;
 
@@ -28,10 +26,9 @@ final class Next implements RequestHandlerInterface
      * @param RequestHandlerInterface $fallbackHandler Fallback handler to
      *     invoke when the queue is exhausted.
      */
-    public function __construct(SplQueue $queue, RequestHandlerInterface $fallbackHandler)
+    public function __construct(SplQueue $queue, private RequestHandlerInterface $fallbackHandler)
     {
-        $this->queue           = clone $queue;
-        $this->fallbackHandler = $fallbackHandler;
+        $this->queue = clone $queue;
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface

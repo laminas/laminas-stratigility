@@ -12,11 +12,8 @@ use Throwable;
 
 final class ErrorResponseGenerator
 {
-    private bool $isDevelopmentMode;
-
-    public function __construct(bool $isDevelopmentMode = false)
+    public function __construct(private readonly bool $isDevelopmentMode = false)
     {
-        $this->isDevelopmentMode = $isDevelopmentMode;
     }
 
     /**
