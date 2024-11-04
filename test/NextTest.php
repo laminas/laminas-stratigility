@@ -12,6 +12,7 @@ use Laminas\Stratigility\Next;
 use LaminasTest\Stratigility\TestAsset\DelegatingMiddleware;
 use LaminasTest\Stratigility\TestAsset\ShortCircuitingMiddleware;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -61,9 +62,7 @@ class NextTest extends TestCase
         return $this->response;
     }
 
-    /**
-     * @group http-interop
-     */
+    #[Group('http-interop')]
     public function testNextImplementsRequestHandlerInterface(): void
     {
         $next = new Next($this->queue, $this->fallbackHandler);
@@ -114,9 +113,7 @@ class NextTest extends TestCase
         $this->assertNotSame($this->response, $response);
     }
 
-    /**
-     * @group http-interop
-     */
+    #[Group('http-interop')]
     public function testNextDelegatesToFallbackHandlerWhenQueueIsEmpty(): void
     {
         $expectedResponse = $this->createMock(ResponseInterface::class);
@@ -130,9 +127,7 @@ class NextTest extends TestCase
         $this->assertSame($expectedResponse, $next->handle($this->request));
     }
 
-    /**
-     * @group http-interop
-     */
+    #[Group('http-interop')]
     public function testNextProcessesEnqueuedMiddleware(): void
     {
         $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
@@ -157,9 +152,7 @@ class NextTest extends TestCase
         $this->assertSame($response, $next->handle($this->request));
     }
 
-    /**
-     * @group http-interop
-     */
+    #[Group('http-interop')]
     public function testMiddlewareReturningResponseShortCircuitsProcess(): void
     {
         $fallbackHandler = $this->createMock(RequestHandlerInterface::class);

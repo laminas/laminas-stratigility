@@ -9,6 +9,8 @@ use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Uri;
 use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -238,9 +240,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider nestedPathCombinations
-     */
+    #[DataProvider('nestedPathCombinations')]
     public function testNestedMiddlewareOnlyMatchesAtPathBoundaries(
         string $prefix,
         string $nestPrefix,
@@ -302,10 +302,8 @@ class PathMiddlewareDecoratorTest extends TestCase
         ];
     }
 
-    /**
-     * @group matching
-     * @dataProvider rootPathsProvider
-     */
+    #[DataProvider('rootPathsProvider')]
+    #[Group('matching')]
     public function testTreatsBothSlashAndEmptyPathAsTheRootPath(string $path): void
     {
         $finalHandler = $this->createMock(RequestHandlerInterface::class);

@@ -6,6 +6,7 @@ namespace LaminasTest\Stratigility\Middleware;
 
 use Generator;
 use Laminas\Stratigility\Middleware\HostMiddlewareDecorator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -69,9 +70,7 @@ class HostMiddlewareDecoratorTest extends TestCase
         yield ['host.foo', 'hOsT.fOO'];
     }
 
-    /**
-     * @dataProvider matchingHost
-     */
+    #[DataProvider('matchingHost')]
     public function testDelegatesOriginalRequestToDecoratedMiddleware(string $requestHost, string $decoratorHost): void
     {
         $this->uri
