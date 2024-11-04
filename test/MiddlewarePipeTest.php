@@ -10,6 +10,7 @@ use Laminas\Stratigility\Exception;
 use Laminas\Stratigility\IterableMiddlewarePipeInterface;
 use Laminas\Stratigility\MiddlewarePipe;
 use Laminas\Stratigility\MiddlewarePipeInterface;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -50,9 +51,7 @@ class MiddlewarePipeTest extends TestCase
         return $handler;
     }
 
-    /**
-     * @group http-interop
-     */
+    #[Group('http-interop')]
     public function testCanPipeInteropMiddleware(): void
     {
         $handler = $this->createMock(RequestHandlerInterface::class);
