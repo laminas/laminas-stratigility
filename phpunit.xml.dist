@@ -4,7 +4,19 @@
         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
         bootstrap="vendor/autoload.php"
         colors="true"
-        cacheDirectory=".phpunit.cache">
+        cacheDirectory=".phpunit.cache"
+        displayDetailsOnIncompleteTests="true"
+        displayDetailsOnSkippedTests="true"
+        displayDetailsOnTestsThatTriggerErrors="true"
+        displayDetailsOnTestsThatTriggerWarnings="true"
+        displayDetailsOnTestsThatTriggerNotices="true"
+        displayDetailsOnTestsThatTriggerDeprecations="true"
+        displayDetailsOnPhpunitDeprecations="true"
+        failOnWarning="true"
+        failOnNotice="true"
+        failOnDeprecation="true"
+        failOnPhpunitDeprecation="true"
+>
   <coverage/>
   <testsuites>
     <testsuite name="laminas-stratigility">
@@ -15,8 +27,5 @@
     <include>
       <directory suffix=".php">src</directory>
     </include>
-    <exclude>
-      <file>src/Middleware/CallableMiddlewareWrapperFactory.php</file>
-    </exclude>
   </source>
 </phpunit>
