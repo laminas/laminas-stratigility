@@ -22,6 +22,7 @@ class ExceptionTest extends TestCase
         $namespace = 'Laminas\Stratigility\Exception\\';
 
         $exceptions = glob(__DIR__ . '/../../src/Exception/*.php');
+        self::assertIsArray($exceptions);
         foreach ($exceptions as $exception) {
             $class = substr(basename($exception), 0, -4);
 
