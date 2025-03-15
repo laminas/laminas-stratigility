@@ -23,7 +23,7 @@ use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequestFactory;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
-use Laminas\Stratigility\Middleware\NotFoundHandler;
+use Laminas\Stratigility\Handler\NotFoundHandler;
 use Laminas\Stratigility\MiddlewarePipe;
 
 use function Laminas\Stratigility\middleware;
@@ -54,7 +54,9 @@ $app->pipe(path('/foo', middleware(function ($req, $handler) {
 })));
 
 // 404 handler
-$app->pipe(new NotFoundHandler(new ResponseFactory()));
+$app->pipe(middleware(function ($req, $handler) {
+    return (new NotFoundHandler(new ResponseFactory()))->handle($req);
+}));
 
 $server = new RequestHandlerRunner(
     $app,
