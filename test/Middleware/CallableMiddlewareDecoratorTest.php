@@ -13,7 +13,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 use function Laminas\Stratigility\middleware;
 
-class CallableMiddlewareDecoratorTest extends TestCase
+final class CallableMiddlewareDecoratorTest extends TestCase
 {
     public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException(): void
     {

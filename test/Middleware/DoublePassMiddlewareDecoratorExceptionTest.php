@@ -15,7 +15,7 @@ use function spl_autoload_functions;
 use function spl_autoload_register;
 use function spl_autoload_unregister;
 
-class DoublePassMiddlewareDecoratorExceptionTest extends TestCase
+final class DoublePassMiddlewareDecoratorExceptionTest extends TestCase
 {
     /** @var list<callable(string): void> */
     private array $autoloadFunctions = [];

@@ -17,7 +17,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 use function Laminas\Stratigility\host;
 
-class HostMiddlewareDecoratorTest extends TestCase
+final class HostMiddlewareDecoratorTest extends TestCase
 {
     private UriInterface&MockObject $uri;
     private ServerRequestInterface&MockObject $request;
