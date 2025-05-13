@@ -21,7 +21,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use SplQueue;
 
-class NextTest extends TestCase
+final class NextTest extends TestCase
 {
     use MiddlewareTrait;
 

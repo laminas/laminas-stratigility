@@ -14,7 +14,7 @@ use function glob;
 use function is_a;
 use function substr;
 
-class ExceptionTest extends TestCase
+final class ExceptionTest extends TestCase
 {
     /** @return Generator<string, array{0: string}> */
     public static function exception(): Generator

@@ -24,7 +24,7 @@ use function trigger_error;
 
 use const E_USER_DEPRECATED;
 
-class ErrorHandlerTest extends TestCase
+final class ErrorHandlerTest extends TestCase
 {
     private StreamInterface&MockObject $body;
     private RequestHandlerInterface&MockObject $handler;

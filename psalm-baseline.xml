@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.26.1@d747f6500b38ac4f7dfc5edbcae6e4b637d7add0">
+<files psalm-version="6.10.3@90b5b9f5e7c8e441b191d3c82c58214753d7c7c1">
   <file src="src/Middleware/DoublePassMiddlewareDecorator.php">
     <UnusedClosureParam>
       <code><![CDATA[$response]]></code>
@@ -14,21 +14,5 @@
     <PossiblyUnusedReturnValue>
       <code><![CDATA[ResponseInterface]]></code>
     </PossiblyUnusedReturnValue>
-  </file>
-  <file src="test/Exception/ExceptionTest.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[exception]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="test/Middleware/HostMiddlewareDecoratorTest.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[matchingHost]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="test/Middleware/PathMiddlewareDecoratorTest.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[nestedPathCombinations]]></code>
-      <code><![CDATA[rootPathsProvider]]></code>
-    </PossiblyUnusedMethod>
   </file>
 </files>

@@ -62,6 +62,8 @@ use function set_error_handler;
  *
  * Listeners are attached using the attachListener() method, and triggered
  * in the order attached.
+ *
+ * @final
  */
 class ErrorHandler implements MiddlewareInterface
 {

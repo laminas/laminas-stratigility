@@ -14,7 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 
-class NotFoundHandlerTest extends TestCase
+final class NotFoundHandlerTest extends TestCase
 {
     public function testReturnsResponseWith404StatusAndErrorMessageInBody(): void
     {

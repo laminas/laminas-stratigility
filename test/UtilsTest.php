@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionClass;
 
-class UtilsTest extends TestCase
+final class UtilsTest extends TestCase
 {
     public function testGetStatusCodeNotFooledBySneakyStringsWithLeadingDigits(): void
     {

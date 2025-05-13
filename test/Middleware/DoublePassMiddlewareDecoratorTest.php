@@ -14,7 +14,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 use function Laminas\Stratigility\doublePassMiddleware;
 
-class DoublePassMiddlewareDecoratorTest extends TestCase
+final class DoublePassMiddlewareDecoratorTest extends TestCase
 {
     public function testCallableMiddlewareThatDoesNotProduceAResponseRaisesAnException(): void
     {

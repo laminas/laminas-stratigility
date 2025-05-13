@@ -24,7 +24,7 @@ use function Laminas\Stratigility\path;
 use function sprintf;
 use function var_export;
 
-class PathMiddlewareDecoratorTest extends TestCase
+final class PathMiddlewareDecoratorTest extends TestCase
 {
     /** @var MockObject&UriInterface */
     private $uri;

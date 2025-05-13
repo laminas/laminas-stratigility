@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class OriginalMessagesTest extends TestCase
+final class OriginalMessagesTest extends TestCase
 {
     /** @var MockObject&UriInterface */
     private $uri;

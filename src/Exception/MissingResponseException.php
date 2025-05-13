@@ -12,6 +12,8 @@ use function sprintf;
 /**
  * Exception thrown when the internal stack of Laminas\Stratigility\Next is
  * exhausted, but no response returned.
+ *
+ * @final
  */
 class MissingResponseException extends OutOfBoundsException implements ExceptionInterface
 {

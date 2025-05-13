@@ -27,7 +27,7 @@ use function spl_object_hash;
 use function str_starts_with;
 use function var_export;
 
-class MiddlewarePipeTest extends TestCase
+final class MiddlewarePipeTest extends TestCase
 {
     use MiddlewareTrait;
 
