@@ -19,7 +19,7 @@ jobs:
         with:
           php-version: 8.3
           ini-values: zend.assertions=1, assert.active=1, assert.exception=1
-      - uses: "ramsey/composer-install@3.1.0"
+      - uses: "ramsey/composer-install@3.1.1"
         with:
           dependency-versions: "highest"
 
