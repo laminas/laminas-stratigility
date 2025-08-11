@@ -14,7 +14,7 @@ jobs:
     name: "Forward Compatibility Tests on PHPUnit 11"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v5.0.0
       - uses: shivammathur/setup-php@2.35.3
         with:
           php-version: 8.3
