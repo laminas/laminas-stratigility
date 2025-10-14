@@ -9,25 +9,3 @@ on:
 jobs:
   ci:
     uses: laminas/workflow-continuous-integration/.github/workflows/continuous-integration.yml@1.x
-
-  phpunit11:
-    name: "Forward Compatibility Tests on PHPUnit 11"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5.0.0
-      - uses: shivammathur/setup-php@2.35.5
-        with:
-          php-version: 8.3
-          ini-values: zend.assertions=1, assert.active=1, assert.exception=1
-      - uses: "ramsey/composer-install@3.1.1"
-        with:
-          dependency-versions: "highest"
-
-      - run: composer remove --dev psalm/plugin-phpunit
-      - run: composer remove --dev vimeo/psalm
-      - run: composer remove --dev phpunit/phpunit
-      - run: composer update
-      - run: composer require -W --dev --ignore-platform-req=php phpunit/phpunit ^11
-      # Ignore --migrate-configuration exit code
-      - run: vendor/bin/phpunit --migrate-configuration || true
-      - run: vendor/bin/phpunit
