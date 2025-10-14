@@ -5,17 +5,8 @@
         bootstrap="vendor/autoload.php"
         colors="true"
         cacheDirectory=".phpunit.cache"
-        displayDetailsOnIncompleteTests="true"
-        displayDetailsOnSkippedTests="true"
-        displayDetailsOnTestsThatTriggerErrors="true"
-        displayDetailsOnTestsThatTriggerWarnings="true"
-        displayDetailsOnTestsThatTriggerNotices="true"
-        displayDetailsOnTestsThatTriggerDeprecations="true"
-        displayDetailsOnPhpunitDeprecations="true"
-        failOnWarning="true"
-        failOnNotice="true"
-        failOnDeprecation="true"
-        failOnPhpunitDeprecation="true"
+        displayDetailsOnAllIssues="true"
+        failOnAllIssues="true"
 >
   <coverage/>
   <testsuites>
@@ -23,7 +14,7 @@
       <directory>./test</directory>
     </testsuite>
   </testsuites>
-  <source>
+  <source ignoreIndirectDeprecations="true">
     <include>
       <directory suffix=".php">src</directory>
     </include>
