@@ -354,5 +354,8 @@ final class ErrorHandlerTest extends TestCase
         restore_error_handler();
 
         self::assertSame($previousErrorHandler, $currentErrorHandler);
+
+        // Restore the error handler defined by PHPUnit
+        restore_error_handler();
     }
 }
