@@ -126,14 +126,12 @@ class ErrorHandler implements MiddlewareInterface
         set_error_handler($this->createErrorHandler());
 
         try {
-            $response = $handler->handle($request);
+            return $handler->handle($request);
         } catch (Throwable $e) {
-            $response = $this->handleThrowable($e, $request);
+            return $this->handleThrowable($e, $request);
+        } finally {
+            restore_error_handler();
         }
-
-        restore_error_handler();
-
-        return $response;
     }
 
     /**
