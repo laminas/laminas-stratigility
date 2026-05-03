@@ -12,6 +12,7 @@ use Laminas\Stratigility\Next;
 use LaminasTest\Stratigility\TestAsset\DelegatingMiddleware;
 use LaminasTest\Stratigility\TestAsset\ShortCircuitingMiddleware;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -20,7 +21,7 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use SplQueue;
 
-class NextTest extends TestCase
+final class NextTest extends TestCase
 {
     use MiddlewareTrait;
 
@@ -44,11 +45,8 @@ class NextTest extends TestCase
     {
         $response = $response ?: $this->createDefaultResponse();
         return new class ($response) implements RequestHandlerInterface {
-            private ResponseInterface $response;
-
-            public function __construct(ResponseInterface $response)
+            public function __construct(private readonly ResponseInterface $response)
             {
-                $this->response = $response;
             }
 
             public function handle(ServerRequestInterface $request): ResponseInterface
@@ -64,9 +62,7 @@ class NextTest extends TestCase
         return $this->response;
     }
 
-    /**
-     * @group http-interop
-     */
+    #[Group('http-interop')]
     public function testNextImplementsRequestHandlerInterface(): void
     {
         $next = new Next($this->queue, $this->fallbackHandler);
@@ -82,11 +78,8 @@ class NextTest extends TestCase
 
         $middleware1 = new class ($cannedRequest) implements MiddlewareInterface
         {
-            private ServerRequestInterface $cannedRequest;
-
-            public function __construct(ServerRequestInterface $cannedRequest)
+            public function __construct(private readonly ServerRequestInterface $cannedRequest)
             {
-                $this->cannedRequest = $cannedRequest;
             }
 
             public function process(
@@ -99,11 +92,8 @@ class NextTest extends TestCase
 
         $middleware2 = new class ($cannedRequest) implements MiddlewareInterface
         {
-            private ServerRequestInterface $cannedRequest;
-
-            public function __construct(ServerRequestInterface $cannedRequest)
+            public function __construct(private readonly ServerRequestInterface $cannedRequest)
             {
-                $this->cannedRequest = $cannedRequest;
             }
 
             public function process(
@@ -123,9 +113,7 @@ class NextTest extends TestCase
         $this->assertNotSame($this->response, $response);
     }
 
-    /**
-     * @group http-interop
-     */
+    #[Group('http-interop')]
     public function testNextDelegatesToFallbackHandlerWhenQueueIsEmpty(): void
     {
         $expectedResponse = $this->createMock(ResponseInterface::class);
@@ -139,9 +127,7 @@ class NextTest extends TestCase
         $this->assertSame($expectedResponse, $next->handle($this->request));
     }
 
-    /**
-     * @group http-interop
-     */
+    #[Group('http-interop')]
     public function testNextProcessesEnqueuedMiddleware(): void
     {
         $fallbackHandler = $this->createMock(RequestHandlerInterface::class);
@@ -166,9 +152,7 @@ class NextTest extends TestCase
         $this->assertSame($response, $next->handle($this->request));
     }
 
-    /**
-     * @group http-interop
-     */
+    #[Group('http-interop')]
     public function testMiddlewareReturningResponseShortCircuitsProcess(): void
     {
         $fallbackHandler = $this->createMock(RequestHandlerInterface::class);

@@ -6,6 +6,7 @@ namespace LaminasTest\Stratigility\Exception;
 
 use Generator;
 use Laminas\Stratigility\Exception\ExceptionInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 use function basename;
@@ -13,7 +14,7 @@ use function glob;
 use function is_a;
 use function substr;
 
-class ExceptionTest extends TestCase
+final class ExceptionTest extends TestCase
 {
     /** @return Generator<string, array{0: string}> */
     public static function exception(): Generator
@@ -21,6 +22,7 @@ class ExceptionTest extends TestCase
         $namespace = 'Laminas\Stratigility\Exception\\';
 
         $exceptions = glob(__DIR__ . '/../../src/Exception/*.php');
+        self::assertIsArray($exceptions);
         foreach ($exceptions as $exception) {
             $class = substr(basename($exception), 0, -4);
 
@@ -28,9 +30,7 @@ class ExceptionTest extends TestCase
         }
     }
 
-    /**
-     * @dataProvider exception
-     */
+    #[DataProvider('exception')]
     public function testExceptionIsInstanceOfExceptionInterface(string $exception): void
     {
         self::assertStringContainsString('Exception', $exception);

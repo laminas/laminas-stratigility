@@ -9,6 +9,8 @@ use Laminas\Diactoros\ServerRequest;
 use Laminas\Diactoros\Uri;
 use Laminas\Stratigility\Middleware\PathMiddlewareDecorator;
 use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -22,7 +24,7 @@ use function Laminas\Stratigility\path;
 use function sprintf;
 use function var_export;
 
-class PathMiddlewareDecoratorTest extends TestCase
+final class PathMiddlewareDecoratorTest extends TestCase
 {
     /** @var MockObject&UriInterface */
     private $uri;
@@ -238,9 +240,7 @@ class PathMiddlewareDecoratorTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider nestedPathCombinations
-     */
+    #[DataProvider('nestedPathCombinations')]
     public function testNestedMiddlewareOnlyMatchesAtPathBoundaries(
         string $prefix,
         string $nestPrefix,
@@ -262,11 +262,8 @@ class PathMiddlewareDecoratorTest extends TestCase
         });
 
         $topLevel = new PathMiddlewareDecorator($prefix, new class ($nested) implements MiddlewareInterface {
-            private MiddlewareInterface $middleware;
-
-            public function __construct(MiddlewareInterface $middleware)
+            public function __construct(private readonly MiddlewareInterface $middleware)
             {
-                $this->middleware = $middleware;
             }
 
             public function process(
@@ -305,10 +302,8 @@ class PathMiddlewareDecoratorTest extends TestCase
         ];
     }
 
-    /**
-     * @group matching
-     * @dataProvider rootPathsProvider
-     */
+    #[DataProvider('rootPathsProvider')]
+    #[Group('matching')]
     public function testTreatsBothSlashAndEmptyPathAsTheRootPath(string $path): void
     {
         $finalHandler = $this->createMock(RequestHandlerInterface::class);

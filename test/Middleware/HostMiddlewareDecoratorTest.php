@@ -6,6 +6,7 @@ namespace LaminasTest\Stratigility\Middleware;
 
 use Generator;
 use Laminas\Stratigility\Middleware\HostMiddlewareDecorator;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -16,22 +17,13 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 use function Laminas\Stratigility\host;
 
-class HostMiddlewareDecoratorTest extends TestCase
+final class HostMiddlewareDecoratorTest extends TestCase
 {
-    /** @var UriInterface&MockObject */
-    private $uri;
-
-    /** @var ServerRequestInterface&MockObject */
-    private $request;
-
-    /** @var ResponseInterface&MockObject */
-    private $response;
-
-    /** @var RequestHandlerInterface&MockObject */
-    private $handler;
-
-    /** @var MiddlewareInterface&MockObject */
-    private $toDecorate;
+    private UriInterface&MockObject $uri;
+    private ServerRequestInterface&MockObject $request;
+    private ResponseInterface&MockObject $response;
+    private RequestHandlerInterface&MockObject $handler;
+    private MiddlewareInterface&MockObject $toDecorate;
 
     protected function setUp(): void
     {
@@ -78,9 +70,7 @@ class HostMiddlewareDecoratorTest extends TestCase
         yield ['host.foo', 'hOsT.fOO'];
     }
 
-    /**
-     * @dataProvider matchingHost
-     */
+    #[DataProvider('matchingHost')]
     public function testDelegatesOriginalRequestToDecoratedMiddleware(string $requestHost, string $decoratorHost): void
     {
         $this->uri

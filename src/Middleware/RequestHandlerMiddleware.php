@@ -22,12 +22,10 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 final class RequestHandlerMiddleware implements MiddlewareInterface, RequestHandlerInterface
 {
-    /** @var RequestHandlerInterface Decorated handler to invoke. */
-    private $handler;
-
-    public function __construct(RequestHandlerInterface $handler)
-    {
-        $this->handler = $handler;
+    public function __construct(
+        /** @var RequestHandlerInterface Decorated handler to invoke. */
+        private readonly RequestHandlerInterface $handler
+    ) {
     }
 
     /**

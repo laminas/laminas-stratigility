@@ -4,19 +4,19 @@
         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
         bootstrap="vendor/autoload.php"
         colors="true"
-        cacheDirectory=".phpunit.cache">
+        cacheDirectory=".phpunit.cache"
+        displayDetailsOnAllIssues="true"
+        failOnAllIssues="true"
+>
   <coverage/>
   <testsuites>
     <testsuite name="laminas-stratigility">
       <directory>./test</directory>
     </testsuite>
   </testsuites>
-  <source>
+  <source ignoreIndirectDeprecations="true">
     <include>
       <directory suffix=".php">src</directory>
     </include>
-    <exclude>
-      <file>src/Middleware/CallableMiddlewareWrapperFactory.php</file>
-    </exclude>
   </source>
 </phpunit>

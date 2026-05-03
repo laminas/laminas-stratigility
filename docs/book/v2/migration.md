@@ -35,8 +35,7 @@ recommend the following:
   layers beneath it:
     - `originalRequest`, mapping to the request provided to it at invocation.
     - `originalResponse`, mapping to the response provided to it at invocation.
-    - `originalUri`, mapping to the URI composed by the request provided to it at
-       invocation.
+    - `originalUri`, mapping to the URI composed by the request provided to it at invocation.
 
 You can then access these values within other middleware:
 

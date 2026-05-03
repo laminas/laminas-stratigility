@@ -4,11 +4,15 @@ declare(strict_types=1);
 
 namespace Laminas\Stratigility;
 
+use ArrayIterator;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use SplQueue;
+use Traversable;
+
+use function iterator_to_array;
 
 /**
  * Pipe middleware like unix pipes.
@@ -24,7 +28,7 @@ use SplQueue;
  *
  * @see https://github.com/senchalabs/connect
  */
-final class MiddlewarePipe implements MiddlewarePipeInterface
+final class MiddlewarePipe implements IterableMiddlewarePipeInterface
 {
     /** @var SplQueue<MiddlewareInterface> */
     private SplQueue $pipeline;
@@ -83,5 +87,16 @@ final class MiddlewarePipe implements MiddlewarePipeInterface
     public function pipe(MiddlewareInterface $middleware): void
     {
         $this->pipeline->enqueue($middleware);
+    }
+
+    /** @return Traversable<int, MiddlewareInterface> */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator(
+            iterator_to_array(
+                clone $this->pipeline,
+                false,
+            ),
+        );
     }
 }
