@@ -19,6 +19,8 @@ use RuntimeException;
 use Throwable;
 
 use function error_reporting;
+use function restore_error_handler;
+use function set_error_handler;
 use function strlen;
 use function trigger_error;
 
@@ -318,5 +320,42 @@ final class ErrorHandlerTest extends TestCase
         $listeners = $prop->getValue($middleware);
         self::assertIsArray($listeners);
         self::assertCount(1, $listeners);
+    }
+
+    public function testRestoresErrorHandlerWhenListenerRaisesException(): void
+    {
+        $previousErrorHandler = static fn (): bool => false;
+        set_error_handler($previousErrorHandler);
+
+        $this->handler->method('handle')
+            ->with($this->request)
+            ->willThrowException(new RuntimeException('Exception raised', 503));
+
+        $responseGenerator = static fn (
+            Throwable $e,
+            ServerRequestInterface $request,
+            ResponseInterface $response
+        ): ResponseInterface => $response;
+
+        $middleware = new ErrorHandler($this->responseFactory, $responseGenerator);
+        $middleware->attachListener(static function (): void {
+            throw new RuntimeException('listener failure');
+        });
+
+        try {
+            $middleware->process($this->request, $this->handler);
+            self::fail('Expected listener exception');
+        } catch (RuntimeException $exception) {
+            self::assertSame('listener failure', $exception->getMessage());
+        }
+
+        $probeErrorHandler   = static fn (): bool => false;
+        $currentErrorHandler = set_error_handler($probeErrorHandler);
+        restore_error_handler();
+
+        self::assertSame($previousErrorHandler, $currentErrorHandler);
+
+        // Restore the error handler defined by PHPUnit
+        restore_error_handler();
     }
 }
