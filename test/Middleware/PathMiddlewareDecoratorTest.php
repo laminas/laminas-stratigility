@@ -252,7 +252,7 @@ final class PathMiddlewareDecoratorTest extends TestCase
             ->method('handle')
             ->willReturn(new Response());
 
-        $nested = new PathMiddlewareDecorator($nestPrefix, new class () implements MiddlewareInterface {
+        $nested = new PathMiddlewareDecorator($nestPrefix, new class implements MiddlewareInterface {
             public function process(
                 ServerRequestInterface $request,
                 RequestHandlerInterface $handler
@@ -311,7 +311,7 @@ final class PathMiddlewareDecoratorTest extends TestCase
             ->method('handle')
             ->willReturn(new Response());
 
-        $middleware = new PathMiddlewareDecorator($path, new class () implements MiddlewareInterface {
+        $middleware = new PathMiddlewareDecorator($path, new class implements MiddlewareInterface {
             public function process(
                 ServerRequestInterface $request,
                 RequestHandlerInterface $handler,

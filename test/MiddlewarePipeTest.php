@@ -86,7 +86,7 @@ final class MiddlewarePipeTest extends TestCase
 
     public function testProcessInvokesUntilFirstHandlerThatDoesNotCallNext(): void
     {
-        $this->pipeline->pipe(new class () implements MiddlewareInterface
+        $this->pipeline->pipe(new class implements MiddlewareInterface
         {
             public function process(
                 ServerRequestInterface $request,
@@ -98,7 +98,7 @@ final class MiddlewarePipeTest extends TestCase
                 return $res;
             }
         });
-        $this->pipeline->pipe(new class () implements MiddlewareInterface
+        $this->pipeline->pipe(new class implements MiddlewareInterface
         {
             public function process(
                 ServerRequestInterface $request,
