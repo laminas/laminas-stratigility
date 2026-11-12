@@ -44,7 +44,7 @@
         "laminas/laminas-diactoros": "^2.25 || ^3.10.0",
         "phpunit/phpunit": "^11.5.57",
         "psalm/plugin-phpunit": "^0.19.7",
-        "vimeo/psalm": "^6.20.11"
+        "vimeo/psalm": "^7.0.0"
     },
     "conflict": {
         "zendframework/zend-stratigility": "*"
