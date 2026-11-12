@@ -20,11 +20,11 @@ use Psr\Http\Server\RequestHandlerInterface;
  * they may be piped or routed to. When processed, they delegate handling to the
  * decorated handler, which will return a response.
  */
-final class RequestHandlerMiddleware implements MiddlewareInterface, RequestHandlerInterface
+final readonly class RequestHandlerMiddleware implements MiddlewareInterface, RequestHandlerInterface
 {
     public function __construct(
         /** @var RequestHandlerInterface Decorated handler to invoke. */
-        private readonly RequestHandlerInterface $handler
+        private RequestHandlerInterface $handler
     ) {
     }
 

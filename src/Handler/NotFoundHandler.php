@@ -12,9 +12,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 use function sprintf;
 
-final class NotFoundHandler implements RequestHandlerInterface
+final readonly class NotFoundHandler implements RequestHandlerInterface
 {
-    public function __construct(private readonly ResponseFactoryInterface $responseFactory)
+    public function __construct(private ResponseFactoryInterface $responseFactory)
     {
     }
 

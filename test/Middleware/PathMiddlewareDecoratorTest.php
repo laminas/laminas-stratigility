@@ -261,8 +261,8 @@ final class PathMiddlewareDecoratorTest extends TestCase
             }
         });
 
-        $topLevel = new PathMiddlewareDecorator($prefix, new class ($nested) implements MiddlewareInterface {
-            public function __construct(private readonly MiddlewareInterface $middleware)
+        $topLevel = new PathMiddlewareDecorator($prefix, new readonly class ($nested) implements MiddlewareInterface {
+            public function __construct(private MiddlewareInterface $middleware)
             {
             }
 

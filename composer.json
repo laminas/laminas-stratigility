@@ -22,15 +22,15 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.2.99"
+            "php": "8.3.99"
         },
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
     },
-    "extra": {},
+    "extra": [],
     "require": {
-        "php": "~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0",
+        "php": "~8.3.0 || ~8.4.0 || ~8.5.0 || ~8.6.0",
         "fig/http-message-util": "^1.1",
         "laminas/laminas-escaper": "^2.10.0",
         "psr/http-factory": "^1.0.2",
@@ -38,12 +38,13 @@
         "psr/http-server-middleware": "^1.0.2"
     },
     "require-dev": {
-        "boundwize/structarmed": "^0.17.9",
+        "boundwize/structarmed": "^0.17.12",
+        "laminas/internal-tooling": "^1.1.1",
         "laminas/laminas-coding-standard": "~3.1.0",
-        "laminas/laminas-diactoros": "^2.25 || ^3.8.0",
-        "phpunit/phpunit": "^11.5.42",
-        "psalm/plugin-phpunit": "^0.19.5",
-        "vimeo/psalm": "^6.13.1"
+        "laminas/laminas-diactoros": "^2.25 || ^3.10.0",
+        "phpunit/phpunit": "^11.5.57",
+        "psalm/plugin-phpunit": "^0.19.7",
+        "vimeo/psalm": "^6.20.11"
     },
     "conflict": {
         "zendframework/zend-stratigility": "*"
