@@ -23,7 +23,7 @@ use SplQueue;
 
 use function iterator_to_array;
 use function sort;
-use function spl_object_hash;
+use function spl_object_id;
 use function str_starts_with;
 use function var_export;
 
@@ -158,8 +158,8 @@ final class MiddlewarePipeTest extends TestCase
         $request = new Request([], [], 'http://local.example.com/foo', 'GET', 'php://memory');
         $result  = $this->pipeline->process($request, $this->createFinalHandler());
         $this->assertSame($return, $result, var_export([
-            spl_object_hash($return) => $return::class,
-            spl_object_hash($result) => $result::class,
+            spl_object_id($return) => $return::class,
+            spl_object_id($result) => $result::class,
         ], true));
     }
 
