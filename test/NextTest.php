@@ -44,8 +44,8 @@ final class NextTest extends TestCase
     public function createFallbackHandler(?ResponseInterface $response = null): RequestHandlerInterface
     {
         $response = $response ?: $this->createDefaultResponse();
-        return new class ($response) implements RequestHandlerInterface {
-            public function __construct(private readonly ResponseInterface $response)
+        return new readonly class ($response) implements RequestHandlerInterface {
+            public function __construct(private ResponseInterface $response)
             {
             }
 
@@ -76,9 +76,9 @@ final class NextTest extends TestCase
         $cannedRequest = clone $request;
         $cannedRequest = $cannedRequest->withMethod('POST');
 
-        $middleware1 = new class ($cannedRequest) implements MiddlewareInterface
+        $middleware1 = new readonly class ($cannedRequest) implements MiddlewareInterface
         {
-            public function __construct(private readonly ServerRequestInterface $cannedRequest)
+            public function __construct(private ServerRequestInterface $cannedRequest)
             {
             }
 
@@ -90,9 +90,9 @@ final class NextTest extends TestCase
             }
         };
 
-        $middleware2 = new class ($cannedRequest) implements MiddlewareInterface
+        $middleware2 = new readonly class ($cannedRequest) implements MiddlewareInterface
         {
-            public function __construct(private readonly ServerRequestInterface $cannedRequest)
+            public function __construct(private ServerRequestInterface $cannedRequest)
             {
             }
 

@@ -15,12 +15,12 @@ use function stripos;
 use function strlen;
 use function substr;
 
-final class PathMiddlewareDecorator implements MiddlewareInterface
+final readonly class PathMiddlewareDecorator implements MiddlewareInterface
 {
     /** @var string Path prefix under which the middleware is segregated.  */
-    private readonly string $prefix;
+    private string $prefix;
 
-    public function __construct(string $prefix, private readonly MiddlewareInterface $middleware)
+    public function __construct(string $prefix, private MiddlewareInterface $middleware)
     {
         $this->prefix = $this->normalizePrefix($prefix);
     }
@@ -91,10 +91,10 @@ final class PathMiddlewareDecorator implements MiddlewareInterface
 
     private function prepareHandlerForOriginalRequest(RequestHandlerInterface $handler): RequestHandlerInterface
     {
-        return new class ($handler, $this->prefix) implements RequestHandlerInterface {
+        return new readonly class ($handler, $this->prefix) implements RequestHandlerInterface {
             public function __construct(
-                private readonly RequestHandlerInterface $handler,
-                private readonly string $prefix
+                private RequestHandlerInterface $handler,
+                private string $prefix
             ) {
             }
 

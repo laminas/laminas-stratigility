@@ -11,12 +11,12 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 use function strtolower;
 
-final class HostMiddlewareDecorator implements MiddlewareInterface
+final readonly class HostMiddlewareDecorator implements MiddlewareInterface
 {
     public function __construct(
         /** @var string Host name under which the middleware is segregated.  */
-        private readonly string $host,
-        private readonly MiddlewareInterface $middleware
+        private string $host,
+        private MiddlewareInterface $middleware
     ) {
     }
 

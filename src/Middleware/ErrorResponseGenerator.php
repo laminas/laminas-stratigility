@@ -10,9 +10,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Throwable;
 
-final class ErrorResponseGenerator
+final readonly class ErrorResponseGenerator
 {
-    public function __construct(private readonly bool $isDevelopmentMode = false)
+    public function __construct(private bool $isDevelopmentMode = false)
     {
     }
 

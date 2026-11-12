@@ -8,9 +8,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final class EmptyPipelineHandler implements RequestHandlerInterface
+final readonly class EmptyPipelineHandler implements RequestHandlerInterface
 {
-    public function __construct(private readonly string $className)
+    public function __construct(private string $className)
     {
     }
 
